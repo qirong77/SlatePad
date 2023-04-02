@@ -4,7 +4,8 @@ import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
 import { createEditor } from 'slate'
 import { initialValue } from './common/const'
-import { withShortcuts } from './plugins/withShortcuts'
+import { handleKeyDown } from './slate/helper/handleKeyDown'
+import { withShortcuts } from './slate/plugins/withShortcuts'
 
 export const App = () => {
   const renderElement = useCallback(_renderElement, [])
@@ -12,7 +13,9 @@ export const App = () => {
   return (
     <div>
       <Slate editor={editor} value={initialValue}>
-        <Editable renderElement={renderElement}></Editable>
+        <Editable
+          renderElement={renderElement}
+          onKeyDown={e => handleKeyDown(e, editor)}></Editable>
       </Slate>
     </div>
   )
@@ -37,5 +40,3 @@ function _renderElement(props: RenderElementProps) {
       return <p {...attributes}>{children}</p>
   }
 }
-
-

@@ -2,7 +2,7 @@ import {
   BulletedListElement,
   CustomEditor,
   CustomElementType
-} from '../types/slate'
+} from '../../types/slate'
 import {
   Editor,
   Point,
@@ -59,7 +59,7 @@ export const withShortcuts = (editor: CustomEditor) => {
 
     insertText(text)
   }
-
+// 删除的逻辑,使用above获取最近一层的块,然后根据当前的块的类型进行判断
   editor.deleteBackward = (...args) => {
     const { selection } = editor
 
