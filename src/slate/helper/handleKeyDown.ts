@@ -2,10 +2,11 @@ import { Editor, Range, Element, Text } from 'slate'
 import { CustomEditor } from '../../types/slate'
 
 export const handleKeyDown = (
-  e: React.KeyboardEvent<HTMLInputElement>,
+  e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
   if (e.key === 'Enter' && e.shiftKey) {
+    e.preventDefault()
     Editor.insertText(editor, '\n')
   }
   if (e.key === 'Enter') {

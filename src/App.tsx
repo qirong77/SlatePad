@@ -36,6 +36,17 @@ function _renderElement(props: RenderElementProps) {
       return <ol {...attributes}>{children}</ol>
     case 'paragraph':
       return <p {...attributes}>{children}</p>
+    case 'code-line':
+      return <div {...attributes}>{children}</div>
+    case 'code-block':
+      return (
+        <div {...attributes}>
+          <select value="js">
+            <option value="html">html</option>
+          </select>
+          <pre>{children}</pre>
+        </div>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }

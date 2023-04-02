@@ -52,14 +52,29 @@ export const withShortcuts = (editor: CustomEditor) => {
               n.type === 'list-item'
           })
         }
-
+        if (type === 'code-line') {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: 'code-block',
+              language: 'js',
+              children: []
+            },
+            {
+              match: n =>
+                !Editor.isEditor(n) &&
+                SlateElement.isElement(n) &&
+                n.type === 'code-line'
+            }
+          )
+        }
         return
       }
     }
 
     insertText(text)
   }
-// 删除的逻辑,使用above获取最近一层的块,然后根据当前的块的类型进行判断
+  // 删除的逻辑,使用above获取最近一层的块,然后根据当前的块的类型进行判断
   editor.deleteBackward = (...args) => {
     const { selection } = editor
 
@@ -110,7 +125,8 @@ function getType(str: string) {
     '+': 'list-item',
     '>': 'block-quote',
     '#': 'heading-one',
-    '##': 'heading-two'
+    '##': 'heading-two',
+    '```': 'code-line'
   }
   return SHORTCUTS[str]
 }
