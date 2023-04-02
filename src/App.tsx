@@ -4,11 +4,11 @@ import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
 import { createEditor } from 'slate'
 import { initialValue } from './common/const'
+import { withShortcuts } from './plugins/withShortcuts'
 
 export const App = () => {
-  const x = 
   const renderElement = useCallback(_renderElement, [])
-  const editor = withHistory(withReact(createEditor()))
+  const editor = withShortcuts(withHistory(withReact(createEditor())))
   return (
     <div>
       <Slate editor={editor} value={initialValue}>
@@ -37,3 +37,5 @@ function _renderElement(props: RenderElementProps) {
       return <p {...attributes}>{children}</p>
   }
 }
+
+
