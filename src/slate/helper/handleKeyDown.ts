@@ -21,7 +21,10 @@ export const handleKeyDown = (
       })
       if (match) {
         const [_li, liPath] = match
-        const [_ul, ulPath] = Editor.parent(editor, liPath)
+        const [ul, ulPath] = Editor.parent(editor, liPath)
+        // li的索引
+        const isLast = liPath[liPath.length - 1] === ul.children.length - 1
+        if (!isLast) return
         const hasNext = Editor.hasPath(editor, Path.next(ulPath))
         if (!hasNext) {
           Transforms.insertNodes(
