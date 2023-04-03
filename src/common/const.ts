@@ -10,6 +10,28 @@ export const initialValue: Descendant[] = [
     ]
   },
   {
+    type: 'bulleted-list',
+    children: [
+      {
+        type: 'list-item',
+        children: [{
+          text:'li'
+        }]
+      }
+    ]
+  },
+  {
+    type: 'number-list',
+    children: [
+      {
+        type: 'list-item',
+        children: [{
+          text:'li'
+        }]
+      }
+    ]
+  },
+  {
     type: 'code-block',
     language: 'js',
     children: [
@@ -22,5 +44,10 @@ export const initialValue: Descendant[] = [
         ]
       }
     ]
+  },
+  {
+    type: 'link',
+    url: 'https://en.wikipedia.org/wiki/Hypertext',
+    children: [{ text: 'hyperlink' }]
   }
 ]

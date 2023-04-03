@@ -2,14 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  list-style: disc;
+}
+ol li {
+  list-style: decimal;
 }
 #root {
-    display: flex;
-    align-items: center;
-    padding-top: 100px;
-    flex-direction: column;
-    background: #e4dede;
-    height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  flex-direction: column;
+  background: #e4dede;
+  height: 100vh;
 }

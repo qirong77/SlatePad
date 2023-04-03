@@ -1,9 +1,15 @@
 import { ReactNode } from 'react'
+import { Editor } from 'slate'
+import { useSlateStatic } from 'slate-react'
 
 export const Bold = () => {
   return (
     <IconContainer>
       <svg
+        onClick={e => {
+          e.preventDefault()
+          toggleMark('bold')
+        }}
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         viewBox="0 0 16 16">
@@ -41,7 +47,6 @@ export const Link = () => {
     <IconContainer>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-
         fill="currentColor"
         viewBox="0 0 16 16">
         <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
@@ -56,4 +61,13 @@ function IconContainer({ children }: { children: ReactNode }) {
       {children}
     </div>
   )
+}
+
+function toggleMark(format: string) {
+  const editor = useSlateStatic()
+  // 获取当前选区的叶子节点的标记
+  const marks = Editor.marks(editor) as any
+  if (marks[format]) {
+    Editor.removeMark(editor, format)
+  } else Editor.addMark(editor, format, true)
 }

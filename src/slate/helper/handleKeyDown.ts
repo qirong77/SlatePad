@@ -58,4 +58,18 @@ export const handleKeyDown = (
       }
     }
   }
+  if (e.code === 'KeyA' && e.metaKey) {
+    const { selection } = editor
+    const [match] = Editor.nodes(editor, {
+      match: n =>
+        !Editor.isEditor(n) &&
+        Element.isElement(n) &&
+        (n.type === 'bulleted-list' || n.type === 'code-block')
+    })
+    if (match) {
+      const [node, path] = match
+      Transforms.select(editor, path)
+      e.preventDefault()
+    }
+  }
 }

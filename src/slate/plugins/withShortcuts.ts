@@ -25,7 +25,6 @@ export const withShortcuts = (editor: CustomEditor) => {
       const range = { anchor, focus: start }
       const beforeText = Editor.string(editor, range) + text.slice(0, -1)
       const type = getType(beforeText)
-
       if (type) {
         Transforms.select(editor, range)
 
@@ -41,16 +40,19 @@ export const withShortcuts = (editor: CustomEditor) => {
         })
 
         if (type === 'list-item') {
-          const list: BulletedListElement = {
-            type: 'bulleted-list',
-            children: []
-          }
-          Transforms.wrapNodes(editor, list, {
-            match: n =>
-              !Editor.isEditor(n) &&
-              SlateElement.isElement(n) &&
-              n.type === 'list-item'
-          })
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: /\d\./.test(beforeText) ? 'number-list' : 'bulleted-list',
+              children: []
+            },
+            {
+              match: n =>
+                !Editor.isEditor(n) &&
+                SlateElement.isElement(n) &&
+                n.type === 'list-item'
+            }
+          )
         }
         if (type === 'code-line') {
           Transforms.wrapNodes(
@@ -118,7 +120,7 @@ export const withShortcuts = (editor: CustomEditor) => {
   return editor
 }
 
-function getType(str: string) {
+function getType(str: string): CustomElementType | false {
   const SHORTCUTS: { [key: string]: CustomElementType } = {
     '*': 'list-item',
     '-': 'list-item',
@@ -128,5 +130,7 @@ function getType(str: string) {
     '##': 'heading-two',
     '```': 'code-line'
   }
-  return SHORTCUTS[str]
+  if (/\d\./.test(str)) return 'list-item'
+  if (SHORTCUTS[str]) return SHORTCUTS[str]
+  return false
 }
