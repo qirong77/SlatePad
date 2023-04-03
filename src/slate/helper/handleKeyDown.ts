@@ -47,7 +47,8 @@ export const handleKeyDown = (
       if (
         Element.isElement(parentNode) &&
         Text.isText(parentNode.children[0]) &&
-        parentNode.children[0].text === ''
+        parentNode.children[0].text === '' &&
+        parentNode.type !== 'paragraph'
       ) {
         e.preventDefault()
         editor.deleteBackward('block')
