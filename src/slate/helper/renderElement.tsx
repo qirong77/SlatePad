@@ -13,7 +13,17 @@ export function _renderElement(props: RenderElementProps) {
     case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>
     case 'bulleted-list':
-      return <ul {...attributes}>{children}</ul>
+      return (
+        <ul className="pl-[20px]" {...attributes}>
+          {children}
+        </ul>
+      )
+    case 'number-list':
+      return (
+        <ol className="pl-[20px]" {...attributes}>
+          {children}
+        </ol>
+      )
     case 'heading-one':
       return <h1 {...attributes}>{children}</h1>
     case 'list-item':
@@ -22,8 +32,6 @@ export function _renderElement(props: RenderElementProps) {
           {children}
         </li>
       )
-    case 'number-list':
-      return <ol {...attributes}>{children}</ol>
     case 'paragraph':
       return <p {...attributes}>{children}</p>
     case 'link':

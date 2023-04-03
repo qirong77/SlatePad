@@ -1,5 +1,4 @@
 import {
-  BulletedListElement,
   CustomEditor,
   CustomElementType
 } from '../../types/slate'
@@ -105,7 +104,7 @@ export const withShortcuts = (editor: CustomEditor) => {
               match: n =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
-                n.type === 'bulleted-list',
+                (n.type === 'bulleted-list' || n.type === 'number-list'),
               split: true
             })
           }
