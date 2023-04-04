@@ -34,7 +34,7 @@ export type EditableVoidElement = {
 }
 
 export type HeadingElement = {
-  type: 'heading-one'
+  type: 'heading1' | 'heading2'
   align?: string
   children: Descendant[]
 }
@@ -75,13 +75,12 @@ export type CodeBlockElement = {
   children: Descendant[]
 }
 
-type CustomElement =
+export type SlateElement =
   | BlockQuoteElement
   | BulletedListElement
   | CheckListItemElement
   | EditableVoidElement
   | HeadingElement
-  | HeadingTwoElement
   | ImageElement
   | LinkElement
   | ButtonElement
@@ -92,7 +91,7 @@ type CustomElement =
   | CodeLineElement
   | NumberListElement
 
-export type CustomElementType = Pick<CustomElement, 'type'>['type']
+export type CustomElementType = Pick<SlateElement, 'type'>['type']
 
 export type CustomText = {
   bold?: boolean
@@ -105,7 +104,7 @@ export type EmptyText = {
 }
 export interface RenderElementProps {
   children: any
-  element: CustomElement
+  element: SlateElement
   attributes: {
     'data-slate-node': 'element'
     'data-slate-inline'?: true
@@ -123,7 +122,7 @@ export type CustomEditor = BaseEditor &
 declare module 'slate' {
   interface CustomTypes {
     Editor: CustomEditor
-    Element: CustomElement
+    Element: SlateElement
     Text: CustomText | EmptyText
     Range: BaseRange & {
       [key: string]: unknown

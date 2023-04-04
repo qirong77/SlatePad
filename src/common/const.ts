@@ -2,6 +2,18 @@ import { Descendant } from 'slate'
 
 export const initialValue: Descendant[] = [
   {
+    type:'heading1',
+    children:[{
+      text:'这是一级标题'
+    }]
+  },
+  {
+    type:'heading1',
+    children:[{
+      text:'这是一级标题'
+    }]
+  },
+  {
     type: 'paragraph',
     children: [
       {

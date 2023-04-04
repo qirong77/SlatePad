@@ -9,13 +9,14 @@ import { Bold, CodeBlock, Link, UnderLine } from './assets/svg'
 import { _renderElement } from './slate/helper/renderElement'
 import { _renderLeaf } from './slate/helper/renderLeaf'
 import { withInlines, wrapLink } from './slate/plugins/withInlines'
+import { withHeadings } from './slate/plugins/withHeadings'
 
 export const App = () => {
   console.log('app-update')
   const renderElement = useCallback(_renderElement, [])
   // const renderLeaf = useCallback(_renderLeaf, [])
   const editor = withInlines(
-    withShortcuts(withHistory(withReact(createEditor())))
+    withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
   )
   return (
     <div className="w-[600px] bg-slate-100" spellCheck={false}>

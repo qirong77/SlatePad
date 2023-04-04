@@ -1,17 +1,32 @@
-import { Transforms } from 'slate'
+import {
+  Transforms,
+  Node,
+  Editor,
+  Element as SlateElement
+} from 'slate'
 import {
   ReactEditor,
   RenderElementProps,
   useSelected,
   useSlateStatic
 } from 'slate-react'
-import { CodeBlockElement, LinkElement } from '../../types/slate'
+import {
+  CodeBlockElement,
+  LinkElement
+} from '../../types/slate'
+import { useEffect, useState } from 'react'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
   switch (element.type) {
     case 'block-quote':
-      return <blockquote {...attributes}>{children}</blockquote>
+      return (
+        <blockquote
+          {...attributes}
+          className="border-l-[2px] pl-[4px] border-slate-400 text-slate-400">
+          {children}
+        </blockquote>
+      )
     case 'bulleted-list':
       return (
         <ul className="pl-[20px]" {...attributes}>
@@ -24,8 +39,10 @@ export function _renderElement(props: RenderElementProps) {
           {children}
         </ol>
       )
-    case 'heading-one':
-      return <h1 {...attributes}>{children}</h1>
+    case 'heading1':
+      return <H1 props={props} />
+    case 'heading2':
+      return <h2 {...props}>{children}</h2>
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
@@ -63,7 +80,9 @@ function Link({ props }: { props: RenderElementProps }) {
   return (
     <a
       {...attributes}
-      className={`border-[${selected ? '2' : '0'}px] cursor-pointer  border-slate-400`}
+      className={`border-[${
+        selected ? '2' : '0'
+      }px] cursor-pointer  border-slate-400`}
       href={(element as LinkElement).url}>
       <InlineChromiumBugfix />
       {children}
@@ -99,5 +118,45 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
         />
       </div>
     </div>
+  )
+}
+
+function H1({ props }: { props: RenderElementProps }) {
+  const { attributes, children, element } = props
+  const selected = useSelected()
+  const editor = useSlateStatic()
+
+  const [path, setPath] = useState<any>([])
+
+  useEffect(() => {
+    if (selected) {
+      const block = Editor.above(editor, {
+        match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
+      })
+      const path = block ? block[1] : []
+      const start = Editor.start(editor, path)
+      Transforms.insertText(editor, '#', {
+        at: start
+      })
+      setPath(path)
+    } else {
+      if (!path.length) return
+      const start = Editor.start(editor, path)
+      // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
+      const titleString = Node.string(element)
+      const hashCount = (titleString.match(/^#+/) || [''])[0].length
+      console.log(hashCount)
+      Transforms.delete(editor, {
+        at: {
+          path: start.path,
+          offset: hashCount - 1
+        }
+      })
+    }
+  }, [selected])
+  return (
+    <h1 onInput={e => console.log(e)} {...attributes}>
+      {children}
+    </h1>
   )
 }
