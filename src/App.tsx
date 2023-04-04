@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { withHistory } from 'slate-history'
-import { Editable, Slate, withReact } from 'slate-react'
+import { Editable, Slate, useSlateStatic, withReact } from 'slate-react'
 import { createEditor } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
@@ -29,12 +29,21 @@ export const App = () => {
 }
 
 function ToolBar() {
+  const editor = useSlateStatic()
   return (
     <div className="flex justify-start items-center px-[10px] h-[50px] border-b-2 border-gray-400">
-      <Bold />
+      <Bold
+        onClick={e => {
+          e.preventDefault()
+        }}
+      />
       <UnderLine />
       <CodeBlock />
-      <Link />
+      <Link
+        onClick={e => {
+          console.log('123')
+        }}
+      />
     </div>
   )
 }

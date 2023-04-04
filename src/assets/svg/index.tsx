@@ -1,15 +1,8 @@
-import { ReactNode } from 'react'
-import { Editor } from 'slate'
-import { useSlateStatic } from 'slate-react'
 
-export const Bold = () => {
+export const Bold = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer {...props}>
       <svg
-        onClick={e => {
-          e.preventDefault()
-          toggleMark('bold')
-        }}
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         viewBox="0 0 16 16">
@@ -42,9 +35,9 @@ export const CodeBlock = () => {
     </IconContainer>
   )
 }
-export const Link = () => {
+export const Link = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer onClick={props.onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -55,19 +48,12 @@ export const Link = () => {
     </IconContainer>
   )
 }
-function IconContainer({ children }: { children: ReactNode }) {
+function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
-    <div className="w-[24px] h-[24px] mx-[4px] p-[2px] rounded hover:bg-slate-300 hover:cursor-pointer">
-      {children}
-    </div>
+    <button
+      onClick={props.onClick}
+      className="w-[24px] h-[24px] mx-[4px] p-[2px] rounded hover:bg-slate-300 hover:cursor-pointer">
+      {props.children}
+    </button>
   )
-}
-
-function toggleMark(format: string) {
-  const editor = useSlateStatic()
-  // 获取当前选区的叶子节点的标记
-  const marks = Editor.marks(editor) as any
-  if (marks[format]) {
-    Editor.removeMark(editor, format)
-  } else Editor.addMark(editor, format, true)
 }
