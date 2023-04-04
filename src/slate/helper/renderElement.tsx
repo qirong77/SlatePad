@@ -61,7 +61,10 @@ function Link({ props }: { props: RenderElementProps }) {
     </span>
   )
   return (
-    <a {...attributes} className="" href={(element as LinkElement).url}>
+    <a
+      {...attributes}
+      className={`border-[${selected ? '2' : '0'}px] cursor-pointer  border-slate-400`}
+      href={(element as LinkElement).url}>
       <InlineChromiumBugfix />
       {children}
       <InlineChromiumBugfix />

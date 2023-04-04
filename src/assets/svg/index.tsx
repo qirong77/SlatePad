@@ -1,4 +1,3 @@
-
 export const Bold = (props: JSX.IntrinsicElements['button']) => {
   return (
     <IconContainer {...props}>
@@ -37,7 +36,7 @@ export const CodeBlock = () => {
 }
 export const Link = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer onClick={props.onClick}>
+    <IconContainer onMouseDown={props.onMouseDown}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -51,7 +50,7 @@ export const Link = (props: JSX.IntrinsicElements['button']) => {
 function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
     <button
-      onClick={props.onClick}
+      onMouseDown={props.onMouseDown}
       className="w-[24px] h-[24px] mx-[4px] p-[2px] rounded hover:bg-slate-300 hover:cursor-pointer">
       {props.children}
     </button>

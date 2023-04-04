@@ -32,8 +32,8 @@ export function wrapLink(editor: CustomEditor) {
   const isCollapsed = selection && Range.isCollapsed(selection)
   const linkElement: LinkElement = {
     type: 'link',
-    url: 'xxx',
-    children: isCollapsed ? [{ text: 'xxx' }] : []
+    url: 'www.baidu.com',
+    children: isCollapsed ? [{ text: 'www.baidu.com' }] : []
   }
   if (isCollapsed) {
     Transforms.insertNodes(editor, linkElement)
@@ -41,12 +41,4 @@ export function wrapLink(editor: CustomEditor) {
     Transforms.wrapNodes(editor, linkElement, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
   }
-}
-
-function toggleMark(editor: CustomEditor, format: string) {
-  // 获取当前选区的叶子节点的标记
-  const marks = Editor.marks(editor) as any
-  if (marks[format]) {
-    Editor.removeMark(editor, format)
-  } else Editor.addMark(editor, format, true)
 }

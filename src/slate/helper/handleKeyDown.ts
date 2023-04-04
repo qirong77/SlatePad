@@ -6,16 +6,16 @@ export const handleKeyDown = (
   editor: CustomEditor
 ) => {
   // 在代码块中增加语言选择器测试
-  if (e.metaKey) {
-    Editor.insertNode(editor, {
-      type: 'heading-one',
-      children: [
-        {
-          text: ''
-        }
-      ]
-    })
-  }
+  // if (e.metaKey) {
+  //   Editor.insertNode(editor, {
+  //     type: 'heading-one',
+  //     children: [
+  //       {
+  //         text: ''
+  //       }
+  //     ]
+  //   })
+  // }
   if (e.key === 'Enter') {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
