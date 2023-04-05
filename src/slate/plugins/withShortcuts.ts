@@ -21,7 +21,7 @@ export const withShortcuts = (editor: CustomEditor) => {
       const range = { anchor, focus: start }
       const beforeText = Editor.string(editor, range) + text.slice(0, -1)
       const type = getType(beforeText)
-      if (false) {
+      if (type) {
         Transforms.select(editor, range)
 
         if (!Range.isCollapsed(range)) {
@@ -65,10 +65,6 @@ export const withShortcuts = (editor: CustomEditor) => {
                 n.type === 'code-line'
             }
           )
-          Transforms.insertNodes(editor, {
-            type: 'heading1',
-            children: [{ text: '123' }]
-          })
         }
         return
       }
@@ -126,8 +122,6 @@ function getType(str: string): CustomElementType | false {
     '-': 'list-item',
     '+': 'list-item',
     '>': 'block-quote',
-    '#': 'heading-one',
-    '##': 'heading-two',
     '```': 'code-line'
   }
   if (/\d\./.test(str)) return 'list-item'

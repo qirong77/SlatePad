@@ -1,19 +1,11 @@
-import {
-  Transforms,
-  Node,
-  Editor,
-  Element as SlateElement
-} from 'slate'
+import { Transforms, Node, Editor, Element as SlateElement, Path } from 'slate'
 import {
   ReactEditor,
   RenderElementProps,
   useSelected,
   useSlateStatic
 } from 'slate-react'
-import {
-  CodeBlockElement,
-  LinkElement
-} from '../../types/slate'
+import { CodeBlockElement, LinkElement } from '../../types/slate'
 import { useEffect, useState } from 'react'
 
 export function _renderElement(props: RenderElementProps) {
@@ -39,10 +31,8 @@ export function _renderElement(props: RenderElementProps) {
           {children}
         </ol>
       )
-    case 'heading1':
-      return <H1 props={props} />
-    case 'heading2':
-      return <h2 {...props}>{children}</h2>
+    case 'heading1' || 'heading2' || 'heading3':
+      return <H props={props} type={element.type} />
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
@@ -121,12 +111,11 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
   )
 }
 
-function H1({ props }: { props: RenderElementProps }) {
+function H({ props, type }: { props: RenderElementProps; type: string }) {
   const { attributes, children, element } = props
   const selected = useSelected()
   const editor = useSlateStatic()
-
-  const [path, setPath] = useState<any>([])
+  const [path, setPath] = useState<Path>([])
 
   useEffect(() => {
     if (selected) {
@@ -135,6 +124,7 @@ function H1({ props }: { props: RenderElementProps }) {
       })
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
+      // if (Node.string(element).startsWith('#')) return
       Transforms.insertText(editor, '#', {
         at: start
       })
@@ -145,7 +135,6 @@ function H1({ props }: { props: RenderElementProps }) {
       // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
       const titleString = Node.string(element)
       const hashCount = (titleString.match(/^#+/) || [''])[0].length
-      console.log(hashCount)
       Transforms.delete(editor, {
         at: {
           path: start.path,
@@ -154,9 +143,25 @@ function H1({ props }: { props: RenderElementProps }) {
       })
     }
   }, [selected])
-  return (
-    <h1 onInput={e => console.log(e)} {...attributes}>
-      {children}
-    </h1>
-  )
+  switch (type) {
+    case 'heading2':
+      return (
+        <h2 className="font-bold text-lg" {...attributes}>
+          {children}
+        </h2>
+      )
+    case 'heading3':
+      return (
+        <h3 className="font-bold text-lg" {...attributes}>
+          {children}
+        </h3>
+      )
+    default: {
+      return (
+        <h1 className="font-bold text-lg" {...attributes}>
+          {children}
+        </h1>
+      )
+    }
+  }
 }
