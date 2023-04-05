@@ -1,21 +1,23 @@
+import { getCurrentBlock } from './../utils/getCurrentBlock'
 import { Editor, Range, Element, Text, Transforms, Path, Node } from 'slate'
 import { CustomEditor } from '../../types/slate'
+import { getNextBlock } from '../utils/getNextBlock'
+import { getCurrentBlock } from '../utils/getCurrentBlock'
 
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
-  // 在代码块中增加语言选择器测试
-  // if (e.metaKey) {
-  //   Editor.insertNode(editor, {
-  //     type: 'heading-one',
-  //     children: [
-  //       {
-  //         text: ''
-  //       }
-  //     ]
-  //   })
-  // }
+  if (e.code === 'ArrowUp') {
+  }
+  if (e.code === 'ArrowDown') {
+    const currentBlock = getCurrentBlock(editor)
+    if (currentBlock) {
+      const [block, path] = currentBlock
+      const nextBlock = getNextBlock(editor, path)
+      console.log(nextBlock)
+    }
+  }
   if (e.key === 'Enter') {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
@@ -40,21 +42,15 @@ export const handleKeyDown = (
   if (e.key === 'Enter' && e.metaKey) {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
-      const [match] = Editor.nodes(editor, {
-        match: n =>
-          !Editor.isEditor(n) &&
-          Element.isElement(n) &&
-          (n.type === 'list-item' || n.type === 'code-line')
-      })
-      if (match) {
-        const [_li, liPath] = match
+      const block = getCurrentBlock(editor, 'list-item', 'code-line')
+      if (block) {
+        const [_li, liPath] = block
         const [ul, ulPath] = Editor.parent(editor, liPath)
         // li的索引
         const isLast = liPath[liPath.length - 1] === ul.children.length - 1
         if (!isLast) return
-        const hasNext = Editor.hasPath(editor, Path.next(ulPath))
-
-        if (!hasNext) {
+        const nextBlock = getNextBlock(editor, ulPath)
+        if (!nextBlock) {
           Transforms.insertNodes(
             editor,
             {
@@ -67,7 +63,6 @@ export const handleKeyDown = (
           )
           Transforms.select(editor, Path.next(ulPath))
         } else {
-          const nextBlock = Node.get(editor, Path.next(ulPath)) as Element
           // 如果下一个块不是段落
           nextBlock?.type === 'paragraph' &&
             Transforms.select(editor, Path.next(ulPath))
@@ -77,14 +72,12 @@ export const handleKeyDown = (
   }
 
   if (e.code === 'KeyA' && e.metaKey) {
-    const [match] = Editor.nodes(editor, {
-      match: n =>
-        !Editor.isEditor(n) &&
-        Element.isElement(n) &&
-        (n.type === 'bulleted-list' ||
-          n.type === 'code-block' ||
-          n.type === 'number-list')
-    })
+    const match = getCurrentBlock(
+      editor,
+      'bulleted-list',
+      'code-block',
+      'number-list'
+    )
     if (match) {
       const [, path] = match
       Transforms.select(editor, path)

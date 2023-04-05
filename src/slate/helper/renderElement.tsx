@@ -6,7 +6,7 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { CodeBlockElement, LinkElement } from '../../types/slate'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -71,7 +71,7 @@ function Link({ props }: { props: RenderElementProps }) {
     <a
       {...attributes}
       className={`border-[${
-        selected ? '2' : '0'
+        selected ? 2 : 0
       }px] cursor-pointer  border-slate-400`}
       href={(element as LinkElement).url}>
       <InlineChromiumBugfix />
@@ -84,10 +84,20 @@ function Link({ props }: { props: RenderElementProps }) {
 function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
+  const iptRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    //  console.log(element)
+  })
   const setLanguage = (language: string) => {
     const path = ReactEditor.findPath(editor, element)
     Transforms.setNodes(editor, { language }, { at: path })
   }
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setLanguage(e.target.value)
+  }
+  const handleKeyDown = () => {}
   return (
     <div
       {...attributes}
@@ -102,9 +112,11 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
         className="absolute right-[0] bottom-0 p-[6px] w-[90px]">
         <input
           type="text"
+          ref={iptRef}
           className="px-[4px] w-full"
           value={(element as CodeBlockElement).language}
-          onChange={e => setLanguage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onChange={handleInput}
         />
       </div>
     </div>

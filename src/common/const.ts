@@ -2,16 +2,20 @@ import { Descendant } from 'slate'
 
 export const initialValue: Descendant[] = [
   {
-    type:'heading1',
-    children:[{
-      text:'这是一级标题'
-    }]
+    type: 'heading1',
+    children: [
+      {
+        text: '这是一级标题'
+      }
+    ]
   },
   {
-    type:'heading1',
-    children:[{
-      text:'这是一级标题'
-    }]
+    type: 'heading1',
+    children: [
+      {
+        text: '这是一级标题'
+      }
+    ]
   },
   {
     type: 'paragraph',
@@ -26,9 +30,11 @@ export const initialValue: Descendant[] = [
     children: [
       {
         type: 'list-item',
-        children: [{
-          text:'li'
-        }]
+        children: [
+          {
+            text: 'li'
+          }
+        ]
       }
     ]
   },
@@ -37,15 +43,18 @@ export const initialValue: Descendant[] = [
     children: [
       {
         type: 'list-item',
-        children: [{
-          text:'li'
-        }]
+        children: [
+          {
+            text: 'li'
+          }
+        ]
       }
     ]
   },
   {
     type: 'code-block',
     language: 'js',
+    focus: false,
     children: [
       {
         type: 'code-line',
@@ -58,8 +67,16 @@ export const initialValue: Descendant[] = [
     ]
   },
   {
-    type: 'link',
-    url: 'https://en.wikipedia.org/wiki/Hypertext',
-    children: [{ text: 'hyperlink' }]
+    type: 'paragraph',
+    children: [
+      {
+        text: 'hello:slatepad'
+      },
+      {
+        type: 'link',
+        url: 'https://en.wikipedia.org/wiki/Hypertext',
+        children: [{ text: 'hyperlink' }]
+      }
+    ]
   }
 ]
