@@ -49,24 +49,17 @@ export const handleKeyDown = (
         // li的索引
         const isLast = liPath[liPath.length - 1] === ul.children.length - 1
         if (!isLast) return
-        const nextBlock = getNextBlock(editor, ulPath)
-        if (!nextBlock) {
-          Transforms.insertNodes(
-            editor,
-            {
-              type: 'paragraph',
-              children: []
-            },
-            {
-              at: Path.next(ulPath)
-            }
-          )
-          Transforms.select(editor, Path.next(ulPath))
-        } else {
-          // 如果下一个块不是段落
-          nextBlock?.type === 'paragraph' &&
-            Transforms.select(editor, Path.next(ulPath))
-        }
+        Transforms.insertNodes(
+          editor,
+          {
+            type: 'paragraph',
+            children: []
+          },
+          {
+            at: Path.next(ulPath)
+          }
+        )
+        Transforms.select(editor, Path.next(ulPath))
       }
     }
   }
