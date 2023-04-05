@@ -105,7 +105,6 @@ export const withShortcuts = (editor: CustomEditor) => {
               split: true
             })
           }
-
           return
         }
       }

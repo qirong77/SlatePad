@@ -1,6 +1,11 @@
-import { useCallback } from 'react'
+import { useCallback, } from 'react'
 import { withHistory } from 'slate-history'
-import { Editable, Slate, useSlateStatic, withReact } from 'slate-react'
+import {
+  Editable,
+  Slate,
+  useSlateStatic,
+  withReact
+} from 'slate-react'
 import { createEditor } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
@@ -18,16 +23,33 @@ export const App = () => {
   const editor = withInlines(
     withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
   )
+
+  let tree: any = []
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     tree = editor.children
+  //     document.querySelector('.state')!.innerHTML = JSON.stringify(
+  //       editor.children,
+  //       null,
+  //       2
+  //     )
+  //   }, 500)
+  // }, [])
   return (
-    <div className="w-[600px] bg-slate-100" spellCheck={false}>
-      <Slate editor={editor} value={initialValue}>
-        <ToolBar />
-        <div className="p-[20px]">
-          <Editable
-            renderElement={renderElement}
-            onKeyDown={e => handleKeyDown(e, editor)}></Editable>
-        </div>
-      </Slate>
+    <div className="flex">
+      <div className="w-[600px] bg-slate-100" spellCheck={false}>
+        <Slate editor={editor} value={initialValue}>
+          <ToolBar />
+          <div className="p-[20px]">
+            <Editable
+              renderElement={renderElement}
+              onKeyDown={e => handleKeyDown(e, editor)}></Editable>
+          </div>
+        </Slate>
+      </div>
+      <pre className="h-[400px] w-[400px] overflow-scroll bg-blue-200">
+        <code className="state"></code>
+      </pre>
     </div>
   )
 }

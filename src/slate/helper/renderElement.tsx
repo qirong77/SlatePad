@@ -1,4 +1,11 @@
-import { Transforms, Node, Editor, Element as SlateElement, Path } from 'slate'
+import {
+  Transforms,
+  Node,
+  Editor,
+  Element as SlateElement,
+  Path,
+  Range
+} from 'slate'
 import {
   ReactEditor,
   RenderElementProps,
@@ -6,7 +13,7 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { CodeBlockElement, LinkElement } from '../../types/slate'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useId, useRef, useState } from 'react'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -70,9 +77,7 @@ function Link({ props }: { props: RenderElementProps }) {
   return (
     <a
       {...attributes}
-      className={`border-[${
-        selected ? 2 : 0
-      }px] cursor-pointer  border-slate-400`}
+      className={`border-[2px] cursor-pointer  border-slate-400`}
       href={(element as LinkElement).url}>
       <InlineChromiumBugfix />
       {children}
@@ -83,6 +88,7 @@ function Link({ props }: { props: RenderElementProps }) {
 
 function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
+  const id = useId()
   const editor = useSlateStatic()
   const iptRef = useRef<HTMLInputElement>(null)
   const setLanguage = (language: string) => {
@@ -94,20 +100,40 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
     e.stopPropagation()
     setLanguage(e.target.value)
   }
-  const handleKeyDown = () => {}
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'ArrowUp') {
+      ReactEditor.focus(editor)
+      const path = ReactEditor.findPath(editor, element)
+      const [lastNode, lastPath] = Node.last(editor, path)
+      // bug 需要选择两次
+      Transforms.select(editor, lastPath)
+      setTimeout(() => {
+        Transforms.select(editor, {
+          path: lastPath,
+          offset: Node.string(lastNode).length
+        })
+      })
+    }
+  }
+  useEffect(() => {
+    const path = ReactEditor.findPath(editor, element)
+    Transforms.setNodes(editor, { input: id }, { at: path })
+  }, [])
   return (
     <div
       {...attributes}
       style={{ background: 'rgba(0, 20, 60, 0.03)' }}
       className="py-[4px] relative">
       <pre>
-        {children}
+        <code>{children}</code>
         {/* <div>{element.language}</div> */}
       </pre>
       <div
         contentEditable={false}
         className="absolute right-[0] bottom-0 p-[6px] w-[90px]">
         <input
+          id={id}
           type="text"
           ref={iptRef}
           className="px-[4px] w-full"
@@ -127,13 +153,13 @@ function H({ props, type }: { props: RenderElementProps; type: string }) {
   const [path, setPath] = useState<Path>([])
 
   useEffect(() => {
-    if (selected) {
+    const { selection } = editor
+    if (selected && selection && Range.isCollapsed(selection)) {
       const block = Editor.above(editor, {
         match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
       })
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
-      // if (Node.string(element).startsWith('#')) return
       Transforms.insertText(editor, '#', {
         at: start
       })

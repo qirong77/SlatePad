@@ -1,28 +1,20 @@
 import { getCurrentBlock } from './../utils/getCurrentBlock'
 import { Editor, Range, Element, Text, Transforms, Path, Node } from 'slate'
-import { CustomEditor } from '../../types/slate'
+import { CodeBlockElement, CustomEditor } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
 
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
-  if (e.code === 'ArrowUp') {
-  }
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
     if (codeLine) {
-      const [block, path] = codeLine
+      const [, path] = codeLine
       const nextCodeLine = getNextBlock(editor, path)
       if (!nextCodeLine) {
-        const [codeBlock, path] = getCurrentBlock(editor, 'code-block')
-        Transforms.setNodes(
-          editor,
-          { focus: true },
-          {
-            at: path
-          }
-        )
+        const [codeBlock] = getCurrentBlock(editor, 'code-block')
+        document.getElementById((codeBlock as CodeBlockElement).input)?.focus()
       }
     }
   }
@@ -73,6 +65,7 @@ export const handleKeyDown = (
   }
 
   if (e.code === 'KeyA' && e.metaKey) {
+    e.preventDefault()
     const match = getCurrentBlock(
       editor,
       'bulleted-list',
@@ -82,7 +75,8 @@ export const handleKeyDown = (
     if (match) {
       const [, path] = match
       Transforms.select(editor, path)
-      e.preventDefault()
+    } else {
+      Transforms.select(editor, [])
     }
   }
 }

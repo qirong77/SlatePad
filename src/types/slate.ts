@@ -72,7 +72,7 @@ export type ParagraphElement = {
 export type CodeBlockElement = {
   type: 'code-block'
   language: string,
-  focus?:boolean,
+  input:string,
   children: Descendant[]
 }
 

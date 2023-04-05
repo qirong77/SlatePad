@@ -54,8 +54,24 @@ export const initialValue: Descendant[] = [
   {
     type: 'code-block',
     language: 'js',
-    focus: false,
+    input:'',
     children: [
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: 'const x = 10'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: 'const x = 10'
+          }
+        ]
+      },
       {
         type: 'code-line',
         children: [
@@ -76,6 +92,14 @@ export const initialValue: Descendant[] = [
         type: 'link',
         url: 'https://en.wikipedia.org/wiki/Hypertext',
         children: [{ text: 'hyperlink' }]
+      }
+    ]
+  },
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: 'hello:slatepad'
       }
     ]
   }
