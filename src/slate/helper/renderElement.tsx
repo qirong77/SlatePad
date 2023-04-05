@@ -85,9 +85,6 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
   const iptRef = useRef<HTMLInputElement>(null)
-  useEffect(() => {
-    //  console.log(element)
-  })
   const setLanguage = (language: string) => {
     const path = ReactEditor.findPath(editor, element)
     Transforms.setNodes(editor, { language }, { at: path })

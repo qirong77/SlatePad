@@ -2,7 +2,6 @@ import { getCurrentBlock } from './../utils/getCurrentBlock'
 import { Editor, Range, Element, Text, Transforms, Path, Node } from 'slate'
 import { CustomEditor } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
-import { getCurrentBlock } from '../utils/getCurrentBlock'
 
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
@@ -11,11 +10,20 @@ export const handleKeyDown = (
   if (e.code === 'ArrowUp') {
   }
   if (e.code === 'ArrowDown') {
-    const currentBlock = getCurrentBlock(editor)
-    if (currentBlock) {
-      const [block, path] = currentBlock
-      const nextBlock = getNextBlock(editor, path)
-      console.log(nextBlock)
+    const codeLine = getCurrentBlock(editor, 'code-line')
+    if (codeLine) {
+      const [block, path] = codeLine
+      const nextCodeLine = getNextBlock(editor, path)
+      if (!nextCodeLine) {
+        const [codeBlock, path] = getCurrentBlock(editor, 'code-block')
+        Transforms.setNodes(
+          editor,
+          { focus: true },
+          {
+            at: path
+          }
+        )
+      }
     }
   }
   if (e.key === 'Enter') {
@@ -27,7 +35,8 @@ export const handleKeyDown = (
         Element.isElement(parentNode) &&
         Text.isText(parentNode.children[0]) &&
         parentNode.children[0].text === '' &&
-        parentNode.type !== 'paragraph'
+        parentNode.type !== 'paragraph' &&
+        parentNode.type !== 'code-line'
       ) {
         e.preventDefault()
         editor.deleteBackward('block')
@@ -46,7 +55,6 @@ export const handleKeyDown = (
       if (block) {
         const [_li, liPath] = block
         const [ul, ulPath] = Editor.parent(editor, liPath)
-        // li的索引
         const isLast = liPath[liPath.length - 1] === ul.children.length - 1
         if (!isLast) return
         Transforms.insertNodes(
