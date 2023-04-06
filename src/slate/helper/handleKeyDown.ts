@@ -1,8 +1,8 @@
 import { getCurrentBlock } from './../utils/getCurrentBlock'
-import { Editor, Range, Element, Text, Transforms, Path, Node } from 'slate'
+import { Editor, Range, Transforms, Path, Node } from 'slate'
 import { CodeBlockElement, CustomEditor } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
-
+// 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
@@ -18,7 +18,7 @@ export const handleKeyDown = (
       }
     }
   }
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !e.metaKey) {
     const { selection } = editor
     const [block, path] = getCurrentBlock(editor)
     if (selection && Range.isCollapsed(selection)) {
@@ -46,26 +46,29 @@ export const handleKeyDown = (
   }
   // commend+enter跳出当前的块
   if (e.key === 'Enter' && e.metaKey) {
+    e.preventDefault()
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
-      const block = getCurrentBlock(editor, 'list-item', 'code-line')
-      if (block) {
-        const [_li, liPath] = block
-        const [ul, ulPath] = Editor.parent(editor, liPath)
-        const isLast = liPath[liPath.length - 1] === ul.children.length - 1
-        if (!isLast) return
-        Transforms.insertNodes(
-          editor,
-          {
-            type: 'paragraph',
-            children: []
-          },
-          {
-            at: Path.next(ulPath)
-          }
-        )
-        Transforms.select(editor, Path.next(ulPath))
+      const [block, path] = getCurrentBlock(editor)
+      if (block.type === 'list-item' || block.type === 'code-line') {
+        const [ul, ulPath] = Editor.parent(editor, path)
+        const isLast = path[path.length - 1] === ul.children.length - 1
+        if (isLast) {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: 'paragraph',
+              children: []
+            },
+            {
+              at: Path.next(ulPath)
+            }
+          )
+          Transforms.select(editor, Editor.end(editor, Path.next(ulPath)))
+          return
+        }
       }
+      Transforms.select(editor, Editor.end(editor, Path.next(path)))
     }
   }
 
