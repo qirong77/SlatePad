@@ -14,6 +14,7 @@ import {
 } from 'slate-react'
 import { CodeBlockElement, LinkElement } from '../../types/slate'
 import React, { useEffect, useId, useRef, useState } from 'react'
+import { getNextBlock, getNextPath } from '../utils/getNextBlock'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -109,13 +110,20 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
       // bug 需要选择两次
       Transforms.select(editor, lastPath)
       setTimeout(() => {
-        Transforms.select(editor, {
-          path: lastPath,
-          offset: Node.string(lastNode).length
-        })
+        Transforms.select(editor, Editor.end(editor, lastPath))
       })
     }
+    if (e.code === 'ArrowDown') {
+      ReactEditor.focus(editor)
+      const path = ReactEditor.findPath(editor, element)
+      const nextPath = getNextPath(editor, path)
+      const nextBlock = getNextBlock(editor, path)
+      if (nextPath && nextBlock) {
+        Transforms.select(editor, Editor.end(editor, nextPath))
+      }
+    }
   }
+
   useEffect(() => {
     const path = ReactEditor.findPath(editor, element)
     Transforms.setNodes(editor, { input: id }, { at: path })

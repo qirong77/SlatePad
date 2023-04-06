@@ -17,7 +17,6 @@ import { withInlines, wrapLink } from './slate/plugins/withInlines'
 import { withHeadings } from './slate/plugins/withHeadings'
 
 export const App = () => {
-  console.log('app-update')
   const renderElement = useCallback(_renderElement, [])
   // const renderLeaf = useCallback(_renderLeaf, [])
   const editor = withInlines(
