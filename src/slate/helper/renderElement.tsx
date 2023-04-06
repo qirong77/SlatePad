@@ -39,8 +39,17 @@ export function _renderElement(props: RenderElementProps) {
           {children}
         </ol>
       )
-    case 'heading1' || 'heading2' || 'heading3':
+    case 'heading1':
       return <H props={props} type={element.type} />
+    case 'heading2':
+      return <H props={props} type={element.type} />
+    case 'heading3':
+      return <H props={props} type={element.type} />
+    case 'heading4':
+      return <H props={props} type={element.type} />
+    case 'heading5':
+      return <H props={props} type={element.type} />
+
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
@@ -165,16 +174,12 @@ function H({ props, type }: { props: RenderElementProps; type: string }) {
 
   useEffect(() => {
     const { selection } = editor
+    const path = ReactEditor.findPath(editor, element)
     if (selected && selection && Range.isCollapsed(selection)) {
-      const block = Editor.above(editor, {
-        match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
-      })
-      const path = block ? block[1] : []
       const start = Editor.start(editor, path)
       Transforms.insertText(editor, '#', {
         at: start
       })
-      setPath(path)
     } else {
       if (!path.length) return
       const start = Editor.start(editor, path)
@@ -190,21 +195,34 @@ function H({ props, type }: { props: RenderElementProps; type: string }) {
     }
   }, [selected])
   switch (type) {
-    case 'heading2':
+    case 'heading5':
       return (
-        <h2 className="font-bold text-lg" {...attributes}>
+        <h5 className="font-bold text-lg" {...attributes}>
           {children}
-        </h2>
+        </h5>
+      )
+    case 'heading4':
+      return (
+        <h4 className="font-bold text-xl" {...attributes}>
+          {children}
+        </h4>
       )
     case 'heading3':
       return (
-        <h3 className="font-bold text-lg" {...attributes}>
+        <h3 className="font-bold text-2xl" {...attributes}>
           {children}
         </h3>
       )
+    case 'heading2':
+      return (
+        <h2 className="font-bold text-3xl" {...attributes}>
+          {children}
+        </h2>
+      )
+
     default: {
       return (
-        <h1 className="font-bold text-lg" {...attributes}>
+        <h1 className="font-bold text-4xl " {...attributes}>
           {children}
         </h1>
       )

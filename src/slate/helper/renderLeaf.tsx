@@ -1,23 +1,13 @@
-import { RenderLeafProps } from 'slate-react'
 // 这个类型后面需要完善
-interface CustomRenderLeafProps {
-  children: any
-  leaf: Text & {
-    bold?: Boolean
-    code?: Boolean
-    italic?: Boolean
-    underline?: Boolean
-  }
-  text: Text
-  attributes: {
-    'data-slate-leaf': true
-  }
-}
+import { Editor, Transforms, Text } from 'slate'
+import { RenderLeafProps } from 'slate-react'
+import { CustomEditor } from '../../types/slate'
+
 export const _renderLeaf = ({
   attributes,
   children,
   leaf
-}: CustomRenderLeafProps) => {
+}: RenderLeafProps) => {
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
@@ -30,4 +20,30 @@ export const _renderLeaf = ({
     children = <u>{children}</u>
   }
   return <span {...attributes}>{children}</span>
+}
+
+export function toggleBold(editor: CustomEditor) {
+  const isBold = isLeafActive(editor, 'bold')
+  if (isBold) {
+    Transforms.setNodes(
+      editor,
+      { bold: true },
+      {
+        match: n => {
+          return Text.isText(n)
+        },
+        split: true
+      }
+    )
+  }
+  else {
+    
+  }
+}
+function isLeafActive(editor: CustomEditor, type = 'bold') {
+  const [match] = Editor.nodes(editor, {
+    match: n => n[type] === true,
+    universal: true
+  })
+  return !!match
 }

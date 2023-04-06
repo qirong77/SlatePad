@@ -1,4 +1,4 @@
-import { Transforms, Node, Editor,  Path } from 'slate'
+import { Transforms, Node, Editor, Path } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 
 export const withHeadings = (editor: CustomEditor) => {
@@ -21,12 +21,17 @@ export const withHeadings = (editor: CustomEditor) => {
         Transforms.setNodes(editor, { type })
       }
     }
-    if (['heading1'].includes(node.type)) {
+    if (node.type?.includes('heading')) {
       const text = Node.string(node)
       const match = /^(#+).*/.exec(text)
+      console.log(match)
+      console.log(path)
       if (match) {
         const level = match[1].length
-        Transforms.setNodes(editor, { type: `heading${level}` })
+        const type = 'heading' + level
+        console.log(type)
+        Transforms.setNodes(editor, { type })
+        return
       }
     }
     return normalizeNode([node, path])

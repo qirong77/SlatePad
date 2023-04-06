@@ -4,9 +4,9 @@ import {
   Editable,
   Slate,
   useSlateStatic,
-  withReact
+  withReact,
 } from 'slate-react'
-import { createEditor } from 'slate'
+import { Transforms, createEditor,Text } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
 import { withShortcuts } from './slate/plugins/withShortcuts'
@@ -18,7 +18,7 @@ import { withHeadings } from './slate/plugins/withHeadings'
 
 export const App = () => {
   const renderElement = useCallback(_renderElement, [])
-  // const renderLeaf = useCallback(_renderLeaf, [])
+  const renderLeaf = useCallback(_renderLeaf, [])
   const editor = withInlines(
     withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
   )
@@ -42,6 +42,7 @@ export const App = () => {
           <div className="p-[20px]">
             <Editable
               renderElement={renderElement}
+              renderLeaf={renderLeaf}
               onKeyDown={e => handleKeyDown(e, editor)}></Editable>
           </div>
         </Slate>
@@ -58,8 +59,13 @@ function ToolBar() {
   return (
     <div className="flex justify-start items-center px-[10px] h-[50px] border-b-2 border-gray-400">
       <Bold
-        onClick={e => {
+        onMouseDown={e => {
           e.preventDefault()
+          Transforms.setNodes(
+            editor,
+            { bold: true },
+            { match: n => Text.isText(n), split: true }
+          )
         }}
       />
       <UnderLine />

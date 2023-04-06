@@ -10,6 +10,34 @@ export const Bold = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
+export const Italic = () => {
+  return (
+    <IconContainer>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16">
+        <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
+      </svg>
+    </IconContainer>
+  )
+}
+export const BlockQuote = (props: JSX.IntrinsicElements['button']) => {
+  return (
+    <IconContainer>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16">
+        <path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z" />
+      </svg>
+    </IconContainer>
+  )
+}
 export const UnderLine = () => {
   return (
     <IconContainer>
@@ -51,7 +79,7 @@ function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
     <button
       onMouseDown={props.onMouseDown}
-      className="w-[24px] h-[24px] mx-[4px] p-[2px] rounded hover:bg-slate-300 hover:cursor-pointer">
+      className="w-[22px] h-[22px] mx-[4px] rounded hover:bg-slate-300 hover:cursor-pointer">
       {props.children}
     </button>
   )

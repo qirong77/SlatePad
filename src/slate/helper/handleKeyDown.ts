@@ -20,15 +20,20 @@ export const handleKeyDown = (
   }
   if (e.key === 'Enter') {
     const { selection } = editor
+    const [block, path] = getCurrentBlock(editor)
     if (selection && Range.isCollapsed(selection)) {
-      const [start] = Range.edges(selection)
-      const [parentNode] = Editor.parent(editor, start.path)
+      if (block.type.includes('heading')) {
+        e.preventDefault()
+        Transforms.insertNodes(editor, {
+          type: 'paragraph',
+          children: [{ text: '' }]
+        })
+        Transforms.select(editor, Path.next(path))
+        return
+      }
       if (
-        Element.isElement(parentNode) &&
-        Text.isText(parentNode.children[0]) &&
-        parentNode.children[0].text === '' &&
-        parentNode.type !== 'paragraph' &&
-        parentNode.type !== 'code-line'
+        !['code-line', 'paragraph'].includes(block.type) &&
+        !Node.string(block).length
       ) {
         e.preventDefault()
         editor.deleteBackward('block')
