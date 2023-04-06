@@ -78,7 +78,10 @@ function Link({ props }: { props: RenderElementProps }) {
   return (
     <a
       {...attributes}
-      className={`border-[2px] cursor-pointer  border-slate-400`}
+      className={`text-blue-600 cursor-pointer border-blue-600`}
+      style={{
+        borderWidth: selected ? '2px' : '0px'
+      }}
       href={(element as LinkElement).url}>
       <InlineChromiumBugfix />
       {children}
@@ -106,7 +109,7 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
     if (e.code === 'ArrowUp') {
       ReactEditor.focus(editor)
       const path = ReactEditor.findPath(editor, element)
-      const [lastNode, lastPath] = Node.last(editor, path)
+      const [, lastPath] = Node.last(editor, path)
       // bug 需要选择两次
       Transforms.select(editor, lastPath)
       setTimeout(() => {
