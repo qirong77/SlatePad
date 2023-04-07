@@ -1,4 +1,4 @@
-import { Transforms, Node, Editor, Path } from 'slate'
+import { Transforms, Node, Editor, Path,Range} from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
@@ -10,9 +10,10 @@ import { CustomEditor, SlateElement } from '../../types/slate'
 */
 export const withHeadings = (editor: CustomEditor) => {
   // normalize只有在节点变化的时候会执行
-  const { normalizeNode } = editor
+  const { normalizeNode,selection } = editor
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
+    if (!selection || !Range.isCollapsed) return
     if (node.type === 'paragraph') {
       const text = Node.string(node)
       const match = /^(#+).*/.exec(text)

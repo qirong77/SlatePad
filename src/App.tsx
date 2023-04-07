@@ -1,12 +1,7 @@
-import { useCallback, } from 'react'
+import { useCallback } from 'react'
 import { withHistory } from 'slate-history'
-import {
-  Editable,
-  Slate,
-  useSlateStatic,
-  withReact,
-} from 'slate-react'
-import { Transforms, createEditor,Text } from 'slate'
+import { Editable, Slate, useSlateStatic, withReact } from 'slate-react'
+import { Transforms, createEditor, Text } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
 import { withShortcuts } from './slate/plugins/withShortcuts'
@@ -15,12 +10,15 @@ import { _renderElement } from './slate/helper/renderElement'
 import { _renderLeaf } from './slate/helper/renderLeaf'
 import { withInlines, wrapLink } from './slate/plugins/withInlines'
 import { withHeadings } from './slate/plugins/withHeadings'
+import { withPastHtml } from './slate/plugins/withPastHtml'
 
 export const App = () => {
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const editor = withInlines(
-    withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
+    withPastHtml(
+      withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
+    )
   )
 
   let tree: any = []
