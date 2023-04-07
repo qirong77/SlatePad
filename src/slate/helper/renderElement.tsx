@@ -3,7 +3,6 @@ import {
   Node,
   Editor,
   Element as SlateElement,
-  Path,
   Range
 } from 'slate'
 import {
@@ -13,7 +12,7 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { CodeBlockElement, LinkElement } from '../../types/slate'
-import React, { useEffect, useId, useRef, useState } from 'react'
+import React, { useEffect, useId, useRef } from 'react'
 import { getNextBlock, getNextPath } from '../utils/getNextBlock'
 
 export function _renderElement(props: RenderElementProps) {
@@ -61,6 +60,7 @@ export function _renderElement(props: RenderElementProps) {
     case 'link':
       return <Link props={props} />
     case 'code-line':
+      console.log('line')
       return (
         <div
           {...attributes}
@@ -170,28 +170,38 @@ function H({ props, type }: { props: RenderElementProps; type: string }) {
   const { attributes, children, element } = props
   const selected = useSelected()
   const editor = useSlateStatic()
-  const [path, setPath] = useState<Path>([])
 
   useEffect(() => {
     const { selection } = editor
+    if (!selection || !Range.isCollapsed) return
     const path = ReactEditor.findPath(editor, element)
-    if (selected && selection && Range.isCollapsed(selection)) {
+    if (selected) {
       const start = Editor.start(editor, path)
-      Transforms.insertText(editor, '#', {
+      const l = /\d/.exec(element.type)?.[0] || '1'
+      Transforms.insertText(editor, '#'.repeat(Number(l)), {
         at: start
       })
     } else {
-      if (!path.length) return
       const start = Editor.start(editor, path)
       // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
       const titleString = Node.string(element)
       const hashCount = (titleString.match(/^#+/) || [''])[0].length
-      Transforms.delete(editor, {
-        at: {
-          path: start.path,
-          offset: hashCount - 1
+      Transforms.setNodes(
+        editor,
+        {
+          type: 'heading' + hashCount || 1
+        },
+        {
+          at: path
         }
+      )
+      const pre = JSON.parse(JSON.stringify(selection.anchor))
+      Transforms.select(editor, {
+        path: start.path,
+        offset: hashCount
       })
+      editor.deleteBackward('line')
+      Transforms.select(editor, pre)
     }
   }, [selected])
   switch (type) {
