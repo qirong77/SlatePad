@@ -31,7 +31,6 @@ export const withHeadings = (editor: CustomEditor) => {
       }
     }
     if (node.type?.includes('heading')) {
-      console.log(path)
       const text = Node.string(node)
       const match = /^(#+).*/.exec(text)
       if (match) {

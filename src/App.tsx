@@ -1,46 +1,43 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { withHistory } from 'slate-history'
-import { Editable, Slate, useSlateStatic, withReact } from 'slate-react'
-import { Transforms, createEditor, Text } from 'slate'
+import { Editable, Slate,  withReact } from 'slate-react'
+import { createEditor, Text, NodeEntry,  } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
 import { withShortcuts } from './slate/plugins/withShortcuts'
-import { Bold, CodeBlock, Link, UnderLine } from './assets/svg'
 import { _renderElement } from './slate/helper/renderElement'
 import { _renderLeaf } from './slate/helper/renderLeaf'
-import { withInlines, wrapLink } from './slate/plugins/withInlines'
+import { withInlines,  } from './slate/plugins/withInlines'
 import { withHeadings } from './slate/plugins/withHeadings'
 import { withPastHtml } from './slate/plugins/withPastHtml'
+import { ToolBar } from './slate/components/ToolBar'
 
 export const App = () => {
+  const [search, setSearch] = useState('')
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
+  const decorate = useCallback(_decorate, [search])
   const editor = withInlines(
     withPastHtml(
       withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
     )
   )
-
-  let tree: any = []
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     tree = editor.children
-  //     document.querySelector('.state')!.innerHTML = JSON.stringify(
-  //       editor.children,
-  //       null,
-  //       2
-  //     )
-  //   }, 500)
-  // }, [])
+  useEffect(() => {
+    document.addEventListener('selectionchange', () => {
+      console.log('selectionchange')
+    })
+  }, [editor])
   return (
     <div className="flex">
       <div className="w-[600px] bg-slate-100" spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
           <ToolBar />
+          <input onChange={e => setSearch(e.target.value)} />
           <div className="p-[20px]">
             <Editable
               renderElement={renderElement}
               renderLeaf={renderLeaf}
+              decorate={decorate}
               onKeyDown={e => handleKeyDown(e, editor)}></Editable>
           </div>
         </Slate>
@@ -50,30 +47,26 @@ export const App = () => {
       </pre>
     </div>
   )
-}
+  function _decorate(entry: NodeEntry) {
+    const [node, path] = entry
+    const ranges: any = []
+    if (search && Text.isText(node)) {
+      const { text } = node
+      const parts = text.split(search)
+      let offset = 0
 
-function ToolBar() {
-  const editor = useSlateStatic()
-  return (
-    <div className="flex justify-start items-center px-[10px] h-[50px] border-b-2 border-gray-400">
-      <Bold
-        onMouseDown={e => {
-          e.preventDefault()
-          Transforms.setNodes(
-            editor,
-            { bold: true },
-            { match: n => Text.isText(n), split: true }
-          )
-        }}
-      />
-      <UnderLine />
-      <CodeBlock />
-      <Link
-        onMouseDown={e => {
-          e.preventDefault()
-          wrapLink(editor)
-        }}
-      />
-    </div>
-  )
+      parts.forEach((part, i) => {
+        if (i !== 0) {
+          ranges.push({
+            anchor: { path, offset: offset - search.length },
+            focus: { path, offset },
+            highlight: true
+          })
+        }
+
+        offset = offset + part.length + search.length
+      })
+    }
+    return ranges
+  }
 }

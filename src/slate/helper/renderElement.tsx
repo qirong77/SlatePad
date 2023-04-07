@@ -2,7 +2,6 @@ import {
   Transforms,
   Node,
   Editor,
-  Element as SlateElement,
   Range
 } from 'slate'
 import {
@@ -60,7 +59,6 @@ export function _renderElement(props: RenderElementProps) {
     case 'link':
       return <Link props={props} />
     case 'code-line':
-      console.log('line')
       return (
         <div
           {...attributes}

@@ -95,7 +95,6 @@ function deserialize(el: any) {
   if (TEXT_TAGS[nodeName]) {
     const attrs = TEXT_TAGS[nodeName](el)
     const data = children.map(child => jsx('text', attrs, child))
-    console.log(data)
     return data
   }
   return children

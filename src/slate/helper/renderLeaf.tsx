@@ -19,6 +19,9 @@ export const _renderLeaf = ({
   if (leaf.underline) {
     children = <u>{children}</u>
   }
+  if (leaf.highlight) {
+    children = <mark>{children}</mark>
+  }
   return <span {...attributes}>{children}</span>
 }
 
@@ -35,9 +38,7 @@ export function toggleBold(editor: CustomEditor) {
         split: true
       }
     )
-  }
-  else {
-    
+  } else {
   }
 }
 function isLeafActive(editor: CustomEditor, type = 'bold') {

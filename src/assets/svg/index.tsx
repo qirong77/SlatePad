@@ -10,7 +10,7 @@ export const Bold = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
-export const Italic = () => {
+export const Italic = (props: JSX.IntrinsicElements['button']) => {
   return (
     <IconContainer>
       <svg
@@ -38,7 +38,7 @@ export const BlockQuote = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
-export const UnderLine = () => {
+export const UnderLine = (props: JSX.IntrinsicElements['button']) => {
   return (
     <IconContainer>
       <svg
