@@ -58,7 +58,7 @@ export const handleKeyDown = (
             editor,
             {
               type: 'paragraph',
-              children: []
+              children: [{ text: '' }]
             },
             {
               at: Path.next(ulPath)
