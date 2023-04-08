@@ -28,9 +28,9 @@ export const App = () => {
     })
   }, [editor])
   return (
-    <div >
-      <h1 className='text-center text-4xl my-[20px]'>SlatePad</h1>
-      <div className="w-[90vw] h-[80vh] bg-white rounded" spellCheck={false}>
+    <div>
+      <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
+      <div className="w-[90vw] h-[80vh] overflow-scroll bg-white rounded" spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
           <ToolBar />
           <input onChange={e => setSearch(e.target.value)} />{' '}
