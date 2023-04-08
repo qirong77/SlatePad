@@ -3,6 +3,7 @@ import { LinkElement } from '../../types/slate'
 
 import { Heading } from '../elements/Heading'
 import { CodeBlock } from '../elements/CodeBlock'
+import { Image } from '../elements/Image'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -37,7 +38,8 @@ export function _renderElement(props: RenderElementProps) {
       return <Heading props={props} type={element.type} />
     case 'heading5':
       return <Heading props={props} type={element.type} />
-
+    case 'image':
+      return <Image props={props} />
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
@@ -78,12 +80,17 @@ function Link({ props }: { props: RenderElementProps }) {
   )
   return (
     <a
+      onDoubleClick={e => {
+        e.preventDefault()
+        window.open(element.url, '_blank')
+      }}
+      target="_blank"
       {...attributes}
       className={`text-blue-600 cursor-pointer border-blue-600`}
       style={{
         borderWidth: selected ? '2px' : '0px'
       }}
-      href={(element as LinkElement).url}>
+      href={element.url}>
       <InlineChromiumBugfix />
       {children}
       <InlineChromiumBugfix />

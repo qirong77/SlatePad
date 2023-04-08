@@ -15,7 +15,7 @@ export const Bold = (props: JSX.IntrinsicElements['button']) => {
 }
 export const Italic = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer {...props}>
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -28,9 +28,23 @@ export const Italic = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
+export const Image = (props: JSX.IntrinsicElements['button']) => {
+  return (
+    <IconContainer {...props}>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m10.141 17.988-4.275-.01a.3.3 0 0 1-.212-.512l4.133-4.133a.4.4 0 0 1 .566 0l1.907 1.907 5.057-5.057a.4.4 0 0 1 .683.283V17.7a.3.3 0 0 1-.3.3h-7.476a.301.301 0 0 1-.083-.012ZM4 22c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4Zm0-2h16V4H4v16ZM6 6h3v3H6V6Z"
+          fill="currentColor"></path>
+      </svg>
+    </IconContainer>
+  )
+}
 export const BlockQuote = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer {...props}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -44,7 +58,7 @@ export const BlockQuote = (props: JSX.IntrinsicElements['button']) => {
 }
 export const UnderLine = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer {...props}>
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -57,9 +71,9 @@ export const UnderLine = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
-export const StrickThrough = () => {
+export const StrickThrough = (props: JSX.IntrinsicElements['button']) => {
   return (
-    <IconContainer>
+    <IconContainer {...props}>
       <svg
         viewBox="0 0 24 24"
         fill="none"

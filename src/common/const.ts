@@ -54,7 +54,7 @@ export const initialValue: Descendant[] = [
   {
     type: 'code-block',
     language: 'js',
-    input:'',
+    input: '',
     children: [
       {
         type: 'code-line',
@@ -102,5 +102,10 @@ export const initialValue: Descendant[] = [
         text: 'hello:slatepad'
       }
     ]
+  },
+  {
+    type: 'image',
+    url: 'https://source.unsplash.com/kFrdX5IeQzI',
+    children: [{ text: '' }]
   }
 ]

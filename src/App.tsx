@@ -11,6 +11,7 @@ import { withInlines } from './slate/plugins/withInlines'
 import { withHeadings } from './slate/plugins/withHeadings'
 import { withPastHtml } from './slate/plugins/withPastHtml'
 import { ToolBar } from './slate/components/ToolBar'
+import { withImages } from './slate/plugins/withImages'
 
 export const App = () => {
   const [search, setSearch] = useState('')
@@ -19,7 +20,9 @@ export const App = () => {
   const decorate = useCallback(_decorate, [search])
   const editor = withInlines(
     withPastHtml(
-      withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
+      withImages(
+        withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
+      )
     )
   )
   useEffect(() => {
@@ -35,7 +38,10 @@ export const App = () => {
         spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
           <ToolBar>
-            <input className='ml-auto pl-[2px] border-blue-500  rounded border-2 outline-blue-600' onChange={e => setSearch(e.target.value)} />
+            <input
+              className="ml-auto pl-[2px] border-blue-500  rounded border-2 outline-blue-600"
+              onChange={e => setSearch(e.target.value)}
+            />
           </ToolBar>
 
           <Editable

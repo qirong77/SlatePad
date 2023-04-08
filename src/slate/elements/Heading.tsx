@@ -23,7 +23,7 @@ export function Heading({
     if (!selection || !Range.isCollapsed) return
     const path = ReactEditor.findPath(editor, element)
     if (selected) {
-      if (!/^#/.test(Node.string(element))) return
+      if (/^#/.test(Node.string(element))) return
       const start = Editor.start(editor, path)
       const l = /\d/.exec(element.type)?.[0] || '1'
       Transforms.insertText(editor, '#'.repeat(Number(l)) + ' ', {
