@@ -1,9 +1,4 @@
-import {
-  Transforms,
-  Node,
-  Editor,
-  Range
-} from 'slate'
+import { Transforms, Node, Editor, Range } from 'slate'
 import {
   ReactEditor,
   RenderElementProps,
@@ -21,19 +16,19 @@ export function _renderElement(props: RenderElementProps) {
       return (
         <blockquote
           {...attributes}
-          className="border-l-[2px] pl-[4px] border-slate-400 text-slate-400">
+          className="border-l-[2px] pl-[4px] my-[8px] leading-[1] border-slate-400 text-slate-400">
           {children}
         </blockquote>
       )
     case 'bulleted-list':
       return (
-        <ul className="pl-[20px]" {...attributes}>
+        <ul className="pl-[20px] my-[8px]" {...attributes}>
           {children}
         </ul>
       )
     case 'number-list':
       return (
-        <ol className="pl-[20px]" {...attributes}>
+        <ol className="pl-[20px] my-[8px]" {...attributes}>
           {children}
         </ol>
       )
@@ -55,14 +50,18 @@ export function _renderElement(props: RenderElementProps) {
         </li>
       )
     case 'paragraph':
-      return <p {...attributes}>{children}</p>
+      return (
+        <p {...attributes} className="my-[8px] leading-[1]">
+          {children}
+        </p>
+      )
     case 'link':
       return <Link props={props} />
     case 'code-line':
       return (
         <div
           {...attributes}
-          className="code-line relative font-mono text-[16px] leading-[20px] mx-[10px] my-[4px]">
+          className="font-[monospace] code-line relative text-[16px] leading-[20px] mx-[10px] my-[4px]">
           {children}
         </div>
       )
@@ -130,6 +129,9 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
       const nextBlock = getNextBlock(editor, path)
       if (nextPath && nextBlock) {
         Transforms.select(editor, Editor.end(editor, nextPath))
+        setTimeout(() => {
+          Transforms.select(editor, Editor.end(editor, nextPath))
+        },100)
       }
     }
   }
@@ -141,11 +143,10 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
   return (
     <div
       {...attributes}
-      style={{ background: 'rgba(0, 20, 60, 0.03)' }}
-      className="py-[4px] relative">
+      style={{ background: '#f6f7f9' }}
+      className="py-[4px] my-[8px] relative">
       <pre>
         <code>{children}</code>
-        {/* <div>{element.language}</div> */}
       </pre>
       <div
         contentEditable={false}
@@ -205,32 +206,32 @@ function H({ props, type }: { props: RenderElementProps; type: string }) {
   switch (type) {
     case 'heading5':
       return (
-        <h5 className="font-bold text-lg" {...attributes}>
+        <h5 className="font-bold text-lg my-[8px]" {...attributes}>
           {children}
         </h5>
       )
     case 'heading4':
       return (
-        <h4 className="font-bold text-xl" {...attributes}>
+        <h4 className="font-bold text-xl my-[8px]" {...attributes}>
           {children}
         </h4>
       )
     case 'heading3':
       return (
-        <h3 className="font-bold text-2xl" {...attributes}>
+        <h3 className="font-bold text-2xl my-[8px]" {...attributes}>
           {children}
         </h3>
       )
     case 'heading2':
       return (
-        <h2 className="font-bold text-3xl" {...attributes}>
+        <h2 className="font-bold text-3xl my-[8px]" {...attributes}>
           {children}
         </h2>
       )
 
     default: {
       return (
-        <h1 className="font-bold text-4xl " {...attributes}>
+        <h1 className="font-bold text-4xl my-[8px] " {...attributes}>
           {children}
         </h1>
       )

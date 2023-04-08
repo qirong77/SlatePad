@@ -14,8 +14,7 @@ ol li {
 #root {
   display: flex;
   align-items: center;
-  padding-top: 100px;
   flex-direction: column;
-  background: #e4dede;
+  background: #eee;
   height: 100vh;
 }

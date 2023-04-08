@@ -21,7 +21,7 @@ export const ToolBar = () => {
     }
   }
   return (
-    <div className="flex justify-start items-center px-[10px] h-[50px] border-b-2 border-gray-400">
+    <div className="flex justify-start items-center px-[10px] h-[44px] border-b-2 border-gray-400">
       <Bold
         onMouseDown={e => {
           e.preventDefault()
