@@ -7,7 +7,7 @@ export const withInlines = (editor: CustomEditor) => {
   //   重写isInline方法，默认情况下这个方法都是返回false
   // 前面那部分表示如果匹配到了行内快，后面表示使用原来的方法，也就一直是返回false
   editor.isInline = element => {
-    return ['link', 'button'].includes(element?.type) || isInline(element)
+    return element.type === 'link' || isInline(element)
   }
   editor.insertText = text => {
     if (text && isUrl(text)) {

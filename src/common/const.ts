@@ -91,8 +91,11 @@ export const initialValue: Descendant[] = [
       {
         type: 'link',
         url: 'https://en.wikipedia.org/wiki/Hypertext',
-        children: [{ text: 'hyperlink' }]
-      }
+        children: [{ text: 'this is a link' }]
+      },
+      {
+        text: ''
+      },
     ]
   },
   {

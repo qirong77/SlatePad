@@ -1,6 +1,4 @@
 import { RenderElementProps, useSelected } from 'slate-react'
-import { LinkElement } from '../../types/slate'
-
 import { Heading } from '../elements/Heading'
 import { CodeBlock } from '../elements/CodeBlock'
 import { Image } from '../elements/Image'
@@ -71,13 +69,6 @@ export function _renderElement(props: RenderElementProps) {
 function Link({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
   const selected = useSelected()
-
-  // 加上这个是为了解决某个bug
-  const InlineChromiumBugfix = () => (
-    <span contentEditable={false}>
-      {String.fromCodePoint(160) /* Non-breaking space */}
-    </span>
-  )
   return (
     <a
       onDoubleClick={e => {
@@ -86,14 +77,12 @@ function Link({ props }: { props: RenderElementProps }) {
       }}
       target="_blank"
       {...attributes}
-      className={`text-blue-600 cursor-pointer border-blue-600`}
+      className={`text-blue-500 px-[2px] cursor-pointer border-blue-500`}
       style={{
-        borderWidth: selected ? '2px' : '0px'
+        borderWidth: selected ? '1.6px' : '0px'
       }}
       href={element.url}>
-      <InlineChromiumBugfix />
       {children}
-      <InlineChromiumBugfix />
     </a>
   )
 }
