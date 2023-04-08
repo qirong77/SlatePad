@@ -3,7 +3,7 @@ import { useSlateStatic } from 'slate-react'
 import { Bold, CodeBlock, Italic, Link, UnderLine } from '../../assets/svg'
 import { wrapLink } from '../plugins/withInlines'
 
-export const ToolBar = () => {
+export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
   const editor = useSlateStatic()
   function toggle(format: 'bold' | 'italic' | 'underline') {
     const isActive = isLeafActive('bold')
@@ -21,7 +21,7 @@ export const ToolBar = () => {
     }
   }
   return (
-    <div className="flex justify-start items-center px-[10px] h-[44px] border-b-2 border-gray-400">
+    <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
       <Bold
         onMouseDown={e => {
           e.preventDefault()
@@ -47,6 +47,7 @@ export const ToolBar = () => {
           wrapLink(editor)
         }}
       />
+      {props.children}
     </div>
   )
 }

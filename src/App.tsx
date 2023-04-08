@@ -30,10 +30,14 @@ export const App = () => {
   return (
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
-      <div className="w-[90vw] h-[80vh] overflow-scroll bg-white rounded" spellCheck={false}>
+      <div
+        className="w-[90vw] h-[80vh] overflow-scroll bg-white rounded c-shadow"
+        spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
-          <ToolBar />
-          <input onChange={e => setSearch(e.target.value)} />{' '}
+          <ToolBar>
+            <input className='ml-auto pl-[2px] border-blue-500  rounded border-2 outline-blue-600' onChange={e => setSearch(e.target.value)} />
+          </ToolBar>
+
           <Editable
             className="p-[20px]"
             renderElement={renderElement}
