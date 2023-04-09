@@ -77,7 +77,7 @@ function Link({ props }: { props: RenderElementProps }) {
       }}
       target="_blank"
       {...attributes}
-      className={`text-blue-500 px-[2px] cursor-pointer border-blue-500`}
+      className={`text-blue-500 px-[2px]  border-blue-500`}
       style={{
         borderWidth: selected ? '1.6px' : '0px'
       }}
