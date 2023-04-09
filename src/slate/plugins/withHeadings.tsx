@@ -13,7 +13,6 @@ export const withHeadings = (editor: CustomEditor) => {
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
-    if (!Range.isCollapsed) return
     if (node.type === 'paragraph') {
       const text = Node.string(node)
       const match = /^(#+).*/.exec(text)

@@ -1,6 +1,11 @@
 import { useEffect, useId, useRef } from 'react'
 import { Transforms, Node, Editor } from 'slate'
-import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
+import {
+  ReactEditor,
+  RenderElementProps,
+  useSlate,
+  useSlateStatic
+} from 'slate-react'
 import { getNextBlock, getNextPath } from '../utils/getNextBlock'
 import { CodeBlockElement } from '../../types/slate'
 import { Copy } from '../../assets/svg'

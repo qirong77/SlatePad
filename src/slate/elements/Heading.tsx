@@ -20,7 +20,7 @@ export function Heading({
 
   useEffect(() => {
     const { selection } = editor
-    if (!selection || !Range.isCollapsed) return
+    if (!selection || !Range.isCollapsed(selection)) return
     const path = ReactEditor.findPath(editor, element)
     if (selected) {
       if (/^#/.test(Node.string(element))) return
@@ -30,12 +30,14 @@ export function Heading({
         at: start
       })
     } else {
+   
       const start = Editor.start(editor, path)
       // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
       const titleString = Node.string(element)
       const markHeader = titleString.match(/^#+\s/)
       if (!markHeader) return
       const hashCount = (markHeader || [''])[0].length
+
       Transforms.setNodes(
         editor,
         {

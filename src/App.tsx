@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
 import { createEditor, Text, NodeEntry } from 'slate'
@@ -13,6 +13,7 @@ import { withPastHtml } from './slate/plugins/withPastHtml'
 import { ToolBar } from './slate/components/ToolBar'
 import { withImages } from './slate/plugins/withImages'
 import { Search } from './assets/svg'
+import { HoveringToolBar } from './slate/components/HoveringToolBar'
 
 export const App = () => {
   const [search, setSearch] = useState('')
@@ -26,11 +27,6 @@ export const App = () => {
       )
     )
   )
-  useEffect(() => {
-    document.addEventListener('selectionchange', () => {
-      console.log('selectionchange')
-    })
-  }, [editor])
   return (
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
@@ -41,11 +37,12 @@ export const App = () => {
               <Search className="absolute ml-2 text-cyan-800" />
               <input
                 placeholder="搜索"
-                className="border-blue-200  pl-[30px] rounded border-2 outline-blue-500"
+                className="border-blue-100  pl-[30px] rounded border-2 outline-blue-500"
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
           </ToolBar>
+          <HoveringToolBar/>
           <div className="w-[90vw] h-[80vh] overflow-scroll">
             <Editable
               className="p-[20px]"
