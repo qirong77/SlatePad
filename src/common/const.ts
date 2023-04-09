@@ -10,6 +10,11 @@ export const initialValue: Descendant[] = [
     ]
   },
   {
+    type: 'check-list-item',
+    checked: true,
+    children: [{ text: 'Slide to the left.' }]
+  },
+  {
     type: 'heading1',
     children: [
       {
@@ -92,7 +97,7 @@ export const initialValue: Descendant[] = [
         type: 'link',
         url: 'https://en.wikipedia.org/wiki/Hypertext',
         children: [{ text: 'this is a link' }]
-      },
+      }
     ]
   },
   {

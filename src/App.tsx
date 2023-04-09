@@ -41,7 +41,7 @@ export const App = () => {
               <Search className="absolute ml-2 text-cyan-800" />
               <input
                 placeholder="搜索"
-                className="border-blue-100  pl-[30px] rounded border-2 outline-blue-500"
+                className="border-blue-400  pl-[30px] rounded border-2 outline-blue-600"
                 onChange={e => setSearch(e.target.value)}
               />
             </div>

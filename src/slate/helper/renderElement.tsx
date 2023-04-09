@@ -2,6 +2,7 @@ import { RenderElementProps, useSelected } from 'slate-react'
 import { Heading } from '../elements/Heading'
 import { CodeBlock } from '../elements/CodeBlock'
 import { Image } from '../elements/Image'
+import { CheckList } from '../elements/CheckList'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -52,6 +53,8 @@ export function _renderElement(props: RenderElementProps) {
       )
     case 'link':
       return <Link props={props} />
+    case 'check-list-item':
+      return <CheckList props={props}/>
     case 'code-line':
       return (
         <div
