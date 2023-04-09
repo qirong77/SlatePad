@@ -28,25 +28,23 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'ArrowUp') {
+      e.preventDefault()
       ReactEditor.focus(editor)
       const path = ReactEditor.findPath(editor, element)
       const [, lastPath] = Node.last(editor, path)
       // bug 需要选择两次
       Transforms.select(editor, lastPath)
-      setTimeout(() => {
-        Transforms.select(editor, Editor.end(editor, lastPath))
-      })
+      Transforms.select(editor, Editor.end(editor, lastPath))
     }
     if (e.code === 'ArrowDown') {
+      e.preventDefault()
       ReactEditor.focus(editor)
       const path = ReactEditor.findPath(editor, element)
       const nextPath = getNextPath(editor, path)
       const nextBlock = getNextBlock(editor, path)
       if (nextPath && nextBlock) {
         Transforms.select(editor, nextPath)
-        setTimeout(() => {
-          Transforms.select(editor, Editor.end(editor, nextPath))
-        })
+        Transforms.select(editor, Editor.end(editor, nextPath))
       }
     }
   }

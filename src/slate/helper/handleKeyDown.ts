@@ -7,6 +7,8 @@ export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
+  if (e.code === 'ArrowUp') {
+  }
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
     if (codeLine) {
