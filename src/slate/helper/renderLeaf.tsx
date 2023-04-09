@@ -19,6 +19,7 @@ export const _renderLeaf = ({
     children = <u>{children}</u>
   }
   if (leaf.highlight) {
+    
     children = <mark>{children}</mark>
   }
   return <span {...attributes}>{children}</span>

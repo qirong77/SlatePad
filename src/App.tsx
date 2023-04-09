@@ -12,6 +12,7 @@ import { withHeadings } from './slate/plugins/withHeadings'
 import { withPastHtml } from './slate/plugins/withPastHtml'
 import { ToolBar } from './slate/components/ToolBar'
 import { withImages } from './slate/plugins/withImages'
+import { Search } from './assets/svg'
 
 export const App = () => {
   const [search, setSearch] = useState('')
@@ -33,24 +34,27 @@ export const App = () => {
   return (
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
-      <div
-        className="w-[90vw] h-[80vh] overflow-scroll bg-white rounded c-shadow"
-        spellCheck={false}>
+      <div className="relative  bg-white rounded c-shadow" spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
           <ToolBar>
-            <input
-              className="ml-auto pl-[2px] border-blue-500  rounded border-2 outline-blue-600"
-              onChange={e => setSearch(e.target.value)}
-            />
+            <div className="ml-auto flex items-center">
+              <Search className="absolute ml-2 text-cyan-800" />
+              <input
+                placeholder="搜索"
+                className="border-blue-200  pl-[30px] rounded border-2 outline-blue-500"
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
           </ToolBar>
-
-          <Editable
-            className="p-[20px]"
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-            decorate={decorate}
-            onKeyDown={e => handleKeyDown(e, editor)}
-          />
+          <div className="w-[90vw] h-[80vh] overflow-scroll">
+            <Editable
+              className="p-[20px]"
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              decorate={decorate}
+              onKeyDown={e => handleKeyDown(e, editor)}
+            />
+          </div>
         </Slate>
       </div>
     </div>
@@ -74,6 +78,9 @@ export const App = () => {
 
         offset = offset + part.length + search.length
       })
+    }
+    if (ranges.length) {
+      console.log(ranges)
     }
     return ranges
   }

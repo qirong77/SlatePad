@@ -6,7 +6,14 @@ import {
   Italic,
   Link,
   UnderLine,
-  Image
+  Image,
+  H1,
+  H2,
+  H3,
+  BulletedList,
+  NumberList,
+  CheckList,
+  BlockQuote
 } from '../../assets/svg'
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
@@ -16,6 +23,21 @@ export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
 
   return (
     <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
+      <H1 />
+      <H2 />
+      <H3 />
+      <NumberList />
+      <BulletedList />
+      <CheckList />
+      <CodeBlock />
+      <BlockQuote />
+      <Image
+        onMouseDown={e => {
+          console.log('image')
+          e.preventDefault()
+          insertImage()
+        }}
+      />
       <Bold
         onMouseDown={e => {
           e.preventDefault()
@@ -34,20 +56,14 @@ export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
           toggle('italic')
         }}
       />
-      <CodeBlock />
+
       <Link
         onMouseDown={e => {
           e.preventDefault()
           wrapLink(editor)
         }}
       />
-      <Image
-        onMouseDown={e => {
-          console.log('image')
-          e.preventDefault()
-          insertImage()
-        }}
-      />
+
       {props.children}
     </div>
   )
