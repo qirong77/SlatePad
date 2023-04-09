@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
 import { createEditor, Text, NodeEntry } from 'slate'
@@ -20,12 +20,16 @@ export const App = () => {
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(_decorate, [search])
-  const editor = withInlines(
-    withPastHtml(
-      withImages(
-        withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
-      )
-    )
+  const editor = useMemo(
+    () =>
+      withInlines(
+        withPastHtml(
+          withImages(
+            withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
+          )
+        )
+      ),
+    []
   )
   return (
     <div>
@@ -42,7 +46,7 @@ export const App = () => {
               />
             </div>
           </ToolBar>
-          <HoveringToolBar/>
+          <HoveringToolBar />
           <div className="w-[90vw] h-[80vh] overflow-scroll">
             <Editable
               className="p-[20px]"
