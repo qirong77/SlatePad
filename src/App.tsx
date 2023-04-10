@@ -17,6 +17,7 @@ import { HoveringToolBar } from './slate/components/HoveringToolBar'
 
 export const App = () => {
   const [search, setSearch] = useState('')
+  const [outline, setOutline] = useState(false)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(_decorate, [search])
@@ -36,7 +37,7 @@ export const App = () => {
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
       <div className="relative  bg-white rounded c-shadow" spellCheck={false}>
         <Slate editor={editor} value={initialValue}>
-          <ToolBar>
+          <ToolBar setOutline={setOutline} outline={outline}>
             <div className="ml-auto flex items-center">
               <Search className="absolute ml-2 text-cyan-800" />
               <input
@@ -47,14 +48,22 @@ export const App = () => {
             </div>
           </ToolBar>
           <HoveringToolBar />
-          <div className="w-[90vw] h-[80vh] overflow-scroll">
-            <Editable
-              className="p-[20px]"
-              renderElement={renderElement}
-              renderLeaf={renderLeaf}
-              decorate={decorate}
-              onKeyDown={e => handleKeyDown(e, editor)}
-            />
+          <div className="flex">
+            <div
+              className="h-[70vh] overflow-scroll bg-slate-400 transition-all"
+              style={{
+                width: outline ? '180px' : '0px'
+              }}>
+            </div>
+            <div className="w-[70vw]  h-[70vh] overflow-scroll">
+              <Editable
+                className="px-[40px]"
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+                decorate={decorate}
+                onKeyDown={e => handleKeyDown(e, editor)}
+              />
+            </div>
           </div>
         </Slate>
       </div>

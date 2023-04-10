@@ -55,6 +55,47 @@ export const Image = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
+export const Menu = (props: JSX.IntrinsicElements['button']) => {
+  return (
+    <IconContainer onClick={props.onClick}>
+      <svg
+        viewBox="0 0 1025 1024"
+        version="1.1"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        p-id="2185"
+        width="16"
+        height="16">
+        <path
+          fill="currentColor"
+          d="M980.8 468.8H43.2C17.6 468.8 0 486.4 0 512s17.6 43.2 43.2 43.2h939.2c25.6 0 43.2-17.6 43.2-43.2-1.6-25.6-19.2-43.2-44.8-43.2zM980.8 768H43.2C17.6 768 0 785.6 0 811.2s17.6 43.2 43.2 43.2h939.2c25.6 0 43.2-17.6 43.2-43.2-1.6-25.6-19.2-43.2-44.8-43.2zM43.2 256h939.2c25.6 0 43.2-17.6 43.2-43.2s-17.6-43.2-43.2-43.2H43.2c-25.6 0-43.2 17.6-43.2 43.2S17.6 256 43.2 256z"
+          p-id="2186"></path>
+      </svg>
+    </IconContainer>
+  )
+}
+export const MenuBack = (props: JSX.IntrinsicElements['button']) => {
+  return (
+    <IconContainer {...props}>
+      <svg
+        viewBox="0 0 1024 1024"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        p-id="16833"
+        width="16"
+        height="16">
+        <path
+          d="M186.758633 563.798368l328.244498-328.244498a77.358853 77.358853 0 1 0-109.399779-109.39978L22.670254 509.087189a77.358853 77.358853 0 0 0 0 109.399779l382.910518 382.842778a77.313693 77.313693 0 0 0 109.399779 0 77.404013 77.404013 0 0 0 0-109.399779L186.758633 563.798368z"
+          fill="currentColor"
+          p-id="16834"></path>
+        <path
+          d="M673.130408 563.798368l328.221918-328.244498a77.358853 77.358853 0 1 0-109.399779-109.39978L509.019449 509.087189a77.358853 77.358853 0 0 0 0 109.399779l382.910518 382.842778a77.358853 77.358853 0 1 0 109.399779-109.399779L673.130408 563.798368z"
+          fill="currentColor"
+          p-id="16835"></path>
+      </svg>
+    </IconContainer>
+  )
+}
 export const NumberList = (props: JSX.IntrinsicElements['button']) => {
   return (
     <IconContainer {...props}>
@@ -242,7 +283,7 @@ export const Copy = () => {
 function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
     <button
-      onMouseDown={props.onMouseDown}
+      {...props}
       className="w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer">
       {props.children}
     </button>

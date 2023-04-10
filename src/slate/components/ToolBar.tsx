@@ -1,5 +1,5 @@
 import { Transforms } from 'slate'
-import { useSlateStatic } from 'slate-react'
+import { useSlate, useSlateStatic } from 'slate-react'
 import {
   CodeBlock,
   Link,
@@ -10,16 +10,28 @@ import {
   BulletedList,
   NumberList,
   CheckList,
-  BlockQuote
+  BlockQuote,
+  Menu,
+  MenuBack
 } from '../../assets/svg'
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
+import { useEffect } from 'react'
 
-export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
+export const ToolBar = prop => {
   const editor = useSlateStatic()
-
+  const e2 = useSlate()
+  useEffect(()=>{
+    console.log(e2.children)
+  },[e2.children])
   return (
     <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
+      {prop.outline ? (
+        <MenuBack onClick={() => prop.setOutline(false)} />
+        ) : (
+        <Menu onClick={() => prop.setOutline(true)} />
+      )}
+
       <H1 />
       <H2 />
       <H3 />
@@ -30,7 +42,6 @@ export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
       <BlockQuote />
       <Image
         onMouseDown={e => {
-          console.log('image')
           e.preventDefault()
           insertImage()
         }}
@@ -43,7 +54,7 @@ export const ToolBar = (props: JSX.IntrinsicElements['input']) => {
         }}
       />
 
-      {props.children}
+      {prop.children}
     </div>
   )
 
