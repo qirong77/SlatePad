@@ -1,21 +1,15 @@
 import { useCallback, useMemo, useState } from 'react'
-import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
-import { createEditor } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
-import { withShortcuts } from './slate/plugins/withShortcuts'
 import { _renderElement } from './slate/helper/renderElement'
 import { _renderLeaf } from './slate/helper/renderLeaf'
-import { withInlines } from './slate/plugins/withInlines'
-import { withHeadings } from './slate/plugins/withHeadings'
-import { withPastHtml } from './slate/plugins/withPastHtml'
 import { ToolBar } from './slate/components/ToolBar'
-import { withImages } from './slate/plugins/withImages'
 import { Search } from './assets/svg'
 import { HoveringToolBar } from './slate/components/HoveringToolBar'
 import { useDecorate } from './slate/helper/decorate'
 import { Side } from './slate/components/Side'
+import { createSlatepad } from './slate/plugins/editor'
 
 export const App = () => {
   const [search, setSearch] = useState('')
@@ -23,17 +17,7 @@ export const App = () => {
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(useDecorate(search), [search])
-  const editor = useMemo(
-    () =>
-      withInlines(
-        withPastHtml(
-          withImages(
-            withHeadings(withShortcuts(withHistory(withReact(createEditor()))))
-          )
-        )
-      ),
-    []
-  )
+  const editor = useMemo(() => createSlatepad(), [])
   return (
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>

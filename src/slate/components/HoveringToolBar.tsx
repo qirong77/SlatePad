@@ -26,27 +26,33 @@ export const HoveringToolBar = () => {
     }px`
   })
   return (
-    <div 
-      className="fixed flex py-[2px] [&>button]:w-[20px] [&>button]:text-slate-50 border-blue-100 bg-slate-900 rounded border-1 z-10 top-[-9999px] left-[-9999px] opacity-0 transition-opacity duration-900"
+    <div
+      className="fixed py-[2px]   z-10 top-[-9999px] left-[-9999px] opacity-0 transition-opacity duration-900"
       ref={ref}>
-      <Bold
-        onMouseDown={e => {
-          e.preventDefault()
-          toggle('bold')
+      <div
+        style={{
+          boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 8%)'
         }}
-      />
-      <UnderLine
-        onMouseDown={e => {
-          e.preventDefault()
-          toggle('underline')
-        }}
-      />
-      <Italic
-        onMouseDown={e => {
-          e.preventDefault()
-          toggle('italic')
-        }}
-      />
+        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded">
+        <Bold
+          onMouseDown={e => {
+            e.preventDefault()
+            toggle('bold')
+          }}
+        />
+        <UnderLine
+          onMouseDown={e => {
+            e.preventDefault()
+            toggle('underline')
+          }}
+        />
+        <Italic
+          onMouseDown={e => {
+            e.preventDefault()
+            toggle('italic')
+          }}
+        />
+      </div>
     </div>
   )
   function toggle(format: 'bold' | 'italic' | 'underline') {
