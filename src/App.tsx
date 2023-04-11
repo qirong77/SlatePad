@@ -14,13 +14,14 @@ import { ToolBar } from './slate/components/ToolBar'
 import { withImages } from './slate/plugins/withImages'
 import { Search } from './assets/svg'
 import { HoveringToolBar } from './slate/components/HoveringToolBar'
+import {  useDecorate } from './slate/helper/decorate'
 
 export const App = () => {
   const [search, setSearch] = useState('')
   const [outline, setOutline] = useState(false)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
-  const decorate = useCallback(_decorate, [search])
+  const decorate = useCallback(useDecorate(search), [search])
   const editor = useMemo(
     () =>
       withInlines(
@@ -53,8 +54,7 @@ export const App = () => {
               className="h-[70vh] overflow-scroll bg-slate-400 transition-all"
               style={{
                 width: outline ? '180px' : '0px'
-              }}>
-            </div>
+              }}></div>
             <div className="w-[70vw]  h-[70vh] overflow-scroll">
               <Editable
                 className="px-[40px]"
@@ -69,29 +69,4 @@ export const App = () => {
       </div>
     </div>
   )
-  function _decorate(entry: NodeEntry) {
-    const [node, path] = entry
-    const ranges: any = []
-    if (search && Text.isText(node)) {
-      const { text } = node
-      const parts = text.split(search)
-      let offset = 0
-
-      parts.forEach((part, i) => {
-        if (i !== 0) {
-          ranges.push({
-            anchor: { path, offset: offset - search.length },
-            focus: { path, offset },
-            highlight: true
-          })
-        }
-
-        offset = offset + part.length + search.length
-      })
-    }
-    if (ranges.length) {
-      console.log(ranges)
-    }
-    return ranges
-  }
 }
