@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useSlateStatic, useSlateSelection, useFocused } from 'slate-react'
 import { Range, Editor, Transforms, Text } from 'slate'
-import { Bold, Italic, UnderLine } from '../../assets/svg'
+import { Bold, Italic, StrickThrough, UnderLine } from '../../assets/svg'
 export const HoveringToolBar = () => {
   const selection = useSlateSelection()
   const editor = useSlateStatic()
@@ -52,6 +52,7 @@ export const HoveringToolBar = () => {
             toggle('italic')
           }}
         />
+        <StrickThrough/>
       </div>
     </div>
   )

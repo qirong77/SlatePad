@@ -15,7 +15,7 @@ export const withHeadings = (editor: CustomEditor) => {
     const [node, path] = entry as [SlateElement, Path]
     if (node.type === 'paragraph') {
       const text = Node.string(node)
-      const match = /^(#+).*/.exec(text)
+      const match = /^(#+)\s.*/.exec(text)
       if (match) {
         const level = match[1].length
         const type = `heading${level}`
