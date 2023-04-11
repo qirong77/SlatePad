@@ -16,26 +16,9 @@ import {
 } from '../../assets/svg'
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
-import { useEffect } from 'react'
 
 export const ToolBar = prop => {
   const editor = useSlateStatic()
-  const e2 = useSlate()
-  useEffect(() => {
-    console.time('document')
-    document.querySelectorAll('h1').forEach(n => {
-      console.log()
-    })
-
-    console.timeEnd('document')
-    console.time('slate')
-    e2.children.forEach(node => {
-      if (node.type.includes('heading')) {
-        console.log()
-      }
-    })
-    console.timeEnd('slate')
-  }, [e2.children])
   return (
     <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
       {prop.outline ? (

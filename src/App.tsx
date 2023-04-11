@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { withHistory } from 'slate-history'
 import { Editable, Slate, withReact } from 'slate-react'
-import { createEditor, Text, NodeEntry } from 'slate'
+import { createEditor } from 'slate'
 import { initialValue } from './common/const'
 import { handleKeyDown } from './slate/helper/handleKeyDown'
 import { withShortcuts } from './slate/plugins/withShortcuts'
@@ -14,7 +14,8 @@ import { ToolBar } from './slate/components/ToolBar'
 import { withImages } from './slate/plugins/withImages'
 import { Search } from './assets/svg'
 import { HoveringToolBar } from './slate/components/HoveringToolBar'
-import {  useDecorate } from './slate/helper/decorate'
+import { useDecorate } from './slate/helper/decorate'
+import { Side } from './slate/components/Side'
 
 export const App = () => {
   const [search, setSearch] = useState('')
@@ -40,7 +41,7 @@ export const App = () => {
         <Slate editor={editor} value={initialValue}>
           <ToolBar setOutline={setOutline} outline={outline}>
             <div className="ml-auto flex items-center">
-              <Search className="absolute ml-2 text-cyan-800" />
+              <Search className="absolute ml-2" />
               <input
                 placeholder="搜索"
                 className="border-blue-400  pl-[30px] rounded border-2 outline-blue-600"
@@ -50,14 +51,10 @@ export const App = () => {
           </ToolBar>
           <HoveringToolBar />
           <div className="flex">
-            <div
-              className="h-[70vh] overflow-scroll bg-slate-400 transition-all"
-              style={{
-                width: outline ? '180px' : '0px'
-              }}></div>
+            <Side outline={outline} />
             <div className="w-[70vw]  h-[70vh] overflow-scroll">
               <Editable
-                className="px-[40px]"
+                className="ediable px-[40px]"
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 decorate={decorate}
