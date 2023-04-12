@@ -20,5 +20,7 @@ ol li {
 }
 .c-shadow {
   box-shadow: 2px 0px 12px 0px rgb(4 4 4 / 10%);
-  
+}
+.hidden-block {
+  display: none;
 }

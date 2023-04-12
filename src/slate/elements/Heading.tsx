@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Editor, Transforms, Node, Range } from 'slate'
+import { Editor, Transforms, Node, Range, Path } from 'slate'
 import {
   ReactEditor,
   RenderElementProps,
@@ -7,6 +7,7 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { Arrow } from '../../assets/svg'
+import { getNextBlock } from '../utils/getNextBlock'
 
 export function Heading({
   props,
@@ -20,6 +21,23 @@ export function Heading({
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
   const handleClick = () => {
+    const path = ReactEditor.findPath(editor, element)
+    const doms: HTMLElement[] = []
+    let currentPath = path
+    while (true) {
+      const nextBlock = getNextBlock(editor, currentPath)
+      if (nextBlock && !nextBlock.type.includes('heading')) {
+        doms.push(ReactEditor.toDOMNode(editor, nextBlock))
+        currentPath = Path.next(currentPath)
+      } else break
+    }
+    doms.forEach(dom => {
+      if (collapse) {
+        dom.classList.remove('hidden-block')
+      } else {
+        dom.classList.add('hidden-block')
+      }
+    })
     setCollapse(!collapse)
   }
   useEffect(() => {
@@ -69,6 +87,7 @@ export function Heading({
         }`}
       />
       <Head />
+      
     </div>
   )
   function Head() {
@@ -81,9 +100,8 @@ export function Heading({
         return <h3 className="text-2xl">{children}</h3>
       case 'heading2':
         return <h2 className="text-3xl">{children}</h2>
-
       default: {
-        return <h1 className="font-bold text-4xl my-[8px] ">{children}</h1>
+        return <h1 className="font-bold text-4xl my-[8px] ">{children}{collapse && <span contentEditable={false}>...</span>}</h1>
       }
     }
   }
