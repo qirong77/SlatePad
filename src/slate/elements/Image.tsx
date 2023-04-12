@@ -5,7 +5,6 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { ImageElement } from '../../types/slate'
-import { Transforms } from 'slate'
 
 export const Image = ({ props }: { props: RenderElementProps }) => {
   const { attributes, children, element } = props

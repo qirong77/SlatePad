@@ -21,9 +21,6 @@ export const useDecorate = (search: string) => {
         offset = offset + part.length + search.length
       })
     }
-    if (ranges.length) {
-      console.log(ranges)
-    }
     return ranges
   }
 }
