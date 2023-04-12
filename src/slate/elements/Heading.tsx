@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Editor, Transforms, Node, Range, Path } from 'slate'
 import {
   ReactEditor,
@@ -20,7 +20,8 @@ export function Heading({
   const selected = useSelected()
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
-  const handleClick = () => {
+  const handleClick = (e:React.MouseEvent) => {
+    e.preventDefault()
     const path = ReactEditor.findPath(editor, element)
     const doms: HTMLElement[] = []
     let currentPath = path
@@ -78,7 +79,11 @@ export function Heading({
     }
   }, [selected])
   return (
-    <div {...attributes} className={'font-bold  relative'}>
+    <div
+      {...attributes}
+      className={'font-bold  relative'}
+      suppressContentEditableWarning
+      contentEditable={collapse ? false : true}>
       <Arrow
         contentEditable={false}
         onClick={handleClick}
@@ -87,7 +92,6 @@ export function Heading({
         }`}
       />
       <Head />
-      
     </div>
   )
   function Head() {
@@ -101,7 +105,12 @@ export function Heading({
       case 'heading2':
         return <h2 className="text-3xl">{children}</h2>
       default: {
-        return <h1 className="font-bold text-4xl my-[8px] ">{children}{collapse && <span contentEditable={false}>...</span>}</h1>
+        return (
+          <h1 className="font-bold text-4xl my-[8px] ">
+            {children}
+            {collapse && <span contentEditable={false}>...</span>}
+          </h1>
+        )
       }
     }
   }

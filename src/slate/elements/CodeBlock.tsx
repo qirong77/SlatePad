@@ -1,21 +1,19 @@
-import { useEffect, useId, useRef } from 'react'
-import { Transforms, Node, Editor } from 'slate'
-import {
-  ReactEditor,
-  RenderElementProps,
-  useSlate,
-  useSlateStatic
-} from 'slate-react'
+import { useRef, useState } from 'react'
+import { Transforms, Node, Editor, Path } from 'slate'
+import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
 import { getNextBlock, getNextPath } from '../utils/getNextBlock'
 import { CodeBlockElement } from '../../types/slate'
-import { Copy } from '../../assets/svg'
+import { Arrow, Copy } from '../../assets/svg'
 
 export function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
-  const id = useId()
   const editor = useSlateStatic()
+  const [collapse, setCollapse] = useState(false)
   const iptRef = useRef<HTMLInputElement>(null)
-
+  const handleClick = (e:React.MouseEvent) => {
+    e.preventDefault()
+    setCollapse(!collapse)
+  }
   const setLanguage = (language: string) => {
     const path = ReactEditor.findPath(editor, element)
     Transforms.setNodes(editor, { language }, { at: path })
@@ -49,26 +47,41 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
     }
   }
 
-  useEffect(() => {
-    const path = ReactEditor.findPath(editor, element)
-    Transforms.setNodes(editor, { input: id }, { at: path })
-  }, [editor, element])
   return (
     <div
       {...attributes}
-      style={{ background: '#f6f7f9' }}
-      className="group  py-[4px] my-[8px] relative">
-      <pre>
+      style={{
+        background: '#f6f7f9'
+      }}
+      className="group  py-[4px] my-[8px] relative"
+      suppressContentEditableWarning
+      contentEditable={collapse ? false : true}>
+      <pre
+        className="overflow-hidden"
+        style={{
+          height: collapse ? '30px' : 'auto'
+        }}>
         <code>{children}</code>
       </pre>
+      {collapse && (
+        <div contentEditable={false} className="pl-[10px] h-[30px] relative">
+          <span className="absolute top-0">......</span>
+        </div>
+      )}
       <div className="absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
         <Copy />
       </div>
+      <Arrow
+        contentEditable={false}
+        onClick={handleClick}
+        className={`absolute left-[-30px]  top-[0px] opacity-0 group-hover:opacity-100 transition-all ${
+          collapse ? '-rotate-90' : ''
+        }`}
+      />
       <div
         contentEditable={false}
-        className="absolute right-[0] bottom-0 p-[6px] w-[90px]">
+        className="absolute right-[0] bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100">
         <input
-          id={id}
           type="text"
           ref={iptRef}
           className="px-[4px] w-full"

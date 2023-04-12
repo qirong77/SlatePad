@@ -1,7 +1,8 @@
 import { getCurrentBlock } from './../utils/getCurrentBlock'
 import { Editor, Range, Transforms, Path, Node } from 'slate'
-import { CodeBlockElement, CustomEditor } from '../../types/slate'
+import { CustomEditor } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
+import { ReactEditor } from 'slate-react'
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
@@ -16,7 +17,7 @@ export const handleKeyDown = (
       const nextCodeLine = getNextBlock(editor, path)
       if (!nextCodeLine) {
         const [codeBlock] = getCurrentBlock(editor, 'code-block')
-        document.getElementById((codeBlock as CodeBlockElement).input)?.focus()
+        ReactEditor.toDOMNode(editor,codeBlock).querySelector('input')?.focus()
       }
     }
   }
