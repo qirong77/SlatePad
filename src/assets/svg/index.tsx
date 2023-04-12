@@ -12,6 +12,17 @@ export const Bold = (props: JSX.IntrinsicElements['button']) => {
     </IconContainer>
   )
 }
+export const Arrow = (props: JSX.IntrinsicElements['button']) => {
+  return (
+    <IconContainer {...props}>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path
+          d="M7.712 11.351L3.34 5.9a.45.45 0 010-.538.278.278 0 01.215-.112h8.89c.168 0 .305.17.305.381a.432.432 0 01-.09.269l-4.372 5.451c-.159.199-.417.199-.576 0z"
+          fill="#2B2F36"></path>
+      </svg>
+    </IconContainer>
+  )
+}
 export const Search = (props: JSX.IntrinsicElements['svg']) => {
   return (
     <svg
@@ -283,7 +294,10 @@ function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
     <button
       {...props}
-      className="w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer">
+      className={
+        'w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer' + ' ' + 
+        props.className
+      }>
       {props.children}
     </button>
   )

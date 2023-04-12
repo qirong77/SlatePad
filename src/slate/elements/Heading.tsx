@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Editor, Transforms, Node, Range } from 'slate'
 import {
   ReactEditor,
@@ -6,6 +6,7 @@ import {
   useSelected,
   useSlateStatic
 } from 'slate-react'
+import { Arrow } from '../../assets/svg'
 
 export function Heading({
   props,
@@ -17,7 +18,10 @@ export function Heading({
   const { attributes, children, element } = props
   const selected = useSelected()
   const editor = useSlateStatic()
-
+  const [collapse, setCollapse] = useState(false)
+  const handleClick = () => {
+    setCollapse(!collapse)
+  }
   useEffect(() => {
     const { selection } = editor
     if (!selection || !Range.isCollapsed(selection)) return
@@ -30,7 +34,6 @@ export function Heading({
         at: start
       })
     } else {
-   
       const start = Editor.start(editor, path)
       // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
       const titleString = Node.string(element)
@@ -56,38 +59,32 @@ export function Heading({
       Transforms.select(editor, pre)
     }
   }, [selected])
-  switch (type) {
-    case 'heading5':
-      return (
-        <h5 className="font-bold text-lg my-[8px]" {...attributes}>
-          {children}
-        </h5>
-      )
-    case 'heading4':
-      return (
-        <h4 className="font-bold text-xl my-[8px]" {...attributes}>
-          {children}
-        </h4>
-      )
-    case 'heading3':
-      return (
-        <h3 className="font-bold text-2xl my-[8px]" {...attributes}>
-          {children}
-        </h3>
-      )
-    case 'heading2':
-      return (
-        <h2 className="font-bold text-3xl my-[8px]" {...attributes}>
-          {children}
-        </h2>
-      )
+  return (
+    <div {...attributes} className={'font-bold  relative'}>
+      <Arrow
+        contentEditable={false}
+        onClick={handleClick}
+        className={`absolute left-[-30px] top-[10px] opacity-0 hover:opacity-100 transition-all ${
+          collapse ? '-rotate-90' : ''
+        }`}
+      />
+      <Head />
+    </div>
+  )
+  function Head() {
+    switch (type) {
+      case 'heading5':
+        return <h5 className="text-lg ">{children}</h5>
+      case 'heading4':
+        return <h4 className="text-xl">{children}</h4>
+      case 'heading3':
+        return <h3 className="text-2xl">{children}</h3>
+      case 'heading2':
+        return <h2 className="text-3xl">{children}</h2>
 
-    default: {
-      return (
-        <h1 className="font-bold text-4xl my-[8px] " {...attributes}>
-          {children}
-        </h1>
-      )
+      default: {
+        return <h1 className="font-bold text-4xl my-[8px] ">{children}</h1>
+      }
     }
   }
 }
