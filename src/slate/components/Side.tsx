@@ -16,9 +16,10 @@ export const Side = ({ outline }) => {
   })
   return (
     <div
-      className="h-[70vh] overflow-scroll border-gray-200 border-r-[2px] transition-all"
+      className="h-[70vh] overflow-scroll border-gray-200 transition-all"
       style={{
-        width: outline ? '160px' : '0px'
+        width: outline ? '160px' : '0px',
+        borderRightWidth: outline ? '2px' : '0px'
       }}>
       <ul>
         {hs.map((h, index) => {

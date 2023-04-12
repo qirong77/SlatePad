@@ -64,7 +64,7 @@ export function Heading({
       <Arrow
         contentEditable={false}
         onClick={handleClick}
-        className={`absolute left-[-30px] top-[10px] opacity-0 hover:opacity-100 transition-all ${
+        className={`absolute left-[-30px] translate-y-[-50%] top-[50%] opacity-0 hover:opacity-100 transition-all ${
           collapse ? '-rotate-90' : ''
         }`}
       />
