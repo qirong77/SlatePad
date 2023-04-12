@@ -1,5 +1,6 @@
-import { Transforms, Node, Editor, Path,Range} from 'slate'
+import { Transforms, Node, Editor, Path, Range } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
+import { getCurrentBlock } from '../utils/getCurrentBlock'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
 
@@ -13,21 +14,23 @@ export const withHeadings = (editor: CustomEditor) => {
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
+    console.log(node)
     if (node.type === 'paragraph') {
       const text = Node.string(node)
       const match = /^(#+)\s.*/.exec(text)
       if (match) {
         const level = match[1].length
         const type = `heading${level}`
-        const start = Editor.start(editor, path)
-        Transforms.delete(editor, {
-          at: {
-            path: start.path,
-            offset: level - 1
-          }
-        })
+        // const start = Editor.start(editor, path)
+        // Transforms.delete(editor, {
+        //   at: {
+        //     path: start.path,
+        //     offset: level - 1
+        //   }
+        // })
         Transforms.setNodes(editor, { type })
       }
+      return
     }
     if (node.type?.includes('heading')) {
       const text = Node.string(node)
