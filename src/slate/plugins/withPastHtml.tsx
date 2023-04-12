@@ -1,6 +1,7 @@
 import { Transforms } from 'slate'
 import { CustomEditor, CustomElementType } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
+import { getCurrentBlock } from '../utils/getCurrentBlock'
 const ELEMENT_TAGS: {
   [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
 } = {
@@ -34,14 +35,17 @@ export const withPastHtml = (editor: CustomEditor) => {
 
   editor.insertData = data => {
     const html = data.getData('text/html')
-
+    const [block] = getCurrentBlock(editor)
+    if (block && block.type.includes('code')) {
+      insertData(data)
+      return
+    }
     if (html) {
       const parsed = new DOMParser().parseFromString(html, 'text/html')
       const fragment = deserialize(parsed.body)
       Transforms.insertFragment(editor, fragment)
       return
     }
-
     insertData(data)
   }
 

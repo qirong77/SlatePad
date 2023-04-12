@@ -59,7 +59,6 @@ export const initialValue: Descendant[] = [
   {
     type: 'code-block',
     language: 'js',
-    input: '',
     children: [
       {
         type: 'code-line',

@@ -11,10 +11,13 @@ export const getCurrentBlock = (
   ...types: CustomElementType[]
 ) => {
   // above:从当前的最里层节点向外递归
-  return Editor.above(editor, {
+  const block = Editor.above(editor, {
     match: n =>
       Element.isElement(n) &&
       Editor.isBlock(editor, n) &&
       (types.length ? types.includes(n.type) : true)
-  }) as [SlateElement, Path]
+  })
+  if (block) {
+    return block as [SlateElement, Path]
+  } else return [false, false] as [false, false]
 }
