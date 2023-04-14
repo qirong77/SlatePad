@@ -11,7 +11,7 @@ import { useDecorate } from './slate/helper/decorate'
 import { Side } from './slate/components/Side'
 import { createSlatepad } from './slate/plugins/editor'
 
-export const App = () => {
+const App = () => {
   const [search, setSearch] = useState('')
   const [outline, setOutline] = useState(false)
   const renderElement = useCallback(_renderElement, [])
@@ -48,3 +48,4 @@ export const App = () => {
     </div>
   )
 }
+export default App
