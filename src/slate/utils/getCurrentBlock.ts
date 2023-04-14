@@ -19,5 +19,6 @@ export const getCurrentBlock = (
   })
   if (block) {
     return block as [SlateElement, Path]
-  } else return [false, false] as [false, false]
+  }
+  return false
 }

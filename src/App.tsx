@@ -19,35 +19,32 @@ export const App = () => {
   const decorate = useCallback(useDecorate(search), [search])
   const editor = useMemo(() => createSlatepad(), [])
   return (
-    <div>
-      <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
-      <div className="relative  bg-white rounded c-shadow" spellCheck={false}>
-        <Slate editor={editor} value={initialValue}>
-          <ToolBar setOutline={setOutline} outline={outline}>
-            <div className="ml-auto flex items-center">
-              <Search className="absolute ml-2" />
-              <input
-                placeholder="搜索"
-                className="border-blue-400  pl-[30px] rounded border-2 outline-blue-600"
-                onChange={e => setSearch(e.target.value)}
-              />
-            </div>
-          </ToolBar>
-          <HoveringToolBar />
-          <div className="flex">
-            <Side outline={outline} />
-            <div className="w-[70vw]  h-[70vh] overflow-scroll">
-              <Editable
-                className="ediable px-[40px]"
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-                decorate={decorate}
-                onKeyDown={e => handleKeyDown(e, editor)}
-              />
-            </div>
+    <div className="relative  bg-white rounded c-shadow" spellCheck={false}>
+      <Slate editor={editor} value={initialValue}>
+        <ToolBar setOutline={setOutline} outline={outline}>
+          <div className="ml-auto flex items-center">
+            <Search className="absolute ml-2" />
+            <input
+              placeholder="搜索"
+              className="border-blue-400  pl-[30px] rounded border-2 outline-blue-600"
+              onChange={e => setSearch(e.target.value)}
+            />
           </div>
-        </Slate>
-      </div>
+        </ToolBar>
+        <HoveringToolBar />
+        <div className="flex">
+          <Side outline={outline} />
+          <div className="w-[70vw]  h-[70vh] overflow-scroll">
+            <Editable
+              className="ediable px-[40px]"
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              decorate={decorate}
+              onKeyDown={e => handleKeyDown(e, editor)}
+            />
+          </div>
+        </div>
+      </Slate>
     </div>
   )
 }
