@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
-// import { App } from './App'
-import  App  from '../package/index.js'
+import { App } from './App'
+// import  App  from '../package/index.js'
 import './style/index.css'
 const Layout = () => {
   return (

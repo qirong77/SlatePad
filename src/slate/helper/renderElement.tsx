@@ -3,6 +3,7 @@ import { Heading } from '../elements/Heading'
 import { CodeBlock } from '../elements/CodeBlock'
 import { Image } from '../elements/Image'
 import { CheckList } from '../elements/CheckList'
+import { Link } from '../elements/Link'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -69,23 +70,4 @@ export function _renderElement(props: RenderElementProps) {
       return <p {...attributes}>{children}</p>
   }
 }
-function Link({ props }: { props: RenderElementProps }) {
-  const { attributes, children, element } = props
-  const selected = useSelected()
-  return (
-    <a
-      onDoubleClick={e => {
-        e.preventDefault()
-        window.open(element.url, '_blank')
-      }}
-      target="_blank"
-      {...attributes}
-      className={`text-blue-500 px-[2px]  border-blue-500`}
-      style={{
-        borderWidth: selected ? '1.6px' : '0px'
-      }}
-      href={element.url}>
-      {children}
-    </a>
-  )
-}
+
