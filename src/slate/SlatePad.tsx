@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Editable, Slate, withReact } from 'slate-react'
-import { initialValue } from '../common/const'
+// import { initialValue } from '../common/const'
 import { handleKeyDown } from './helper/handleKeyDown'
 import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
@@ -11,6 +11,7 @@ import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
 import { Descendant } from 'slate'
+let initialValue = JSON.parse(window.localStorage.getItem('lunwen') || [])
 const SlatePad: React.FC<{
   onChange: (value: Descendant[]) => void
 }> = ({ onChange }) => {
