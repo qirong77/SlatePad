@@ -14,9 +14,10 @@ export const Side = ({ outline }) => {
   useEffect(() => {
     getH()
   })
+  // 高度必须明确,才能正常滚动
   return (
     <div
-      className="h-[70vh] overflow-scroll border-gray-200 transition-all"
+      className=" h-[calc(100vh-45px)]  overflow-scroll border-gray-200 transition-all"
       style={{
         width: outline ? '160px' : '0px',
         borderRightWidth: outline ? '2px' : '0px'
