@@ -18,7 +18,7 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
         borderWidth: selected ? '2px' : '0px'
       }}>
       {children}
-      <img src={(element as ImageElement).url} />
+      <img src={(element as ImageElement).url} className="w-full h-full" />
     </div>
   )
 }
