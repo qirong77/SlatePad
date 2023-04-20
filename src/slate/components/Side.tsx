@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSlate } from 'slate-react'
 import debounce from 'debounce'
-export const Side = ({ outline }) => {
+export const Side = () => {
   const editor = useSlate()
   const [hs, setHs] = useState<HTMLHeadElement[]>([])
   const getH = useCallback(
@@ -16,28 +16,21 @@ export const Side = ({ outline }) => {
   })
   // 高度必须明确,才能正常滚动
   return (
-    <div
-      className=" h-[calc(100vh-45px)]  overflow-scroll border-gray-200 transition-all"
-      style={{
-        width: outline ? '160px' : '0px',
-        borderRightWidth: outline ? '2px' : '0px'
-      }}>
-      <ul>
-        {hs.map((h, index) => {
-          const level = Number(h.nodeName[1])
-          return (
-            <li
-              onClick={e => h.scrollIntoView()}
-              key={h.innerText + index}
-              className="text-sm p-[5px] text-slate-500 hover:text-black hover:cursor-pointer"
-              style={{
-                paddingLeft: level * 5 + 10 + '' + 'px'
-              }}>
-              <span>{'#'.repeat(level) + h.innerText}</span>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+    <ul>
+      {hs.map((h, index) => {
+        const level = Number(h.nodeName[1])
+        return (
+          <li
+            onClick={e => h.scrollIntoView()}
+            key={h.innerText + index}
+            className="text-sm p-[5px] overflow-hidden whitespace-nowrap text-slate-500 hover:text-black hover:cursor-pointer"
+            style={{
+              paddingLeft: level * 5 + 10 + '' + 'px'
+            }}>
+            <span>{'#'.repeat(level) + h.innerText}</span>
+          </li>
+        )
+      })}
+    </ul>
   )
 }

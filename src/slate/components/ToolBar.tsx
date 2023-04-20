@@ -21,12 +21,11 @@ export const ToolBar = prop => {
   const editor = useSlateStatic()
   return (
     <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
-      {prop.outline ? (
-        <MenuBack onClick={() => prop.setOutline(false)} />
+      {prop.showHeaders ? (
+        <MenuBack onClick={() => prop.setShowHeaders(false)} />
       ) : (
-        <Menu onClick={() => prop.setOutline(true)} />
+        <Menu onClick={() => prop.setShowHeaders(true)} />
       )}
-
       <H1 />
       <H2 />
       <H3 />
