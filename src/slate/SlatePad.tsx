@@ -13,7 +13,7 @@ import { Descendant } from 'slate'
 import { initialValue } from '../common/const'
 import { RichUtils } from './utils'
 const SlatePad: React.FC<{
-  onChange: (value: Descendant[]) => void
+  onChange?: (value: Descendant[]) => void
 }> = ({ onChange }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(false)
@@ -60,4 +60,4 @@ const SlatePad: React.FC<{
     </div>
   )
 }
-export { SlatePad, RichUtils }
+export  { SlatePad, RichUtils }

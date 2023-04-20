@@ -17,14 +17,14 @@ import {
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
 
-export const ToolBar = prop => {
+export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
   const editor = useSlateStatic()
   return (
     <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
-      {prop.showHeaders ? (
-        <MenuBack onClick={() => prop.setShowHeaders(false)} />
+      {showHeaders ? (
+        <MenuBack onClick={() => setShowHeaders(false)} />
       ) : (
-        <Menu onClick={() => prop.setShowHeaders(true)} />
+        <Menu onClick={() => setShowHeaders(true)} />
       )}
       <H1 />
       <H2 />
@@ -48,7 +48,7 @@ export const ToolBar = prop => {
         }}
       />
 
-      {prop.children}
+      {children}
     </div>
   )
 

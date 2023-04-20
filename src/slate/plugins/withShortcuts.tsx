@@ -56,7 +56,6 @@ export const withShortcuts = (editor: CustomEditor) => {
             {
               type: 'code-block',
               language: 'js',
-              input:'',
               children: []
             },
             {
