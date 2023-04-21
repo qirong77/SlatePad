@@ -8,34 +8,43 @@ import tailwindcss from 'tailwindcss'
 import postcssImport from 'postcss-import'
 import tailwindConfig from './tailwind.config.js'
 import dts from 'rollup-plugin-dts'
-export default {
-  input: 'src/slate/SlatePad.tsx',
-  output: [
-    {
-      file: 'package/dist/index.js',
-      format: 'es',
-      sourcemap: true
-    },
-    {
-      file: 'package/dist/index.d.ts',
-      format: 'es'
-    },
-  ],
-  plugins: [
-    typescript(),
-    commonjs(),
-    nodeResolve(),
-    dts(),
-    babel({
-      babelHelpers: 'runtime',
-      exclude: 'node_modules/**',
-      presets: ['@babel/preset-react']
-    }),
-    postcss({
-      extract: true,
-      extensions: ['.css'],
-      plugins: [tailwindcss(tailwindConfig)]
-    })
-  ],
-  external: ['react', 'react-dom']
-}
+export default [
+  {
+    input: 'src/slate/SlatePad.tsx',
+    output: [
+      {
+        file: 'package/dist/index.js',
+        format: 'es',
+        sourcemap: true
+      },
+      {
+        file: 'package/dist/index.d.ts'
+      }
+    ],
+    plugins: [
+      typescript(),
+      commonjs(),
+      nodeResolve(),
+      babel({
+        babelHelpers: 'runtime',
+        exclude: 'node_modules/**',
+        presets: ['@babel/preset-react']
+      }),
+      postcss({
+        extract: true,
+        extensions: ['.css'],
+        plugins: [tailwindcss(tailwindConfig)]
+      })
+    ],
+    external: ['react', 'react-dom']
+  },
+  {
+    input: 'src/slate/SlatePad.tsx',
+    output: [
+      {
+        file: 'package/dist/index.d.ts'
+      }
+    ],
+    plugins: [dts()]
+  }
+]
