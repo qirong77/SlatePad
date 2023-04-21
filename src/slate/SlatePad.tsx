@@ -12,15 +12,16 @@ import { createSlatepad } from './plugins/editor'
 import { Descendant } from 'slate'
 import { initialValue } from '../common/const'
 import { RichUtils } from './utils'
+import { CustomEditor } from '../types/slate'
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
-}> = ({ onChange }) => {
+  editor: CustomEditor
+}> = ({ onChange, editor }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(false)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(useDecorate(search), [search])
-  const editor = useMemo(() => createSlatepad(), [])
   return (
     <div
       className="relative bg-white rounded w-full h-full flex flex-col"
@@ -60,4 +61,4 @@ const SlatePad: React.FC<{
     </div>
   )
 }
-export { SlatePad, RichUtils }
+export { SlatePad, RichUtils, createSlatepad }
