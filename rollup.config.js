@@ -7,18 +7,25 @@ import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
 import postcssImport from 'postcss-import'
 import tailwindConfig from './tailwind.config.js'
+import dts from 'rollup-plugin-dts'
 export default {
   input: 'src/slate/SlatePad.tsx',
-  output: {
-    file: 'package/dist/index.js',
-    format: 'es',
-    assetFileNames: 'asset.css',
-    sourcemap: true
-  },
+  output: [
+    {
+      file: 'package/dist/index.js',
+      format: 'es',
+      sourcemap: true
+    },
+    {
+      file: 'package/dist/index.d.ts',
+      format: 'es'
+    },
+  ],
   plugins: [
     typescript(),
     commonjs(),
     nodeResolve(),
+    dts(),
     babel({
       babelHelpers: 'runtime',
       exclude: 'node_modules/**',
@@ -27,13 +34,8 @@ export default {
     postcss({
       extract: true,
       extensions: ['.css'],
-      plugins: [
-
-        tailwindcss(tailwindConfig)
-      ]
-    }),
-
-
+      plugins: [tailwindcss(tailwindConfig)]
+    })
   ],
   external: ['react', 'react-dom']
 }
