@@ -12,7 +12,8 @@ import {
   CheckList,
   BlockQuote,
   Menu,
-  MenuBack
+  MenuBack,
+  MarkDown
 } from '../../assets/svg'
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
@@ -47,7 +48,10 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
           wrapLink(editor)
         }}
       />
-
+      <MarkDown
+        onClick={() => {
+        }}
+      />
       {children}
     </div>
   )
