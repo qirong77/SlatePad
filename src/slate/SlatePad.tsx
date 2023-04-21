@@ -23,7 +23,7 @@ const SlatePad: React.FC<{
   const editor = useMemo(() => createSlatepad(), [])
   return (
     <div
-      className="relative bg-white rounded w-[800px] h-[500px] flex flex-col"
+      className="relative bg-white rounded w-full h-full flex flex-col"
       spellCheck={false}>
       <Slate editor={editor} value={initialValue} onChange={onChange}>
         <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
@@ -37,7 +37,7 @@ const SlatePad: React.FC<{
           </div>
         </ToolBar>
         <HoveringToolBar />
-        <div className="flex-auto flex overflow-scroll">
+        <div className="flex-1 flex overflow-scroll">
           <div
             className="overflow-scroll transition-all border-gray-200 "
             style={{
@@ -46,7 +46,7 @@ const SlatePad: React.FC<{
             }}>
             <Side />
           </div>
-          <div className="flex-auto overflow-scroll">
+          <div className="flex-1 overflow-scroll">
             <Editable
               className="ediable px-[30px]"
               renderElement={renderElement}
@@ -60,4 +60,4 @@ const SlatePad: React.FC<{
     </div>
   )
 }
-export  { SlatePad, RichUtils }
+export { SlatePad, RichUtils }
