@@ -1,4 +1,3 @@
-
 import { CustomEditor } from './../../types/slate'
 import { Transforms, Node, Text, Descendant } from 'slate'
 import { marked } from 'marked'
@@ -22,9 +21,11 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
 }
 function insertMarkdown(editor: CustomEditor, markdownString = '') {
   const htmlString = marked(markdownString)
+  console.log(htmlString)
   const html = document.createElement('body')
   html.innerHTML = htmlString
-  Transforms.insertFragment(editor, deserialize(html))
+  const fragment = deserialize(html)
+  Transforms.insertFragment(editor, fragment)
 }
 function slateToMarkdown(elements: SlateElement[]) {
   return elements
@@ -44,7 +45,7 @@ function slateToMarkdown(elements: SlateElement[]) {
           .map((li, index) => {
             const mark =
               element.type === 'bulleted-list' ? '*' : index + 1 + '.'
-            return mark + ' ' + parseLeafs(li.children)
+            return mark + ' ' + parseLeafs((li as any).children)
           })
           .join('\n')
       }
@@ -62,7 +63,7 @@ function slateToMarkdown(elements: SlateElement[]) {
       }
     })
     .join('\n')
-  function parseLeafs(leafs: Descendant[]) {
+  function parseLeafs(leafs: any[]) {
     return leafs
       .map(leaf => {
         if (leaf.type === 'link') {

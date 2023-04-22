@@ -93,6 +93,9 @@ export function deserialize(el: any) {
       }))
       data.children = codeLines
     }
+    if (data.type === 'bulleted-list' || data.type === 'number-list') {
+      data.children = data.children.filter(child => child.type)
+    }
     return data
   }
 
