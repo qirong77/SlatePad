@@ -1,4 +1,4 @@
-import { Transforms } from 'slate'
+import { Editor, Transforms } from 'slate'
 import { useSlate, useSlateStatic } from 'slate-react'
 import {
   CodeBlock,
@@ -15,6 +15,7 @@ import {
   MenuBack,
   MarkDown
 } from '../../assets/svg'
+
 import { wrapLink } from '../plugins/withInlines'
 import { ImageElement } from '../../types/slate'
 

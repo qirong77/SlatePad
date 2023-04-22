@@ -2,7 +2,11 @@ import { unified } from 'unified'
 import { CustomEditor } from './../../types/slate'
 import { Transforms, Node } from 'slate'
 import markdown from 'remark-parse'
+import { serialize } from 'remark-slate'
 import slate from 'remark-slate'
+import { marked } from 'marked'
+import { deserialize } from '../plugins/withPastHtml'
+
 function clearAll(editor: CustomEditor) {
   Transforms.select(editor, [])
   Transforms.delete(editor)
@@ -18,20 +22,19 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
   clearAll(editor)
   editor.insertFragment(fragment)
 }
-function parseMarkdown(content = '') {
-  return new Promise((resolve, reject) => {
-    unified()
-      .use(markdown)
-      .use(slate)
-      .process(content, (err, file) => {
-        if (err) reject(err)
-        resolve(file)
-      })
-  })
+function insertMarkdown(editor: CustomEditor, markdownString = '') {
+  const htmlString = marked(markdownString)
+  const html = document.createElement('body')
+  html.innerHTML = htmlString
+  Transforms.insertFragment(editor, deserialize(html))
+}
+function slateToMarkdown(value: Node[]) {
+  return value.map(n => serialize(n)).join('')
 }
 export const RichUtils = {
   clearAll,
   clearHistory,
   replaceAll,
-  parseMarkdown
+  insertMarkdown,
+  slateToMarkdown
 }

@@ -52,7 +52,7 @@ export const withPastHtml = (editor: CustomEditor) => {
   return editor
 }
 
-function deserialize(el: any) {
+export function deserialize(el: any) {
   if (el.nodeType === 3) {
     return el.textContent
   } else if (el.nodeType !== 1) {

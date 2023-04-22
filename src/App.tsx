@@ -7,7 +7,7 @@ export const App = () => {
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
       <main className="w-[80vw] h-[80vh]">
-        <SlatePad editor={editor}/>
+        <SlatePad editor={editor} />
       </main>
     </div>
   )

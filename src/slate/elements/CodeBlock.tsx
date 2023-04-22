@@ -57,7 +57,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre
-        className="overflow-hidden"
+        className={`overflow-hidden language-${''}`}
         style={{
           height: collapse ? '30px' : 'auto'
         }}>
