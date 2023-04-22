@@ -10,7 +10,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
   const iptRef = useRef<HTMLInputElement>(null)
-  const handleClick = (e:React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setCollapse(!collapse)
   }
@@ -57,7 +57,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre
-        className={`overflow-hidden language-${''}`}
+        className={`language-${''} overflow-hidden  whitespace-pre-wrap`}
         style={{
           height: collapse ? '30px' : 'auto'
         }}>

@@ -24,7 +24,7 @@ export function Link({ props }: { props: RenderElementProps }) {
         }}
         target="_blank"
         {...attributes}
-        className={`text-blue-500 px-[2px] relative border-blue-500`}
+        className={`text-blue-500 px-[2px] relative border-blue-500 cursor-pointer`}
         style={{
           borderWidth: selected ? '1.6px' : '0px'
         }}

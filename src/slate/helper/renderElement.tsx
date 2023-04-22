@@ -12,7 +12,7 @@ export function _renderElement(props: RenderElementProps) {
       return (
         <blockquote
           {...attributes}
-          className="border-l-[2px] pl-[4px] my-[8px] leading-[1.2] border-slate-400 text-slate-400">
+          className="border-l-[2px] pl-[4px] my-[8px]  border-slate-400 text-slate-400">
           {children}
         </blockquote>
       )
@@ -48,7 +48,7 @@ export function _renderElement(props: RenderElementProps) {
       )
     case 'paragraph':
       return (
-        <p {...attributes} className="my-[8px] leading-[1.2]">
+        <p {...attributes} className="my-[8px]">
           {children}
         </p>
       )

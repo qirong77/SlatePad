@@ -21,7 +21,6 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
 }
 function insertMarkdown(editor: CustomEditor, markdownString = '') {
   const htmlString = marked(markdownString)
-  console.log(htmlString)
   const html = document.createElement('body')
   html.innerHTML = htmlString
   const fragment = deserialize(html)

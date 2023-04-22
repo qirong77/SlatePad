@@ -82,6 +82,7 @@ export function deserialize(el: any) {
   if (ELEMENT_TAGS[nodeName]) {
     const attrs = ELEMENT_TAGS[nodeName](el)
     const data = jsx('element', attrs, children)
+    // 处理复制的时候,序列话代码块的每一行代码
     if (data.type === 'code-block') {
       const codeLines = data.children[0].text.split('\n').map(text => ({
         children: [
@@ -93,6 +94,7 @@ export function deserialize(el: any) {
       }))
       data.children = codeLines
     }
+    // 渲染markdown的时候,因为使用了marked这个库,有一些不兼容的地方做整合
     if (
       data.type === 'bulleted-list' ||
       data.type === 'number-list' ||
@@ -100,7 +102,15 @@ export function deserialize(el: any) {
     ) {
       data.children = data.children.filter(child => child.type)
     }
-
+    if (data.type === 'block-quote') {
+      data.children = data.children
+        .map(child => {
+          if (child.type === 'paragraph') {
+            return child.children
+          }
+        })
+        .flat(Infinity)
+    }
     return data
   }
 
