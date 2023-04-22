@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Editable, Slate, withReact } from 'slate-react'
+import React, { useCallback,  useState } from 'react'
+import { Editable, Slate,  } from 'slate-react'
 import { handleKeyDown } from './helper/handleKeyDown'
 import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
