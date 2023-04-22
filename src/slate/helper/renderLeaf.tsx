@@ -10,7 +10,6 @@ export const _renderLeaf = ({
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
-
   if (leaf.italic) {
     children = <em>{children}</em>
   }
@@ -19,7 +18,6 @@ export const _renderLeaf = ({
     children = <u>{children}</u>
   }
   if (leaf.highlight) {
-    
     children = <mark>{children}</mark>
   }
   return <span {...attributes}>{children}</span>
