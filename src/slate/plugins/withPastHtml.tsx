@@ -94,14 +94,8 @@ export function deserialize(el: any) {
       }))
       data.children = codeLines
     }
-    // 渲染markdown的时候,因为使用了marked这个库,有一些不兼容的地方做整合
-    if (
-      data.type === 'bulleted-list' ||
-      data.type === 'number-list' ||
-      data.type === 'block-quote'
-    ) {
-      data.children = data.children.filter(child => child.type)
-    }
+
+    // marked的引用会有两个段落包围
     if (data.type === 'block-quote') {
       data.children = data.children
         .map(child => {
@@ -111,6 +105,7 @@ export function deserialize(el: any) {
         })
         .flat(Infinity)
     }
+    console.log(data)
     return data
   }
 

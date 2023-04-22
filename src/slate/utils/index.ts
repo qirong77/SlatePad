@@ -1,5 +1,5 @@
 import { CustomEditor } from './../../types/slate'
-import { Transforms, Node, Text, Descendant } from 'slate'
+import { Transforms, Node } from 'slate'
 import { marked } from 'marked'
 import { deserialize } from '../plugins/withPastHtml'
 import { SlateElement } from './../../types/slate'
@@ -20,13 +20,13 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
   editor.insertFragment(fragment)
 }
 function insertMarkdown(editor: CustomEditor, markdownString = '') {
-  const htmlString = marked(markdownString)
+  const htmlString = marked(markdownString).replaceAll('\n', '')
   const html = document.createElement('body')
   html.innerHTML = htmlString
   const fragment = deserialize(html)
   Transforms.insertFragment(editor, fragment)
 }
-function slateToMarkdown(elements: SlateElement[]) {
+function slateToMarkdown(elements: SlateElement[]): string {
   return elements
     .map(element => {
       if (element.type === 'code-block') {
@@ -40,11 +40,12 @@ function slateToMarkdown(elements: SlateElement[]) {
         return '#'.repeat(level) + ' ' + parseLeafs(element.children)
       }
       if (element.type === 'bulleted-list' || element.type === 'number-list') {
+        // list-item 里面可能含有嵌套的结构,就需要递归
         return element.children
           .map((li, index) => {
             const mark =
               element.type === 'bulleted-list' ? '*' : index + 1 + '.'
-            return mark + ' ' + parseLeafs((li as any).children)
+            return mark + ' ' + slateToMarkdown((li as any).children)
           })
           .join('\n')
       }
@@ -59,6 +60,8 @@ function slateToMarkdown(elements: SlateElement[]) {
           )
         case 'image':
           return `![替代文本](${element.url})`
+        default:
+          return ''
       }
     })
     .join('\n')
