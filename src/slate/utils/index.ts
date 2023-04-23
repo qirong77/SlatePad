@@ -24,14 +24,15 @@ function insertMarkdown(editor: CustomEditor, markdownString = '') {
   const html = document.createElement('body')
   html.innerHTML = htmlString
   const fragment = deserialize(html)
-  console.log(fragment)
-  setTimeout(() => {
-    Transforms.insertFragment(editor, fragment)
-  }, 5000)
+  Transforms.insertFragment(editor, fragment)
 }
 function slateToMarkdown(elements: SlateElement[]): string {
   return elements
     .map(element => {
+      // 如果没有type,就是文本节点,递归list-item的时候可能里面不是个块
+      if (!element.type) {
+        return parseLeafs([element])
+      }
       if (element.type === 'code-block') {
         const codeLines = element.children
           .map(line => Node.string(line))
@@ -48,7 +49,7 @@ function slateToMarkdown(elements: SlateElement[]): string {
           .map((li, index) => {
             const mark =
               element.type === 'bulleted-list' ? '*' : index + 1 + '.'
-            return mark + ' ' + slateToMarkdown((li as any).children)
+            return mark + ' ' + slateToMarkdown([li as SlateElement])
           })
           .join('\n')
       }

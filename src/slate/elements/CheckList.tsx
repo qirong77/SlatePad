@@ -8,7 +8,7 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
   const editor = useSlateStatic()
   const { checked } = element
   return (
-    <li {...attributes}>
+    <li {...attributes} className='list-none'>
       <span contentEditable={false}>
         <input
           className="mr-1"
