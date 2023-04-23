@@ -12,7 +12,7 @@ const ELEMENT_TAGS: {
   H3: () => ({ type: 'heading3' }),
   H4: () => ({ type: 'heading4' }),
   H5: () => ({ type: 'heading5' }),
-  // IMG: el => ({ type: 'image', url: el.getAttribute('src') }),
+  IMG: el => ({ type: 'image', url: el.getAttribute('src') }),
   LI: () => ({ type: 'list-item' }),
   OL: () => ({ type: 'number-list' }),
   P: () => ({ type: 'paragraph' }),
@@ -35,8 +35,8 @@ export const withPastHtml = (editor: CustomEditor) => {
 
   editor.insertData = data => {
     const html = data.getData('text/html')
-    const [block] = getCurrentBlock(editor)
-    if (block && block.type.includes('code')) {
+    const block = getCurrentBlock(editor)
+    if (block && block[0].type.includes('code')) {
       insertData(data)
       return
     }
@@ -62,7 +62,19 @@ export function deserialize(el: any) {
   }
   const { nodeName } = el
   let parent = el
-
+  // 由于marked的checkbox会包裹在li中,所以这里做额外的处理
+  if (el.tagName.toLowerCase() === 'li') {
+    if (
+      el.childNodes.length === 2 &&
+      el.childNodes[0] instanceof HTMLInputElement
+    ) {
+      return {
+        type: 'check-list-item',
+        checked: true,
+        children: [{ text: 'Slide to the left.' }]
+      }
+    }
+  }
   if (
     nodeName === 'PRE' &&
     el.childNodes[0] &&
@@ -105,7 +117,6 @@ export function deserialize(el: any) {
         })
         .flat(Infinity)
     }
-    console.log(data)
     return data
   }
 

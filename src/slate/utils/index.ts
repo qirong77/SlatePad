@@ -24,7 +24,10 @@ function insertMarkdown(editor: CustomEditor, markdownString = '') {
   const html = document.createElement('body')
   html.innerHTML = htmlString
   const fragment = deserialize(html)
-  Transforms.insertFragment(editor, fragment)
+  console.log(fragment)
+  setTimeout(() => {
+    Transforms.insertFragment(editor, fragment)
+  }, 5000)
 }
 function slateToMarkdown(elements: SlateElement[]): string {
   return elements

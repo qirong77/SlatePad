@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
-import {  SlatePad } from './slate/SlatePad'
+import {  RichUtils, SlatePad } from './slate/SlatePad'
 import { createSlatepad } from './slate/plugins/editor'
 export const App = () => {
   const editor = useMemo(() => createSlatepad(), [])
+  RichUtils.insertMarkdown(editor)
   return (
     <div>
       <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>

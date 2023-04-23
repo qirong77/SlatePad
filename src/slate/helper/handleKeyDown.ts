@@ -21,6 +21,7 @@ export const handleKeyDown = (
       }
     }
   }
+  // 两次Enter 转换当前行为普通的段落
   if (e.key === 'Enter' && !e.metaKey) {
     const { selection } = editor
     const [block, path] = getCurrentBlock(editor)
