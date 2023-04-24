@@ -21,7 +21,8 @@
     "slate": "^0.91.4",
     "slate-history": "^0.86.0",
     "slate-hyperscript": "^0.77.0",
-    "slate-react": "^0.92.0"
+    "slate-react": "^0.92.0",
+    "slatepad": "^0.2.2"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.18.6",

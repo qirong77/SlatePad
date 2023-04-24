@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { RichUtils, SlatePad } from './slate/SlatePad'
+import {  SlatePad } from './slate/SlatePad'
 import { createSlatepad } from './slate/plugins/editor'
 export const App = () => {
   const editor = useMemo(() => createSlatepad(), [])

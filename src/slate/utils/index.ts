@@ -1,6 +1,6 @@
 import { CustomEditor } from './../../types/slate'
 import { Transforms, Node } from 'slate'
-import { marked } from 'marked'
+import { marked, Renderer } from 'marked'
 import { deserialize } from '../plugins/withPastHtml'
 import { slateToMarkdown } from './slateToMarkdown'
 
@@ -20,10 +20,12 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
   editor.insertFragment(fragment)
 }
 function insertMarkdown(editor: CustomEditor, markdownString = '') {
-  const htmlString = marked(markdownString).replaceAll('\n', '')
+  const renderer: Renderer = new marked.Renderer()
+  renderer.options.breaks = true
+  const htmlString = marked(markdownString, { renderer })
   const html = document.createElement('body')
   html.innerHTML = htmlString
-  const fragment = deserialize(html)
+  const fragment = deserialize(html).filter((node:any) => node.type)
   Transforms.insertFragment(editor, fragment)
 }
 

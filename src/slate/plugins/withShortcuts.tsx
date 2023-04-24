@@ -104,7 +104,6 @@ export const withShortcuts = (editor: CustomEditor) => {
               split: true
             })
           }
-          console.log('delete')
           return
         }
       }

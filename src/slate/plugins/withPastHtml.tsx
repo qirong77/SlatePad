@@ -1,4 +1,4 @@
-import { Transforms } from 'slate'
+import { Transforms, Node } from 'slate'
 import { CustomEditor, CustomElementType } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock } from '../utils/getCurrentBlock'
@@ -94,7 +94,7 @@ export function deserialize(el: any) {
   if (ELEMENT_TAGS[nodeName]) {
     const attrs = ELEMENT_TAGS[nodeName](el)
     const data = jsx('element', attrs, children)
-    // 处理复制的时候,序列话代码块的每一行代码
+    // 处理复制的时候,序列化代码块的每一行代码
     if (data.type === 'code-block') {
       const codeLines = data.children[0].text.split('\n').map(text => ({
         children: [
@@ -105,17 +105,6 @@ export function deserialize(el: any) {
         type: 'code-line'
       }))
       data.children = codeLines
-    }
-
-    // marked的引用会有两个段落包围
-    if (data.type === 'block-quote') {
-      data.children = data.children
-        .map(child => {
-          if (child.type === 'paragraph') {
-            return child.children
-          }
-        })
-        .flat(Infinity)
     }
     return data
   }
