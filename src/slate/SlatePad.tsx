@@ -1,5 +1,5 @@
-import React, { useCallback,  useState } from 'react'
-import { Editable, Slate,  } from 'slate-react'
+import React, { useCallback, useState } from 'react'
+import { Editable, Slate } from 'slate-react'
 import { handleKeyDown } from './helper/handleKeyDown'
 import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
@@ -9,10 +9,11 @@ import { HoveringToolBar } from './components/HoveringToolBar'
 import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
-import { Descendant } from 'slate'
+import { Descendant, Editor } from 'slate'
 import { initialValue } from '../common/const'
-import { RichUtils } from './utils'
 import { CustomEditor } from '../types/slate'
+import { RichUtils } from './utils/RichUtils'
+import { EditorUtils } from './utils/EditorUtils'
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor
@@ -61,4 +62,4 @@ const SlatePad: React.FC<{
     </div>
   )
 }
-export { SlatePad, RichUtils, createSlatepad }
+export { SlatePad, RichUtils, createSlatepad, EditorUtils }

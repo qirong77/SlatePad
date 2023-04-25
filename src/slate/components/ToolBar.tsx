@@ -31,34 +31,19 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
       <H1 />
       <H2 />
       <H3 />
-      <NumberList />
+      <NumberList
+        onMouseDown={e => {
+          e.preventDefault()
+        }}
+      />
       <BulletedList />
       <CheckList />
       <CodeBlock />
       <BlockQuote />
-      <Image
-        onMouseDown={e => {
-          e.preventDefault()
-          insertImage()
-        }}
-      />
-
-      <Link
-        onMouseDown={e => {
-          e.preventDefault()
-          wrapLink(editor)
-        }}
-      />
-      <MarkDown
-        onClick={() => {
-        }}
-      />
+      <Image />
+      <Link />
+      <MarkDown onClick={() => {}} />
       {children}
     </div>
   )
-
-  function insertImage(url = 'https://source.unsplash.com/kFrdX5IeQzI') {
-    const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
-    Transforms.insertNodes(editor, image)
-  }
 }

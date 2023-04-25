@@ -17,8 +17,7 @@ function replaceAll(editor: CustomEditor, fragment: Node[]) {
   clearAll(editor)
   editor.insertFragment(fragment)
 }
-
-export const RichUtils = {
+export const EditorUtils = {
   clearAll,
   clearHistory,
   replaceAll,

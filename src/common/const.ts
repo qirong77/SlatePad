@@ -15,6 +15,11 @@ export const initialValue: Descendant[] = [
     children: [{ text: 'Slide to the left.' }]
   },
   {
+    type: 'check-list-item',
+    checked: true,
+    children: [{ text: 'Slide to the left.' }]
+  },
+  {
     type: 'heading1',
     children: [
       {

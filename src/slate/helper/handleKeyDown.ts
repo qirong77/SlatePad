@@ -8,6 +8,15 @@ export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
+  if (e.code === 'Backspace') {
+    setTimeout(() => {
+      if (!Node.string(editor)) {
+        Transforms.setNodes(editor, {
+          type: 'paragraph'
+        })
+      }
+    })
+  }
   if (e.code === 'ArrowUp') {
   }
   if (e.code === 'ArrowDown') {
