@@ -13,7 +13,6 @@
   "dependencies": {
     "debounce": "^1.2.1",
     "is-url": "^1.2.4",
-    "marked": "^4.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup-plugin-copy": "^3.4.0",
@@ -33,7 +32,6 @@
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "@types/debounce": "^1.2.1",
     "@types/is-url": "^1.2.30",
-    "@types/marked": "^4.0.8",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
