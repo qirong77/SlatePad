@@ -144,12 +144,8 @@ export const MarkDown = (props: JSX.IntrinsicElements['button']) => {
         fill="currentColor"
         viewBox="0 0 16 16">
         <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z" />
-        <path
-          d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708z"
-        />
-        <path
-          d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5z"
-        />
+        <path d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708z" />
+        <path d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5z" />
         <path d="M3.56 11V7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11h1.06z" />
       </svg>
     </IconContainer>
@@ -313,6 +309,10 @@ function IconContainer(props: JSX.IntrinsicElements['button']) {
   return (
     <button
       {...props}
+      onMouseDown={e => {
+        e.preventDefault()
+        props.onMouseDown?.(e)
+      }}
       className={
         'w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer' +
         ' ' +

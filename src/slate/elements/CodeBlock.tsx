@@ -74,7 +74,9 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       <Arrow
         contentEditable={false}
         onClick={handleClick}
-        className={`absolute hover:bg-white left-[-30px]  top-[0px] opacity-0 group-hover:opacity-100 transition-all ${
+        className={`absolute hover:bg-white left-[-30px]  top-[0px] opacity-${
+          collapse ? 100 : 0
+        } group-hover:opacity-100 transition-all ${
           collapse ? '-rotate-90' : ''
         }`}
       />

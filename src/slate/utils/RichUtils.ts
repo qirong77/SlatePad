@@ -20,6 +20,8 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     ? 'paragraph'
     : isLists
     ? 'list-item'
+    : format === 'code-block'
+    ? 'code-line'
     : format
   Transforms.setNodes(editor, {
     type: newType
@@ -27,6 +29,16 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   if (!isActive && isLists) {
     const block: SlateElement = { type: format, children: [] }
     Transforms.wrapNodes(editor, block)
+  }
+  if (!isActive && format === 'code-block') {
+    const block: SlateElement = {
+      type: 'code-block',
+      children: [],
+      language: ''
+    }
+    Transforms.wrapNodes(editor, block, {
+      split: true
+    })
   }
 }
 const insertImage = (

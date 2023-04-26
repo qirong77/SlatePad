@@ -15,9 +15,7 @@ import {
   MenuBack,
   MarkDown
 } from '../../assets/svg'
-
-import { wrapLink } from '../plugins/withInlines'
-import { ImageElement } from '../../types/slate'
+import { RichUtils } from '../SlatePad'
 
 export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
   const editor = useSlateStatic()
@@ -28,20 +26,26 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
       ) : (
         <Menu onClick={() => setShowHeaders(true)} />
       )}
-      <H1 />
-      <H2 />
-      <H3 />
+      <H1 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />
+      <H2 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading2')} />
+      <H3 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading3')} />
       <NumberList
-        onMouseDown={e => {
-          e.preventDefault()
-        }}
+        onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')}
       />
-      <BulletedList />
-      <CheckList />
-      <CodeBlock />
-      <BlockQuote />
-      <Image />
-      <Link />
+      <BulletedList
+        onMouseDown={() => RichUtils.toggleBlock(editor, 'bulleted-list')}
+      />
+      <CheckList
+        onMouseDown={() => RichUtils.toggleBlock(editor, 'check-list-item')}
+      />
+      <CodeBlock
+        onMouseDown={() => RichUtils.toggleBlock(editor, 'code-block')}
+      />
+      <BlockQuote
+        onMouseDown={() => RichUtils.toggleBlock(editor, 'block-quote')}
+      />
+      <Image onMouseDown={() => RichUtils.insertImage(editor)} />
+      <Link onMouseDown={() => RichUtils.insertLink(editor)} />
       <MarkDown onClick={() => {}} />
       {children}
     </div>
