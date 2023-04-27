@@ -26,7 +26,7 @@ export const Search = ({ search, setSearch }) => {
         value={search}
         placeholder="搜索"
         onKeyDown={handleKeyDown}
-        className="border-blue-400  pl-[30px] pr-[40px] rounded border-2 outline-blue-600"
+        className="border-blue-300  pl-[30px] pr-[40px] rounded border-2 outline-blue-600"
         onChange={e => setSearch(e.target.value)}
       />
       {showMatch && (
