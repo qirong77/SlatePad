@@ -314,7 +314,7 @@ function IconContainer(props: JSX.IntrinsicElements['button']) {
         props.onMouseDown?.(e)
       }}
       className={
-        'w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer' +
+        'slatepad-icon w-[22px] h-[22px] p-[1px] mx-[4px] flex justify-center items-center rounded hover:bg-slate-300 hover:cursor-pointer' +
         ' ' +
         props.className
       }>

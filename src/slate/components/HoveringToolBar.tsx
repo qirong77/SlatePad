@@ -27,7 +27,7 @@ export const HoveringToolBar = () => {
   })
   return (
     <div
-      className="fixed py-[2px]   z-10 top-[-9999px] left-[-9999px] opacity-0 transition-opacity duration-900"
+      className="slatepad-hovering-toolbar  fixed py-[2px]   z-10 top-[-9999px] left-[-9999px] opacity-0 transition-opacity duration-900"
       ref={ref}>
       <div
         style={{

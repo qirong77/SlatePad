@@ -17,7 +17,7 @@ export const Side = () => {
   })
   // 高度必须明确,才能正常滚动
   return (
-    <ul>
+    <ul className='slatepad-side '>
       {hs.map((h, index) => {
         const level = Number(h.nodeName[1])
         return (

@@ -53,7 +53,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       style={{
         background: '#f6f7f9'
       }}
-      className="group  py-[4px] my-[8px] relative"
+      className="slatepad-code-block  group  py-[4px] my-[8px] relative"
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre

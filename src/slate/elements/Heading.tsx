@@ -81,7 +81,7 @@ export function Heading({
   return (
     <div
       {...attributes}
-      className={'font-bold  relative my-[8px]'}
+      className={'slatepad-heading  font-bold relative my-[8px]'}
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <Arrow

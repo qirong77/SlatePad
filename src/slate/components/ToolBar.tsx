@@ -20,7 +20,7 @@ import { RichUtils } from '../SlatePad'
 export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
   const editor = useSlateStatic()
   return (
-    <div className="flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
+    <div className="slatepad-toolbar flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
       {showHeaders ? (
         <MenuBack onClick={() => setShowHeaders(false)} />
       ) : (

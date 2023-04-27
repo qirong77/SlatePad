@@ -36,7 +36,7 @@ export function Link({ props }: { props: RenderElementProps }) {
             selected ? 'opacity-100' : ''
           }`}
           style={{
-            boxShadow: '2px 0px 8px 0px rgb(4 4 4 / 8%)',
+            boxShadow: 'rgb(4 4 4 / 20%) 0px 0px 11px 1px',
             zIndex: selected ? 1 : -1
           }}>
           <input

@@ -1,4 +1,4 @@
-import { getCurrentBlock } from './../utils/getCurrentBlock'
+import { getCurrentBlock } from '../utils/getCurrentBlock'
 import { Editor, Range, Transforms, Path, Node } from 'slate'
 import { CodeBlockElement, CustomEditor, SlateElement } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
@@ -25,16 +25,19 @@ export const handleKeyDown = (
       const [, path] = codeLine
       const nextCodeLine = getNextBlock(editor, path)
       if (!nextCodeLine) {
-        const [codeBlock] = getCurrentBlock(editor, 'code-block')
-        ReactEditor.toDOMNode(editor, codeBlock).querySelector('input')?.focus()
+        const [codeBlock] = getCurrentBlock(editor, 'code-block') || []
+        codeBlock &&
+          ReactEditor.toDOMNode(editor, codeBlock)
+            .querySelector('input')
+            ?.focus()
       }
     }
   }
   // 两次Enter 转换当前行为普通的段落
   if (e.key === 'Enter' && !e.metaKey) {
     const { selection } = editor
-    const [block, path] = getCurrentBlock(editor)
-    if (selection && Range.isCollapsed(selection)) {
+    const [block, path] = getCurrentBlock(editor) || []
+    if (selection && Range.isCollapsed(selection) && block) {
       if (block.type.includes('heading')) {
         e.preventDefault()
         Transforms.insertNodes(editor, {
@@ -63,7 +66,7 @@ export const handleKeyDown = (
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
       const [block, path] = getCurrentBlock(editor)
-      if (block.type === 'list-item' || block.type === 'code-line') {
+      if (block && block.type === 'list-item' || block.type === 'code-line') {
         const [ul, ulPath] = Editor.parent(editor, path)
         const isLast = path[path.length - 1] === ul.children.length - 1
         if (isLast) {
