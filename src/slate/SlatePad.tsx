@@ -30,12 +30,12 @@ const SlatePad: React.FC<{
       spellCheck={false}>
       <Slate editor={editor} value={initialValue} onChange={onChange}>
         <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
-          <Search search={search} setSearch={setSearch}/>
+          <Search search={search} setSearch={setSearch} />
         </ToolBar>
         <HoveringToolBar />
         <div className="flex-1 flex overflow-scroll">
           <div
-            className="overflow-scroll transition-all border-gray-200 "
+            className="slatepad-side overflow-scroll transition-all border-gray-200 "
             style={{
               width: showHeaders ? '200px' : '0px',
               borderRightWidth: showHeaders ? '2px' : '0px'

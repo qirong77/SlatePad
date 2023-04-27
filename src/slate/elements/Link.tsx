@@ -16,36 +16,34 @@ export function Link({ props }: { props: RenderElementProps }) {
     Transforms.setNodes(editor, { url: e.target.value }, { at: path })
   }
   return (
-    <>
-      <a
-        onDoubleClick={e => {
-          e.preventDefault()
-          window.open(element.url, '_blank')
-        }}
-        target="_blank"
-        {...attributes}
-        className={`text-blue-500 px-[2px] relative border-blue-500 cursor-pointer`}
-        style={{
-          borderWidth: selected ? '1.6px' : '0px'
-        }}
-        href={element.url}>
-        {children}
-        <span
-          contentEditable={false}
-          className={`flex absolute border-[2px] text-slate-800 bg-white border-gray-400 rounded text-xs  p-[2px] top-[25px] transition-opacity opacity-0 left-0 ${
-            selected ? 'opacity-100' : ''
-          }`}
-          style={{
-            boxShadow: 'rgb(4 4 4 / 20%) 0px 0px 11px 1px',
-            zIndex: selected ? 1 : -1
-          }}>
-          <input
-            onChange={resetUrl}
-            className=" border-gray-400  outline-none "
-            value={element.url}
-          />
-        </span>
-      </a>
-    </>
+    <a
+    onDoubleClick={e => {
+      e.preventDefault()
+      window.open(element.url, '_blank')
+    }}
+    target="_blank"
+    {...attributes}
+    className={`slatepad-link text-blue-500  px-[2px] relative border-blue-500 cursor-pointer`}
+    style={{
+      borderWidth: selected ? '1.6px' : '0px'
+    }}
+    href={element.url}>
+    {children}
+    <span
+      contentEditable={false}
+      className={`flex absolute border-[2px] text-slate-800 bg-white border-gray-400 rounded text-xs  p-[2px] top-[25px] transition-opacity opacity-0 left-0 ${
+        selected ? 'opacity-100' : ''
+      }`}
+      style={{
+        boxShadow: 'rgb(4 4 4 / 10%) 0px 0px 5px 1px',
+        zIndex: selected ? 1 : -1
+      }}>
+      <input
+        onChange={resetUrl}
+        className=" border-gray-400  outline-none "
+        value={element.url}
+      />
+    </span>
+  </a>
   )
 }

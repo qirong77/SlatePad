@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSlate } from 'slate-react'
 import debounce from 'debounce'
-import { RichUtils } from '../utils'
 export const Side = () => {
   const editor = useSlate()
   const [hs, setHs] = useState<HTMLHeadElement[]>([])
@@ -17,7 +16,7 @@ export const Side = () => {
   })
   // 高度必须明确,才能正常滚动
   return (
-    <ul className='slatepad-side '>
+    <ul>
       {hs.map((h, index) => {
         const level = Number(h.nodeName[1])
         return (
