@@ -4,7 +4,6 @@ import { handleKeyDown } from './helper/handleKeyDown'
 import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
 import { ToolBar } from './components/ToolBar'
-
 import { HoveringToolBar } from './components/HoveringToolBar'
 import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'

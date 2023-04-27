@@ -65,7 +65,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
           <span className="absolute top-0">......</span>
         </div>
       )}
-      <div className=" absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
+      <div className="code-helpers [&>button]:active:opacity-0 absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
         <Copy />
       </div>
       <Arrow
@@ -79,7 +79,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       />
       <div
         contentEditable={false}
-        className="absolute right-[0] bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100">
+        className="absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100">
         <input
           type="text"
           ref={iptRef}

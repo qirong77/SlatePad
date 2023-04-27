@@ -6,7 +6,8 @@ export const useDecorate = (search: string) => {
     const ranges: any = []
     if (search && Text.isText(node)) {
       const { text } = node
-      const parts = text.split(search)
+      const ignoreCase = new RegExp(search, 'i')
+      const parts = text.split(ignoreCase)
       let offset = 0
 
       parts.forEach((part, i) => {

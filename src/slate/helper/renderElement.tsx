@@ -12,7 +12,7 @@ export function _renderElement(props: RenderElementProps) {
       return (
         <blockquote
           {...attributes}
-          className="border-l-[2px] pl-[4px] my-[8px]  border-slate-400 text-slate-400">
+          className="slatepad-blockquote border-l-[2px] pl-[4px] my-[8px]  border-slate-400 text-slate-400">
           {children}
         </blockquote>
       )
