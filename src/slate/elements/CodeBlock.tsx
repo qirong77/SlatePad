@@ -50,10 +50,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   return (
     <div
       {...attributes}
-      style={{
-        background: '#f6f7f9'
-      }}
-      className="slatepad-code-block  rounded group  py-[4px] my-[8px] relative"
+      className="slatepad-code-block bg-[#f6f7f9] rounded group  py-[4px] my-[8px] relative"
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre
@@ -68,7 +65,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
           <span className="absolute top-0">......</span>
         </div>
       )}
-      <div className="absolute opacity-100 group-hover:opacity-100 right-0 top-0 p-[4px]">
+      <div className=" absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
         <Copy />
       </div>
       <Arrow

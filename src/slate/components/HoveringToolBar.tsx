@@ -33,7 +33,7 @@ export const HoveringToolBar = () => {
         style={{
           boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 8%)'
         }}
-        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded">
+        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded" >
         <Bold
           onMouseDown={e => {
             e.preventDefault()

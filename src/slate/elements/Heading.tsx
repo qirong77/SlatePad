@@ -20,7 +20,7 @@ export function Heading({
   const selected = useSelected()
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
-  const handleClick = (e:React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     const path = ReactEditor.findPath(editor, element)
     const doms: HTMLElement[] = []
@@ -81,17 +81,24 @@ export function Heading({
   return (
     <div
       {...attributes}
-      className={'slatepad-heading  font-bold relative my-[8px]'}
+      className={'slatepad-heading font-bold relative my-[20px]'}
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <Arrow
         contentEditable={false}
         onClick={handleClick}
-        className={`absolute hover:bg-white left-[-30px] translate-y-[-50%] top-[50%] opacity-${ collapse ? 100 : 0} hover:opacity-100 transition-all ${
-          collapse ? '-rotate-90' : ''
-        }`}
+        className={`absolute hover:bg-white left-[-30px] translate-y-[-50%] top-[50%] opacity-${
+          collapse ? 100 : 0
+        } hover:opacity-100 transition-all ${collapse ? '-rotate-90' : ''}`}
       />
       <Head />
+      {collapse && (
+        <div
+          style={{
+            boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 3%)'
+          }}
+          className="wrapper cursor-pointer translate-x-[-5px] scale-y-125 absolute top-0 w-full h-full border-[1px] rounded"></div>
+      )}
     </div>
   )
   function Head() {
@@ -105,12 +112,7 @@ export function Heading({
       case 'heading2':
         return <h2 className="text-3xl">{children}</h2>
       default: {
-        return (
-          <h1 className="font-bold text-4xl my-[8px] ">
-            {children}
-            {collapse && <span contentEditable={false}>...</span>}
-          </h1>
-        )
+        return <h1 className="font-bold text-4xl my-[8px] ">{children}</h1>
       }
     }
   }
