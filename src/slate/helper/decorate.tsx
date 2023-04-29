@@ -1,27 +1,62 @@
-import { NodeEntry, Text } from 'slate'
+import { Node, NodeEntry, Path, Range, Text } from 'slate'
+import Prism from 'prismjs'
+// 需要引入相应的语法库!
+import 'prismjs/components/prism-markdown'
 
 export const useDecorate = (search: string) => {
   return function decorate(entry: NodeEntry) {
-    const [node, path] = entry
-    const ranges: any = []
-    if (search && Text.isText(node)) {
-      const { text } = node
-      const ignoreCase = new RegExp(search, 'i')
-      const parts = text.split(ignoreCase)
-      let offset = 0
+    const [node, path] = entry as [Node, Path]
+    return [priviewLeaf(node, path), highlightLeaf(node, path, search)].flat(1)
+  }
 
-      parts.forEach((part, i) => {
-        if (i !== 0) {
-          ranges.push({
-            anchor: { path, offset: offset - search.length },
-            focus: { path, offset },
-            highlight: true
-          })
-        }
-
-        offset = offset + part.length + search.length
-      })
+  function priviewLeaf(node: Node, path: Path): Range[] {
+    const ranges: Range[] = []
+    if (!Text.isText(node)) return ranges
+    const getLength = (token: any) => {
+      if (typeof token === 'string') {
+        return token.length
+      } else if (typeof token.content === 'string') {
+        return token.content.length
+      } else {
+        return token.content.reduce((l: any, t: any) => l + getLength(t), 0)
+      }
     }
+
+    const tokens = Prism.tokenize(node.text, Prism.languages.markdown)
+    let start = 0
+    for (const token of tokens) {
+      const length = getLength(token)
+      const end = start + length
+
+      if (typeof token !== 'string') {
+        ranges.push({
+          [token.type]: true,
+          anchor: { path, offset: start },
+          focus: { path, offset: end }
+        })
+      }
+      start = end
+    }
+    return ranges
+  }
+
+  function highlightLeaf(node: Node, path: Path, search: string): Range[] {
+    const ranges: Range[] = []
+    if (!Text.isText(node) || !search) return ranges
+    const { text } = node
+    const ignoreCase = new RegExp(search, 'i')
+    const parts = text.split(ignoreCase)
+    let offset = 0
+    parts.forEach((part, i) => {
+      if (i !== 0) {
+        ranges.push({
+          anchor: { path, offset: offset - search.length },
+          focus: { path, offset },
+          highlight: true
+        })
+      }
+      offset = offset + part.length + search.length
+    })
     return ranges
   }
 }

@@ -7,6 +7,7 @@ export const _renderLeaf = ({
   children,
   leaf
 }: RenderLeafProps) => {
+  console.log(attributes,children,leaf)
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
