@@ -50,7 +50,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   return (
     <div
       {...attributes}
-      className="slatepad-code-block rounded group  py-[4px] my-[8px] relative"
+      className="slatepad-code-block rounded group bg-[#fafafa] py-[4px] my-[8px] relative"
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre
@@ -63,7 +63,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       {collapse && (
         <div
           contentEditable={false}
-          className="rest pl-[10px] bg-[#fafafa] h-[30px] relative">
+          className="rest pl-[10px]  h-[30px] relative">
           <span className="absolute top-0">......</span>
         </div>
       )}

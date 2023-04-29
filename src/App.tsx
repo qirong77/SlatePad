@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import {  SlatePad } from './slate/SlatePad'
 import { createSlatepad } from './slate/plugins/editor'
+import 'prism-themes/themes/prism-one-light.css'
+
 export const App = () => {
   const editor = useMemo(() => createSlatepad(), [])
   return (

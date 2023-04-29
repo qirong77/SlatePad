@@ -15,7 +15,7 @@ import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
 import { SetNodeToDecorations } from './components/SetNodeToDecorations'
-import 'prism-themes/themes/prism-one-light.css'
+
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor

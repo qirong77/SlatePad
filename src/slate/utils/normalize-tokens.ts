@@ -52,8 +52,8 @@ export const normalizeTokens = (
   const tokenArrSizeStack = [tokens.length]
 
   let i = 0
-  let stackIndex = 0
-  let currentLine = []
+  let stackIndex:any = 0
+  let currentLine:any = []
 
   const acc = [currentLine]
 
@@ -84,7 +84,7 @@ export const normalizeTokens = (
       if (typeof content !== 'string') {
         stackIndex++
         typeArrStack.push(types)
-        tokenArrStack.push(content)
+        tokenArrStack.push(content as any)
         tokenArrIndexStack.push(0)
         tokenArrSizeStack.push(content.length)
         continue
