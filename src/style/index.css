@@ -18,6 +18,11 @@ ol li {
   background: #eee;
   height: 100vh;
 }
+/* 覆盖prism-theme主题冲突边距 */
+div pre[class*='language-'] {
+  margin: 0;
+  padding: 0;
+}
 .c-shadow {
   box-shadow: 2px 0px 12px 0px rgb(4 4 4 / 10%);
 }

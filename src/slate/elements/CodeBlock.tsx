@@ -50,7 +50,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   return (
     <div
       {...attributes}
-      className="slatepad-code-block bg-[#f6f7f9] rounded group  py-[4px] my-[8px] relative"
+      className="slatepad-code-block rounded group  py-[4px] my-[8px] relative"
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre

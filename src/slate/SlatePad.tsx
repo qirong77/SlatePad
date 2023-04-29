@@ -14,6 +14,8 @@ import { CustomEditor } from '../types/slate'
 import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
+import { SetNodeToDecorations } from './components/SetNodeToDecorations'
+import 'prism-themes/themes/prism-one-light.css'
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor
@@ -22,7 +24,7 @@ const SlatePad: React.FC<{
   const [showHeaders, setShowHeaders] = useState(false)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
-  const decorate = useCallback(useDecorate(search), [search])
+  const decorate = useCallback(useDecorate(editor, search), [search])
   return (
     <div
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
@@ -42,6 +44,7 @@ const SlatePad: React.FC<{
             <Side />
           </div>
           <div className="flex-1 overflow-scroll">
+            <SetNodeToDecorations />
             <Editable
               className="ediable px-[30px] h-full"
               renderElement={renderElement}

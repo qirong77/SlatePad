@@ -1,11 +1,20 @@
-import { Node, NodeEntry, Path, Range, Text } from 'slate'
+import { Element, Node, NodeEntry, Path, Range, Text } from 'slate'
 import Prism from 'prismjs'
 // 需要引入相应的语法库!
 import 'prismjs/components/prism-markdown'
+import 'prismjs/components/prism-jsx'
 
-export const useDecorate = (search: string) => {
+import { CodeBlockElement, CustomEditor } from '../../types/slate'
+import { normalizeTokens } from '../utils/normalize-tokens'
+
+export const useDecorate = (editor:CustomEditor,search: string) => {
   return function decorate(entry: NodeEntry) {
     const [node, path] = entry as [Node, Path]
+    if (Element.isElement(node) && node.type === 'code-line') {
+      const ranges = editor.nodeToDecorations.get(node) || []
+      return ranges
+    }
+
     return [priviewLeaf(node, path), highlightLeaf(node, path, search)].flat(1)
   }
 
@@ -59,4 +68,5 @@ export const useDecorate = (search: string) => {
     })
     return ranges
   }
+  function highlightCode(block: CodeBlockElement, blockPath: Path) {}
 }
