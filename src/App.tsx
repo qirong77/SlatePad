@@ -1,8 +1,6 @@
 import { useMemo } from 'react'
 import {  SlatePad } from './slate/SlatePad'
 import { createSlatepad } from './slate/plugins/editor'
-
-
 export const App = () => {
   const editor = useMemo(() => createSlatepad(), [])
   return (

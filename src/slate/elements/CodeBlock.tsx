@@ -61,7 +61,9 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         <code>{children}</code>
       </pre>
       {collapse && (
-        <div contentEditable={false} className="pl-[10px] h-[30px] relative">
+        <div
+          contentEditable={false}
+          className="rest pl-[10px] bg-[#fafafa] h-[30px] relative">
           <span className="absolute top-0">......</span>
         </div>
       )}

@@ -21,7 +21,6 @@ export const SetNodeToDecorations = () => {
   )
 
   editor.nodeToDecorations = nodeToDecorations
-  console.log(nodeToDecorations)
   return <></>
 }
 

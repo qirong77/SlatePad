@@ -11,7 +11,7 @@ export const withForceLayout = (editor: CustomEditor) => {
           Element.isElement(n) &&
           Editor.isBlock(editor, n) &&
           n.type !== 'list-item' &&
-          n.type !== 'code-block',
+          n.type !== 'code-line',
         at: path
       })
       if (block) {
