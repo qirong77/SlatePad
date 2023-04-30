@@ -4,6 +4,7 @@ import { CodeBlock } from '../elements/CodeBlock'
 import { Image } from '../elements/Image'
 import { CheckList } from '../elements/CheckList'
 import { Link } from '../elements/Link'
+import { FixSelect } from '../elements/FixSelect'
 
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -46,6 +47,8 @@ export function _renderElement(props: RenderElementProps) {
           {children}
         </li>
       )
+    case 'fix-select':
+      return <FixSelect props={props}/>
     case 'paragraph':
       return (
         <p {...attributes} className="my-[8px]">

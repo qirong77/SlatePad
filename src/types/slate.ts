@@ -68,7 +68,11 @@ export type ParagraphElement = {
   align?: string
   children: Descendant[]
 }
-
+export type FixSelectElement = {
+  type: 'fix-select'
+  align?: string
+  children: Descendant[]
+}
 export type CodeBlockElement = {
   type: 'code-block'
   language: string
@@ -90,6 +94,7 @@ export type SlateElement =
   | CodeBlockElement
   | CodeLineElement
   | NumberListElement
+  | FixSelectElement
 
 export type CustomElementType = Pick<SlateElement, 'type'>['type']
 
