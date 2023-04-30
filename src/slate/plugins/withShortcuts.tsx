@@ -95,7 +95,7 @@ export const withShortcuts = (editor: CustomEditor) => {
             type: 'paragraph'
           }
           Transforms.setNodes(editor, newProperties)
-          if (block.type === 'list-item' || block.type === 'check-list-item') {
+          if (block.type === 'list-item') {
             Transforms.unwrapNodes(editor, {
               match: n =>
                 !Editor.isEditor(n) &&

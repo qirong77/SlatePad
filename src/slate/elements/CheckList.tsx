@@ -8,7 +8,7 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
   const editor = useSlateStatic()
   const [checked, setChecked] = useState((element as CheckListItemElement).checked || false);
   return (
-    <li {...attributes} className='list-none'>
+    <div {...attributes} className='list-none'>
       <span contentEditable={false}>
         <input
           type="checkbox"
@@ -30,6 +30,6 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
         }}>
         {children}
       </span>
-    </li>
+    </div>
   )
 }
