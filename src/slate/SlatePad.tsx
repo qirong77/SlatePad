@@ -20,12 +20,11 @@ const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor
 }> = ({ onChange, editor }) => {
-  console.log('slatepad')
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(false)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
-  // const decorate = useCallback(useDecorate(editor, search), [search])
+  const decorate = useCallback(useDecorate(editor, search), [search])
   return (
     <div
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
@@ -45,12 +44,12 @@ const SlatePad: React.FC<{
             <Side />
           </div>
           <div className="flex-1 overflow-scroll">
-            {/* <SetNodeToDecorations /> */}
+            <SetNodeToDecorations />
             <Editable
               className="ediable px-[30px] h-full"
               renderElement={renderElement}
               renderLeaf={renderLeaf}
-              // decorate={decorate}
+              decorate={decorate}
               onKeyDown={e => handleKeyDown(e, editor)}
             />
           </div>
