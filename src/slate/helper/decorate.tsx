@@ -10,12 +10,12 @@ import { normalizeTokens } from '../utils/normalize-tokens'
 export const useDecorate = (editor:CustomEditor,search: string) => {
   return function decorate(entry: NodeEntry) {
     const [node, path] = entry as [Node, Path]
-    if (Element.isElement(node) && node.type === 'code-line') {
-      const ranges = editor.nodeToDecorations.get(node) || []
-      return ranges
-    }
-
-    return [priviewLeaf(node, path), highlightLeaf(node, path, search)].flat(1)
+    // if (Element.isElement(node) && node.type === 'code-line') {
+    //   const ranges = editor.nodeToDecorations?.get(node) || []
+    //   return ranges
+    // }
+    return []
+    // return [priviewLeaf(node, path), highlightLeaf(node, path, search)].flat(1)
   }
 
   function priviewLeaf(node: Node, path: Path): Range[] {
