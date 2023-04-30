@@ -1,17 +1,16 @@
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
 import { CheckListItemElement, SlateElement } from '../../types/slate'
 import { Transforms } from 'slate'
+import { useState } from 'react'
 
 export const CheckList = ({ props }: { props: RenderElementProps }) => {
   const { attributes, children, element } = props
-
   const editor = useSlateStatic()
-  const { checked } = element as CheckListItemElement
+  const [checked, setChecked] = useState((element as CheckListItemElement).checked || false);
   return (
     <li {...attributes} className='list-none'>
       <span contentEditable={false}>
         <input
-          className="mr-1"
           type="checkbox"
           checked={checked}
           onChange={event => {
@@ -20,6 +19,7 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
               checked: event.target.checked
             }
             Transforms.setNodes(editor, newProperties, { at: path })
+            setChecked(event.target.checked);
           }}
         />
       </span>

@@ -56,11 +56,11 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       suppressContentEditableWarning
       contentEditable={collapse ? false : true}>
       <pre
-        className={`language-${''} overflow-hidden  whitespace-pre-wrap`}
+        className={`language-${''} overflow-hidden`}
         style={{
           height: collapse ? '30px' : 'auto'
         }}>
-        <code>{children}</code>
+        <code className='whitespace-pre-wrap'>{children}</code>
       </pre>
       {collapse && (
         <div
