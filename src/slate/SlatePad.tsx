@@ -50,7 +50,7 @@ const SlatePad: React.FC<{
               className="ediable px-[30px] h-full"
               renderElement={renderElement}
               renderLeaf={renderLeaf}
-              // decorate={decorate}
+              decorate={()=>[]}
               onKeyDown={e => handleKeyDown(e, editor)}
             />
           </div>
