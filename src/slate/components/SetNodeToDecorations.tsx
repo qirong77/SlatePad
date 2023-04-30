@@ -45,10 +45,8 @@ function getChildNodeToDecorations([
   try {
     tokens = Prism.tokenize(text, Prism.languages[block.language || ''])
   } catch (error) {
-    console.log('语法失败!')
     return nodeToDecorations
   }
-  console.log(123)
   const normalizedTokens = normalizeTokens(tokens) // make tokens flat and grouped by line
   const blockChildren = block.children as Element[]
   for (let index = 0; index < normalizedTokens.length; index++) {

@@ -9,7 +9,9 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
+  const [isIptFocus, setIptFocus] = useState(false)
   const iptRef = useRef<HTMLInputElement>(null)
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setCollapse(!collapse)
@@ -81,10 +83,15 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       />
       <div
         contentEditable={false}
-        className="absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100">
+        className="absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100"
+        style={{
+          opacity: isIptFocus ? '100%' : 'inherit'
+        }}>
         <input
           type="text"
           ref={iptRef}
+          onFocus={() => setIptFocus(true)}
+          onBlur={() => setIptFocus(false)}
           className="px-[4px] w-full rounded "
           value={(element as CodeBlockElement).language}
           onKeyDown={handleKeyDown}
