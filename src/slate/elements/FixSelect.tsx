@@ -21,7 +21,7 @@ export const FixSelect = ({ props }: { props: RenderElementProps }) => {
     }
   }, [selected])
   return (
-    <p className="overflow-hidden h-0" {...attributes}>
+    <p className="fix-select overflow-hidden h-0" {...attributes}>
       {children}
     </p>
   )

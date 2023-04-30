@@ -1,12 +1,12 @@
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
-import { SlateElement } from '../../types/slate'
+import { CheckListItemElement, SlateElement } from '../../types/slate'
 import { Transforms } from 'slate'
 
 export const CheckList = ({ props }: { props: RenderElementProps }) => {
   const { attributes, children, element } = props
 
   const editor = useSlateStatic()
-  const { checked } = element
+  const { checked } = element as CheckListItemElement
   return (
     <li {...attributes} className='list-none'>
       <span contentEditable={false}>

@@ -4,10 +4,8 @@ import Prism from 'prismjs'
 import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-jsx'
 
-import { CodeBlockElement, CustomEditor } from '../../types/slate'
-import { normalizeTokens } from '../utils/normalize-tokens'
-
-export const useDecorate = (editor:CustomEditor,search: string) => {
+import { CustomEditor } from '../../types/slate'
+export const useDecorate = (editor: CustomEditor, search: string) => {
   return function decorate(entry: NodeEntry) {
     const [node, path] = entry as [Node, Path]
     if (Element.isElement(node) && node.type === 'code-line') {
@@ -67,5 +65,4 @@ export const useDecorate = (editor:CustomEditor,search: string) => {
     })
     return ranges
   }
-  function highlightCode(block: CodeBlockElement, blockPath: Path) {}
 }

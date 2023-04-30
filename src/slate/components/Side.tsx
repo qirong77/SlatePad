@@ -8,7 +8,7 @@ export const Side = () => {
     debounce(() => {
       const hs = document.querySelector('.ediable')?.querySelectorAll('h1')
       hs && setHs([...hs])
-    }, 1500),
+    }, 1000),
     []
   )
   useEffect(() => {

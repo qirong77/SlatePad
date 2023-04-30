@@ -1,6 +1,6 @@
 import { getCurrentBlock } from '../utils/getCurrentBlock'
-import { Editor, Range, Transforms, Path, Node } from 'slate'
-import { CodeBlockElement, CustomEditor, SlateElement } from '../../types/slate'
+import { Editor, Range, Transforms, Path, Node, Element, NodeEntry } from 'slate'
+import { CustomEditor, SlateElement } from '../../types/slate'
 import { getNextBlock } from '../utils/getNextBlock'
 import { ReactEditor } from 'slate-react'
 // 后面需要引入第三库进行隔离,只进行一次判定
@@ -8,23 +8,26 @@ export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,
   editor: CustomEditor
 ) => {
-  // if (e.code === 'Backspace') {
-  //   setTimeout(() => {
-  //     if (!Node.string(editor)) {
-  //       Transforms.setNodes(editor, {
-  //         type: 'paragraph'
-  //       })
-  //     }
-  //   })
-  // }
+  // enter codeblock-languageSelector
   if (e.code === 'ArrowUp') {
+    const [block, path] = getCurrentBlock(editor) || []
+    if (block && path) {
+      const prePath = Path.previous(path)
+      const preBlock = Node.get(editor, prePath) as SlateElement
+      if (preBlock?.type === 'code-block') {
+        e.preventDefault()
+        ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
+      }
+    }
   }
+
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
     if (codeLine) {
       const [, path] = codeLine
       const nextCodeLine = getNextBlock(editor, path)
       if (!nextCodeLine) {
+        e.preventDefault()
         const [codeBlock] = getCurrentBlock(editor, 'code-block') || []
         codeBlock &&
           ReactEditor.toDOMNode(editor, codeBlock)
@@ -65,8 +68,8 @@ export const handleKeyDown = (
     e.preventDefault()
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
-      const [block, path] = getCurrentBlock(editor)
-      if (block && block.type === 'list-item' || block.type === 'code-line') {
+      const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
+      if ((block && block.type === 'list-item') || block.type === 'code-line') {
         const [ul, ulPath] = Editor.parent(editor, path)
         const isLast = path[path.length - 1] === ul.children.length - 1
         if (isLast) {

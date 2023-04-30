@@ -55,7 +55,7 @@ export const withShortcuts = (editor: CustomEditor) => {
             editor,
             {
               type: 'code-block',
-              language: 'js',
+              language: beforeText?.replace('```', '') || '',
               children: []
             },
             {
@@ -123,6 +123,7 @@ function getType(str: string): CustomElementType | false {
     '```': 'code-line'
   }
   if (/\d\./.test(str)) return 'list-item'
+  if (/^```/.test(str)) return 'code-line'
   if (SHORTCUTS[str]) return SHORTCUTS[str]
   return false
 }

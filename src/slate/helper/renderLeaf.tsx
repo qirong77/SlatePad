@@ -11,7 +11,7 @@ export const _renderLeaf = ({ attributes, children, leaf }: any) => {
     children = <em>{children}</em>
   }
   if (leaf['code-snippet']) {
-    children = <code className="code-snippet">{children}</code>
+    children = <code className="code-snippet bg-slate-300 rounded">{children}</code>
   }
   if (leaf.underline) {
     children = <u>{children}</u>
