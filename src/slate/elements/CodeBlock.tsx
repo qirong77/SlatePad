@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react'
 import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
-import { getNextBlock, getNextPath } from '../utils/getNextBlock'
+import { getNextBlock} from '../utils/getNextBlock'
 import { CodeBlockElement } from '../../types/slate'
 import { Arrow, Copy } from '../../assets/svg'
+import { getNextPath } from '../utils/PathUtils'
 
 export function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props

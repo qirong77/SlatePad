@@ -8,8 +8,7 @@ import {
   Transforms
 } from 'slate'
 import { getCurrentBlock } from '../utils/getCurrentBlock'
-import { getNextPath } from '../utils/getNextBlock'
-import { getPrePath } from '../utils/PathUtils'
+import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
   editor.insertText = text => {

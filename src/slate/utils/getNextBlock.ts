@@ -9,10 +9,3 @@ export const getNextBlock = (editor: CustomEditor, path: Path) => {
   }
   return false
 }
-export const getNextPath = (editor:CustomEditor,path:Path) => {
-  const hasNext = Editor.hasPath(editor, Path.next(path))
-  if(hasNext) {
-    return Path.next(path)
-  }
-  return false
-}
