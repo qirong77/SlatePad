@@ -33,14 +33,14 @@ export const withForceLayout = (editor: CustomEditor) => {
       }
       // 强制第一个为fixSelect
       const startPath = Editor.start(editor, [])
-      const [startBlock, BlockPath] = Editor.above(editor, {
+      const [startBlock] = Editor.above(editor, {
         match: n =>
           Element.isElement(n) &&
           Editor.isBlock(editor, n) &&
           n.type !== 'list-item' &&
           n.type !== 'code-line',
         at: startPath
-      }) as NodeEntry<SlateElement>
+      }) as NodeEntry<SlateElement> || []
       if (startBlock?.type !== 'fix-select') {
         Transforms.insertNodes(
           editor,

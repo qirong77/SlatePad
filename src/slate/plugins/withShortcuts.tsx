@@ -96,12 +96,13 @@ export const withShortcuts = (editor: CustomEditor) => {
           !Editor.isEditor(block) &&
           SlateElement.isElement(block) &&
           block.type !== 'paragraph' &&
-          // 当前光标是否在起点?
+          // 当前光标是否在当前的块的起点
           Point.equals(selection.anchor, start)
         ) {
           const newProperties: Partial<SlateElement> = {
             type: 'paragraph'
           }
+          Transforms.setNodes(editor, newProperties)
           if (block.type === 'list-item') {
             Transforms.unwrapNodes(editor, {
               match: n =>
@@ -110,8 +111,6 @@ export const withShortcuts = (editor: CustomEditor) => {
                 (n.type === 'bulleted-list' || n.type === 'number-list'),
               split: true
             })
-            Transforms.setNodes(editor, newProperties)
-            return
           }
           // 如果是code-line需要判断是否是最后一行,如果不是,就不需要转换成段落
           if (block.type === 'code-line') {
@@ -128,9 +127,9 @@ export const withShortcuts = (editor: CustomEditor) => {
                 split: true
               })
               Transforms.setNodes(editor, newProperties)
-              return
             }
           }
+          return
         }
       }
 
