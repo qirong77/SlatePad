@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Editor, Transforms, Node, Range, Path } from 'slate'
 import {
   ReactEditor,
@@ -20,6 +20,7 @@ export function Heading({
   const selected = useSelected()
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
+  const isEdit = useRef(false)
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     const path = ReactEditor.findPath(editor, element)
@@ -45,38 +46,43 @@ export function Heading({
     const { selection } = editor
     if (!selection || !Range.isCollapsed(selection)) return
     const path = ReactEditor.findPath(editor, element)
+    // 文本开始的path
+    const start = Editor.start(editor, path)
+    const currentHead = Number(/\d/.exec(element.type)?.[0] || '1')
+    const [, tags] = /^(#+)\s/.exec(Node.string(element)) || []
     if (selected) {
-      if (/^#/.test(Node.string(element))) return
-      const start = Editor.start(editor, path)
-      const l = /\d/.exec(element.type)?.[0] || '1'
-      Transforms.insertText(editor, '#'.repeat(Number(l)) + ' ', {
-        at: start
-      })
+      if (!tags) {
+        if (isEdit.current) {
+          Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+        } else
+          Transforms.insertText(editor, '#'.repeat(currentHead) + ' ', {
+            at: start
+          })
+      } else {
+        if (tags.length === currentHead) return
+        Transforms.setNodes(
+          editor,
+          {
+            type: `heading${tags.length}`
+          },
+          {
+            at: path
+          }
+        )
+      }
     } else {
-      const start = Editor.start(editor, path)
-      // 使用 `Node.string` 获取标题的纯文本字符串，并计算其中 # 的数量
-      const titleString = Node.string(element)
-      const markHeader = titleString.match(/^#+\s/)
-      if (!markHeader) return
-      const hashCount = (markHeader || [''])[0].length
-
-      Transforms.setNodes(
-        editor,
-        {
-          type: `heading${hashCount - 1 || 1}`
-        },
-        {
-          at: path
-        }
-      )
-      const pre = JSON.parse(JSON.stringify(selection.anchor))
+      if (!tags) return
+      const prePath = JSON.parse(JSON.stringify(selection.anchor))
       Transforms.select(editor, {
         path: start.path,
-        offset: hashCount
+        offset: currentHead + 1
       })
       editor.deleteBackward('line')
-      Transforms.select(editor, pre)
+      Transforms.select(editor, prePath)
     }
+  })
+  useEffect(() => {
+    isEdit.current = selected
   }, [selected])
   return (
     <div

@@ -1,6 +1,7 @@
 import { CustomEditor, CustomElementType } from '../../types/slate'
 import {
   Editor,
+  NodeEntry,
   Path,
   Point,
   Range,
@@ -22,7 +23,12 @@ export const withShortcuts = (editor: CustomEditor) => {
       const { anchor } = selection
       const block = Editor.above(editor, {
         match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
-      })
+      }) as NodeEntry<SlateElement>
+      // 让快捷键转换只对普通段落起作用
+      if (block?.[0].type !== 'paragraph') {
+        insertText(text)
+        return
+      }
       const path = block ? block[1] : []
       const start = Editor.start(editor, path)
       const range = { anchor, focus: start }
@@ -145,7 +151,11 @@ function getType(str: string): CustomElementType | false {
     '-': 'list-item',
     '+': 'list-item',
     '>': 'block-quote',
-    '```': 'code-line'
+    '```': 'code-line',
+    '#': 'heading1',
+    '##': 'heading2',
+    '###': 'heading3',
+    '####': 'heading4'
   }
   if (/\d\./.test(str)) return 'list-item'
   if (/^```/.test(str)) return 'code-line'

@@ -14,33 +14,6 @@ export const withHeadings = (editor: CustomEditor) => {
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
-    if (node.type === 'paragraph') {
-      const text = Node.string(node)
-      const match = /^(#+)\s.*/.exec(text)
-      if (match) {
-        const level = match[1].length
-        const type = `heading${level}`
-        // const start = Editor.start(editor, path)
-        // Transforms.delete(editor, {
-        //   at: {
-        //     path: start.path,
-        //     offset: level - 1
-        //   }
-        // })
-        Transforms.setNodes(editor, { type })
-      }
-      return
-    }
-    if (node.type?.includes('heading')) {
-      const text = Node.string(node)
-      const match = /^(#+)\s.*/.exec(text)
-      if (match) {
-        const level = match[1].length
-        const type = 'heading' + level
-        Transforms.setNodes(editor, { type })
-        return
-      }
-    }
     return normalizeNode([node, path])
   }
 
