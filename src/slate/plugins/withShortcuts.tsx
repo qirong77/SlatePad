@@ -1,16 +1,24 @@
 import { CustomEditor, CustomElementType } from '../../types/slate'
 import {
   Editor,
+  Path,
   Point,
   Range,
   Element as SlateElement,
   Transforms
 } from 'slate'
+import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { getNextPath } from '../utils/getNextBlock'
+import { getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
   editor.insertText = text => {
     const { selection } = editor
-
+    const isInCodeBlock = getCurrentBlock(editor, 'code-line', 'code-block')
+    if (isInCodeBlock) {
+      insertText(text)
+      return
+    }
     if (text.endsWith(' ') && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const block = Editor.above(editor, {
@@ -76,6 +84,7 @@ export const withShortcuts = (editor: CustomEditor) => {
     const { selection } = editor
 
     if (selection && Range.isCollapsed(selection)) {
+      // 获取当前的块元素
       const match = Editor.above(editor, {
         match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
       })
@@ -83,18 +92,17 @@ export const withShortcuts = (editor: CustomEditor) => {
       if (match) {
         const [block, path] = match
         const start = Editor.start(editor, path)
-
+        // 按下delete的时候,当前的块不是个段落,进行deleteBackward操作
         if (
           !Editor.isEditor(block) &&
           SlateElement.isElement(block) &&
           block.type !== 'paragraph' &&
-          block.type !== 'code-line' &&
+          // 当前光标是否在起点?
           Point.equals(selection.anchor, start)
         ) {
           const newProperties: Partial<SlateElement> = {
             type: 'paragraph'
           }
-          Transforms.setNodes(editor, newProperties)
           if (block.type === 'list-item') {
             Transforms.unwrapNodes(editor, {
               match: n =>
@@ -103,8 +111,27 @@ export const withShortcuts = (editor: CustomEditor) => {
                 (n.type === 'bulleted-list' || n.type === 'number-list'),
               split: true
             })
+            Transforms.setNodes(editor, newProperties)
+            return
           }
-          return
+          // 如果是code-line需要判断是否是最后一行,如果不是,就不需要转换成段落
+          if (block.type === 'code-line') {
+            // 是否有平级的next
+            const isOne =
+              !getPrePath(editor, path) && !getNextPath(editor, path)
+
+            if (isOne) {
+              Transforms.unwrapNodes(editor, {
+                match: n =>
+                  !Editor.isEditor(n) &&
+                  SlateElement.isElement(n) &&
+                  n.type === 'code-block',
+                split: true
+              })
+              Transforms.setNodes(editor, newProperties)
+              return
+            }
+          }
         }
       }
 

@@ -17,7 +17,7 @@ export const _renderLeaf = ({ attributes, children, leaf }: any) => {
     children = <u>{children}</u>
   }
   if (leaf.highlight) {
-    children = <mark>{children}</mark>
+    children = <mark className='rounded'>{children}</mark>
   }
   return (
     <span {...attributes} className={Object.keys(rest).join(' ')}>
