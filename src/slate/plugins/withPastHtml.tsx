@@ -7,7 +7,6 @@ import {
 } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock } from '../utils/getCurrentBlock'
-import { languages } from 'prismjs'
 const ELEMENT_TAGS: {
   [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
 } = {
@@ -67,7 +66,7 @@ export const withPastHtml = (editor: CustomEditor) => {
   return editor
 }
 
-export function deserialize(el: any) {
+export const deserialize = el => {
   if (el.nodeType === 3) {
     return el.textContent
   } else if (el.nodeType !== 1) {
@@ -75,21 +74,10 @@ export function deserialize(el: any) {
   } else if (el.nodeName === 'BR') {
     return '\n'
   }
+
   const { nodeName } = el
   let parent = el
-  // 由于marked的checkbox会包裹在li中,所以这里做额外的处理
-  if (el.tagName.toLowerCase() === 'li') {
-    if (
-      el.childNodes.length === 2 &&
-      el.childNodes[0] instanceof HTMLInputElement
-    ) {
-      return {
-        type: 'check-list-item',
-        checked: true,
-        children: [{ text: 'Slide to the left.' }]
-      }
-    }
-  }
+  // 有些编辑的代码块的形状是这样,有些的不是
   if (
     nodeName === 'PRE' &&
     el.childNodes[0] &&
@@ -98,6 +86,7 @@ export function deserialize(el: any) {
     parent = el.childNodes[0]
   }
   let children = Array.from(parent.childNodes).map(deserialize).flat()
+
   if (children.length === 0) {
     children = [{ text: '' }]
   }
@@ -107,32 +96,22 @@ export function deserialize(el: any) {
   }
 
   if (ELEMENT_TAGS[nodeName]) {
-    console.log(nodeName)
-    if (
-      nodeName === 'PRE' &&
-      el.childNodes[0] &&
-      el.childNodes[0].nodeName === 'CODE'
-    ) {
-      // // 处理复制的时候,序列化代码块的每一行代码
-      const childs = Array.from(el.childNodes[0].childNodes) as HTMLElement[]
-      const codelines: any = childs.map(child => {
+    const attrs = ELEMENT_TAGS[nodeName](el)
+    const fragment = jsx('element', attrs, children)
+    if (fragment.type === 'code-block' && fragment.children?.[0].text) {
+      fragment.children = fragment.children[0]?.text.split('\n').map(line => {
         return {
           type: 'code-line',
-          children: [{ text: child.textContent }]
+          children: [{ text: line }]
         } as CodeLineElement
       })
-      return {
-        type: 'code-block',
-        children: codelines,
-        language: ''
-      } as CodeBlockElement
     }
+    return fragment
   }
 
   if (TEXT_TAGS[nodeName]) {
     const attrs = TEXT_TAGS[nodeName](el)
-    const data = children.map(child => jsx('text', attrs, child))
-    return data
+    return children.map(child => jsx('text', attrs, child))
   }
   return children
 }
