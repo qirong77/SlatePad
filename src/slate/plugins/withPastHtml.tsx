@@ -106,21 +106,6 @@ export const deserialize = el => {
         } as CodeLineElement
       })
     }
-    if (fragment.type === 'bulleted-list' || fragment.type === 'number-list') {
-      fragment.children = fragment.children.map(li => {
-        // 从typora拷贝的li会是段落结构,后续考虑用normalizing来统一处理节点不一致问题
-        if (li.children?.[0]?.type === 'paragraph')
-          return {
-            type: 'list-item',
-            children: [
-              {
-                text: Node.string(li)
-              }
-            ]
-          }
-        return li
-      })
-    }
     return fragment
   }
 

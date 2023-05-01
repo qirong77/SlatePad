@@ -19,7 +19,9 @@ export function _renderElement(props: RenderElementProps) {
       )
     case 'bulleted-list':
       return (
-        <ul className="slatepad-bulleted-list pl-[20px] my-[8px]" {...attributes}>
+        <ul
+          className="slatepad-bulleted-list pl-[20px] my-[8px]"
+          {...attributes}>
           {children}
         </ul>
       )
@@ -44,11 +46,11 @@ export function _renderElement(props: RenderElementProps) {
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
-          {children}
+          <p>{children}</p>
         </li>
       )
     case 'fix-select':
-      return <FixSelect props={props}/>
+      return <FixSelect props={props} />
     case 'paragraph':
       return (
         <p {...attributes} className="my-[8px]">
@@ -58,7 +60,7 @@ export function _renderElement(props: RenderElementProps) {
     case 'link':
       return <Link props={props} />
     case 'check-list-item':
-      return <CheckList props={props}/>
+      return <CheckList props={props} />
     case 'code-line':
       return (
         <div
@@ -73,4 +75,3 @@ export function _renderElement(props: RenderElementProps) {
       return <p {...attributes}>{children}</p>
   }
 }
-

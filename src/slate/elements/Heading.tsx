@@ -63,7 +63,7 @@ export function Heading({
         Transforms.setNodes(
           editor,
           {
-            type: `heading${tags.length}`
+            type: `heading${tags.length}` as any
           },
           {
             at: path
