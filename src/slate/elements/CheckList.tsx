@@ -8,10 +8,11 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
   const editor = useSlateStatic()
   const [checked, setChecked] = useState((element as CheckListItemElement).checked || false);
   return (
-    <div {...attributes} className='list-none'>
+    <div {...attributes} className='list-none relative pl-[20px]'>
       <span contentEditable={false}>
         <input
           type="checkbox"
+          className='absolute left-[0px] top-[50%] translate-y-[-50%]'
           checked={checked}
           onChange={event => {
             const path = ReactEditor.findPath(editor, element)

@@ -1,7 +1,13 @@
 import { Transforms, Node } from 'slate'
-import { CustomEditor, CustomElementType } from '../../types/slate'
+import {
+  CodeBlockElement,
+  CodeLineElement,
+  CustomEditor,
+  CustomElementType
+} from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { languages } from 'prismjs'
 const ELEMENT_TAGS: {
   [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
 } = {
@@ -35,9 +41,18 @@ export const withPastHtml = (editor: CustomEditor) => {
 
   editor.insertData = data => {
     const html = data.getData('text/html')
+
     const block = getCurrentBlock(editor)
     if (block && block[0].type.includes('code')) {
-      insertData(data)
+      const text = data.getData('text/plain')
+      const codelines = text.split('\n').map(
+        line =>
+          ({
+            type: 'code-line',
+            children: [{ text: line }]
+          } as CodeLineElement)
+      )
+      Transforms.insertFragment(editor, codelines)
       return
     }
     if (html) {
@@ -92,21 +107,26 @@ export function deserialize(el: any) {
   }
 
   if (ELEMENT_TAGS[nodeName]) {
-    const attrs = ELEMENT_TAGS[nodeName](el)
-    const data = jsx('element', attrs, children)
-    // 处理复制的时候,序列化代码块的每一行代码
-    if (data.type === 'code-block') {
-      const codeLines = data.children[0].text.split('\n').map(text => ({
-        children: [
-          {
-            text
-          }
-        ],
-        type: 'code-line'
-      }))
-      data.children = codeLines
+    console.log(nodeName)
+    if (
+      nodeName === 'PRE' &&
+      el.childNodes[0] &&
+      el.childNodes[0].nodeName === 'CODE'
+    ) {
+      // // 处理复制的时候,序列化代码块的每一行代码
+      const childs = Array.from(el.childNodes[0].childNodes) as HTMLElement[]
+      const codelines: any = childs.map(child => {
+        return {
+          type: 'code-line',
+          children: [{ text: child.textContent }]
+        } as CodeLineElement
+      })
+      return {
+        type: 'code-block',
+        children: codelines,
+        language: ''
+      } as CodeBlockElement
     }
-    return data
   }
 
   if (TEXT_TAGS[nodeName]) {

@@ -83,10 +83,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       />
       <div
         contentEditable={false}
-        className="absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-0 group-hover:opacity-100"
-        style={{
-          opacity: isIptFocus ? '100%' : 'inherit'
-        }}>
+        className={`absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-${isIptFocus?'100':0} group-hover:opacity-100`}>
         <input
           type="text"
           ref={iptRef}
