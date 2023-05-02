@@ -95,10 +95,10 @@ export const withShortcuts = (editor: CustomEditor) => {
           path
         ) as NodeEntry<SlateElement>
         const isNoramlParagraph = ul.children.length !== 1
-        // if (isNoramlParagraph) {
-        //   deleteBackward(...args)
-        //   return
-        // }
+        if (isNoramlParagraph) {
+          deleteBackward(...args)
+          return
+        }
         Transforms.setNodes(editor, newProperties, { at: listPath })
         Transforms.unwrapNodes(editor, {
           match: n =>
