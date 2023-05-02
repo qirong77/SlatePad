@@ -10,6 +10,7 @@ export const withInlines = (editor: CustomEditor) => {
     return element.type === 'link' || isInline(element)
   }
   editor.insertText = text => {
+
     if (text && isUrl(text)) {
       wrapLink(editor, text)
     } else {
@@ -47,7 +48,7 @@ export function wrapLink(editor: CustomEditor, url = 'www.baidu.com') {
   const linkElement: LinkElement = {
     type: 'link',
     url,
-    children: isCollapsed ? [{ text: 'www.baidu.com' }] : []
+    children: isCollapsed ? [{ text: url }] : []
   }
   if (isCollapsed) {
     Transforms.insertNodes(editor, linkElement)
