@@ -1,4 +1,9 @@
-import { getCurrentBlock, getNextBlock, isHeadBlock } from '../utils/BlockUtils'
+import {
+  getCurrentBlock,
+  getNextBlock,
+  isCodeBlock,
+  isHeadBlock
+} from '../utils/BlockUtils'
 import {
   Editor,
   Range,
@@ -21,12 +26,16 @@ export const handleKeyDown = (
   if (e.code === 'ArrowUp') {
     const [block, path] = getCurrentBlock(editor) || []
     if (block && path) {
-      const prePath = Path.previous(path)
-      const preBlock = Node.get(editor, prePath) as SlateElement
-      if (preBlock?.type === 'code-block') {
-        e.preventDefault()
-        ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
-      }
+      try {
+        const prePath = Path.previous(path)
+        const preBlock = Node.get(editor, prePath) as SlateElement
+        if (preBlock?.type === 'code-block') {
+          e.preventDefault()
+          ReactEditor.toDOMNode(editor, preBlock)
+            .querySelector('input')
+            ?.focus()
+        }
+      } catch (e) {}
     }
   }
 
@@ -60,6 +69,10 @@ export const handleKeyDown = (
         Transforms.select(editor, Path.next(path))
         return
       }
+      // 如果当前是一个代码块,就跳过
+      if (isCodeBlock(block.type)) {
+        return
+      }
       const [list, listPath] = getCurrentBlock(editor, 'list-item') || []
       // 当光标在某个list的最后,按下enter.生成新的平级list
       if (list && listPath) {
@@ -85,8 +98,6 @@ export const handleKeyDown = (
           return
         }
       }
-
-      // 嵌套列表,如果当前的块在某个list item里面
     }
   }
   if (e.key === 'Enter' && e.shiftKey) {
@@ -118,7 +129,7 @@ export const handleKeyDown = (
           return
         }
       }
-      Transforms.select(editor, Editor.end(editor, Path.next(path)))
+      Transforms.select(editor, Editor.end(editor, Path.next(path as Path)))
     }
   }
 

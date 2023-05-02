@@ -17,8 +17,6 @@ export const withNormalizing = (editor: CustomEditor) => {
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
-    // 解决从typora粘贴文本时,li里面是p的问题
-    // If the element is a paragraph, ensure its children are valid.
     if (Element.isElement(node) && node.type === 'list-item') {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (!Element.isElement(child)) {
@@ -31,8 +29,6 @@ export const withNormalizing = (editor: CustomEditor) => {
             { at: childPath }
           )
           return
-          // Transforms.unwrapNodes(editor, { at: childPath })
-          // return
         }
       }
     }

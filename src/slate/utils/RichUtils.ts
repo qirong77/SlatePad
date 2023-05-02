@@ -1,20 +1,27 @@
-import { Editor, Element as SlateElement, Transforms } from 'slate'
+import { Editor, NodeEntry, Element as SlateElement, Transforms } from 'slate'
 import {
   CustomEditor,
   CustomElementType,
   ImageElement
 } from '../../types/slate'
 import { wrapLink } from '../plugins/withInlines'
+import { getCurrentBlock } from './BlockUtils'
 
 const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
+  const [, ulPath] = getCurrentBlock(
+    editor,
+    'bulleted-list',
+    'number-list'
+  ) as NodeEntry<SlateElement>
   Transforms.unwrapNodes(editor, {
     match: n =>
       !Editor.isEditor(n) &&
       SlateElement.isElement(n) &&
       (n.type === 'bulleted-list' || n.type === 'number-list'),
-    split: true
+    split: true,
+    at: ulPath
   })
   const newType: CustomElementType = isActive
     ? 'paragraph'

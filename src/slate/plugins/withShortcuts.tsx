@@ -88,6 +88,7 @@ export const withShortcuts = (editor: CustomEditor) => {
       const newProperties: Partial<SlateElement> = {
         type: 'paragraph'
       }
+
       // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
       if (list && listPath && block.type === 'paragraph') {
         const [ul, ulPath] = Editor.parent(
@@ -105,25 +106,32 @@ export const withShortcuts = (editor: CustomEditor) => {
             SlateElement.isElement(n) &&
             (n.type === 'bulleted-list' || n.type === 'number-list'),
           split: true,
+          // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
           at: listPath
         })
         return
       }
       // 其他情况按下delete,把他转换为普通的段落即可
       if (block.type !== 'paragraph') {
-        // 如果是code-line,当按下delete时,需要判断是否是最后一行,如果不是,就不需要转换成段落
+        // 如果是code-line,当按下delete时,需要判断是否是最后一行,如果不是,就不需要转换成普通段落
         if (block.type === 'code-line') {
+          const [codeBlock, blockPath] = Editor.parent(editor, path)
           // 是否只有一个codeline
           const isOne = !getPrePath(editor, path) && !getNextPath(editor, path)
           if (isOne) {
             Transforms.unwrapNodes(editor, {
               match: n => SlateElement.isElement(n) && n.type === 'code-block',
-              split: true
+              at: blockPath
+            })
+            Transforms.insertNodes(editor, {
+              type: 'paragraph',
+              children: [{ text: '' }]
             })
           }
+        } else {
+          Transforms.setNodes(editor, newProperties)
+          return
         }
-        Transforms.setNodes(editor, newProperties)
-        return
       }
 
       deleteBackward(...args)
