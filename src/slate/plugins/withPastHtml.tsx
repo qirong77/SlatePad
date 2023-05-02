@@ -6,7 +6,7 @@ import {
   CustomElementType
 } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
-import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
 const ELEMENT_TAGS: {
   [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
 } = {
@@ -42,7 +42,7 @@ export const withPastHtml = (editor: CustomEditor) => {
     const html = data.getData('text/html')
 
     const block = getCurrentBlock(editor)
-    if (block && block[0].type.includes('code')) {
+    if (block && isCodeBlock(block[0].type)) {
       const text = data.getData('text/plain')
       const codelines = text.split('\n').map(
         line =>
@@ -57,6 +57,7 @@ export const withPastHtml = (editor: CustomEditor) => {
     if (html) {
       const parsed = new DOMParser().parseFromString(html, 'text/html')
       const fragment = deserialize(parsed.body)
+      console.log(fragment)
       Transforms.insertFragment(editor, fragment)
       return
     }

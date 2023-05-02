@@ -1,6 +1,6 @@
 import { Transforms, Node, Editor, Path, Element, Range } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
-import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { getCurrentBlock } from '../utils/BlockUtils'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
 

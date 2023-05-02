@@ -1,4 +1,4 @@
-import { Editor, Element, Path } from 'slate'
+import { Editor, Element, Path, Node } from 'slate'
 import {
   CustomEditor,
   CustomElementType,
@@ -21,4 +21,21 @@ export const getCurrentBlock = (
     return block as [SlateElement, Path]
   }
   return false
+}
+
+// 获取和path平级的block
+export const getNextBlock = (editor: CustomEditor, path: Path) => {
+  const hasNext = Editor.hasPath(editor, Path.next(path))
+  if (hasNext) {
+    const nextBlock = Node.get(editor, Path.next(path)) as SlateElement
+    return nextBlock
+  }
+  return false
+}
+
+export const isCodeBlock = (type: CustomElementType) => {
+  return type === 'code-block' || type === 'code-line'
+}
+export const isHeadBlock = (type: CustomElementType) => {
+  return type.includes('heading')
 }

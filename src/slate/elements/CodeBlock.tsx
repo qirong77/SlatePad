@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
-import { getNextBlock} from '../utils/getNextBlock'
+
 import { CodeBlockElement } from '../../types/slate'
 import { Arrow, Copy } from '../../assets/svg'
 import { getNextPath } from '../utils/PathUtils'
+import { getNextBlock } from '../utils/BlockUtils'
 
 export function CodeBlock({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
@@ -61,7 +62,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         style={{
           height: collapse ? '30px' : 'auto'
         }}>
-        <code className='whitespace-pre-wrap'>{children}</code>
+        <code className="whitespace-pre-wrap">{children}</code>
       </pre>
       {collapse && (
         <div
@@ -84,7 +85,9 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       />
       <div
         contentEditable={false}
-        className={`absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-${isIptFocus?'100':0} group-hover:opacity-100`}>
+        className={`absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-${
+          isIptFocus ? '100' : 0
+        } group-hover:opacity-100`}>
         <input
           type="text"
           ref={iptRef}

@@ -1,7 +1,6 @@
-import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { getCurrentBlock, getNextBlock } from '../utils/BlockUtils'
 import { Editor, Range, Transforms, Path, Node, Element, NodeEntry } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
-import { getNextBlock } from '../utils/getNextBlock'
 import { ReactEditor } from 'slate-react'
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (
@@ -39,7 +38,7 @@ export const handleKeyDown = (
   // 两次Enter 转换当前行为普通的段落
   if (e.key === 'Enter' && !e.metaKey) {
     const { selection } = editor
-    const [block, path] = getCurrentBlock(editor) || []
+    const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
     if (selection && Range.isCollapsed(selection) && block) {
       if (block.type.includes('heading')) {
         e.preventDefault()
@@ -49,13 +48,6 @@ export const handleKeyDown = (
         })
         Transforms.select(editor, Path.next(path))
         return
-      }
-      if (
-        !['code-line', 'paragraph'].includes(block.type) &&
-        !Node.string(block).length
-      ) {
-        e.preventDefault()
-        editor.deleteBackward('block')
       }
     }
   }

@@ -7,7 +7,7 @@ import {
   useSlateStatic
 } from 'slate-react'
 import { Arrow } from '../../assets/svg'
-import { getNextBlock } from '../utils/getNextBlock'
+import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
 
 export function Heading({
   props,
@@ -28,7 +28,7 @@ export function Heading({
     let currentPath = path
     while (true) {
       const nextBlock = getNextBlock(editor, currentPath)
-      if (nextBlock && !nextBlock.type.includes('heading')) {
+      if (nextBlock && !isHeadBlock(nextBlock.type)) {
         doms.push(ReactEditor.toDOMNode(editor, nextBlock))
         currentPath = Path.next(currentPath)
       } else break

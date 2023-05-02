@@ -46,7 +46,7 @@ export function _renderElement(props: RenderElementProps) {
     case 'list-item':
       return (
         <li className="pl-[4px]" {...attributes}>
-          <p>{children}</p>
+          {children}
         </li>
       )
     case 'fix-select':

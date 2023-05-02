@@ -8,7 +8,7 @@ import {
   Element as SlateElement,
   Transforms
 } from 'slate'
-import { getCurrentBlock } from '../utils/getCurrentBlock'
+import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
@@ -94,6 +94,7 @@ export const withShortcuts = (editor: CustomEditor) => {
           !Editor.isEditor(block) &&
           SlateElement.isElement(block) &&
           block.type !== 'paragraph' &&
+          isCodeBlock(block.type) &&
           // 当前光标是否在当前的块的起点
           Point.equals(selection.anchor, start)
         ) {
