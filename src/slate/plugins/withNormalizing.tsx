@@ -21,17 +21,30 @@ export const withNormalizing = (editor: CustomEditor) => {
     // If the element is a paragraph, ensure its children are valid.
     if (Element.isElement(node) && node.type === 'list-item') {
       for (const [child, childPath] of Node.children(editor, path)) {
-        if (
-          Element.isElement(child) &&
-          !editor.isInline(child) &&
-          child.type === 'paragraph'
-        ) {
+        if (!Element.isElement(child)) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: 'paragraph',
+              children: [child]
+            },
+            { at: childPath }
+          )
+          return
           // Transforms.unwrapNodes(editor, { at: childPath })
           // return
         }
       }
     }
-
+    // If the element is a paragraph, ensure its children are valid.
+    if (Element.isElement(node) && node.type === 'paragraph') {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Element.isElement(child) && !editor.isInline(child)) {
+          Transforms.unwrapNodes(editor, { at: childPath })
+          return
+        }
+      }
+    }
     return normalizeNode([node, path])
   }
 

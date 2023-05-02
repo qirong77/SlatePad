@@ -76,43 +76,53 @@ export const withShortcuts = (editor: CustomEditor) => {
   }
   editor.deleteBackward = (...args) => {
     const { selection } = editor
-
+    const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
+    const start = Editor.start(editor, path)
     if (selection && Range.isCollapsed(selection)) {
-      const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
-      const start = Editor.start(editor, path)
-      if (
-        block.type !== 'paragraph' &&
-        !isCodeBlock(block.type) &&
-        // 当前光标是否在当前的块的起点
-        Point.equals(selection.anchor, start)
-      ) {
-        const newProperties: Partial<SlateElement> = {
-          type: 'paragraph'
-        }
-        Transforms.setNodes(editor, newProperties)
-        if (block.type === 'list-item') {
-          Transforms.unwrapNodes(editor, {
-            match: n =>
-              !Editor.isEditor(n) &&
-              SlateElement.isElement(n) &&
-              (n.type === 'bulleted-list' || n.type === 'number-list'),
-            split: true
-          })
-        }
-        // 如果是code-line需要判断是否是最后一行,如果不是,就不需要转换成段落
+      const [list, listPath] = getCurrentBlock(editor, 'list-item') || []
+      // 如果当前的光标不在当前块的起点,执行默认的方法
+      if (!Point.equals(selection.anchor, start)) {
+        deleteBackward(...args)
+        return
+      }
+      const newProperties: Partial<SlateElement> = {
+        type: 'paragraph'
+      }
+      // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
+      if (list && listPath && block.type === 'paragraph') {
+        const [ul, ulPath] = Editor.parent(
+          editor,
+          path
+        ) as NodeEntry<SlateElement>
+        const isNoramlParagraph = ul.children.length !== 1
+        // if (isNoramlParagraph) {
+        //   deleteBackward(...args)
+        //   return
+        // }
+        Transforms.setNodes(editor, newProperties, { at: listPath })
+        Transforms.unwrapNodes(editor, {
+          match: n =>
+            SlateElement.isElement(n) &&
+            (n.type === 'bulleted-list' || n.type === 'number-list'),
+          split: true,
+          at: listPath
+        })
+        return
+      }
+      // 其他情况按下delete,把他转换为普通的段落即可
+      if (block.type !== 'paragraph') {
+        // 如果是code-line,当按下delete时,需要判断是否是最后一行,如果不是,就不需要转换成段落
         if (block.type === 'code-line') {
           // 是否只有一个codeline
           const isOne = !getPrePath(editor, path) && !getNextPath(editor, path)
           if (isOne) {
             Transforms.unwrapNodes(editor, {
-              match: n =>
-                SlateElement.isElement(n) &&
-                n.type === 'code-block',
+              match: n => SlateElement.isElement(n) && n.type === 'code-block',
               split: true
             })
-            Transforms.setNodes(editor, newProperties)
           }
         }
+        Transforms.setNodes(editor, newProperties)
         return
       }
 
