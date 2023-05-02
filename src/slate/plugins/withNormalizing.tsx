@@ -26,8 +26,8 @@ export const withNormalizing = (editor: CustomEditor) => {
           !editor.isInline(child) &&
           child.type === 'paragraph'
         ) {
-          Transforms.unwrapNodes(editor, { at: childPath })
-          return
+          // Transforms.unwrapNodes(editor, { at: childPath })
+          // return
         }
       }
     }

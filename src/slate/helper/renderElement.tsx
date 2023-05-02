@@ -5,7 +5,7 @@ import { Image } from '../elements/Image'
 import { CheckList } from '../elements/CheckList'
 import { Link } from '../elements/Link'
 import { FixSelect } from '../elements/FixSelect'
-
+// 结构参考:https://marked.js.org/demo/
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
   switch (element.type) {

@@ -14,22 +14,14 @@ export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
   editor.insertText = text => {
     const { selection } = editor
-    const isInCodeBlock = getCurrentBlock(editor, 'code-line', 'code-block')
-    if (isInCodeBlock) {
-      insertText(text)
-      return
-    }
     if (text.endsWith(' ') && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
-      const block = Editor.above(editor, {
-        match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
-      }) as NodeEntry<SlateElement>
-      // 让快捷键转换只对普通段落起作用
-      if (block?.[0].type !== 'paragraph') {
+      const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
+      // 快捷转换不对代码块生效
+      if (block.type === 'code-line' || block.type === 'code-block') {
         insertText(text)
         return
       }
-      const path = block ? block[1] : []
       const start = Editor.start(editor, path)
       const range = { anchor, focus: start }
       const beforeText = Editor.string(editor, range) + text.slice(0, -1)
