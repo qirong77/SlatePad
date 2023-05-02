@@ -2,7 +2,8 @@ import {
   getCurrentBlock,
   getNextBlock,
   isCodeBlock,
-  isHeadBlock
+  isHeadBlock,
+  isListParagraph
 } from '../utils/BlockUtils'
 import {
   Editor,
@@ -38,7 +39,6 @@ export const handleKeyDown = (
       } catch (e) {}
     }
   }
-
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
     if (codeLine) {
@@ -73,12 +73,15 @@ export const handleKeyDown = (
       if (isCodeBlock(block.type)) {
         return
       }
-      const [list, listPath] = getCurrentBlock(editor, 'list-item') || []
       // 当光标在某个list的最后,按下enter.生成新的平级list
-      if (list && listPath) {
+      if (block.type === 'paragraph' && isListParagraph(editor, path)) {
+        e.preventDefault()
+        const [list, listPath] = Editor.parent(
+          editor,
+          path
+        ) as NodeEntry<SlateElement>
         const end = Editor.end(editor, path)
         if (Point.equals(selection.anchor, end) && Node.string(list)) {
-          e.preventDefault()
           Transforms.insertNodes(
             editor,
             {
@@ -90,19 +93,20 @@ export const handleKeyDown = (
           Transforms.select(editor, Editor.end(editor, Path.next(listPath)))
           return
         }
-        // 如果当前块是个空内容的时候按下enter
         if (!Node.string(block).length) {
           // 如果当前块是个列表
-          e.preventDefault()
-          editor.deleteBackward('character')
+          editor.deleteBackward('block')
           return
         }
       }
     }
   }
   if (e.key === 'Enter' && e.shiftKey) {
-    e.preventDefault()
-    Editor.insertText(editor, '\n')
+    const [block, path] = getCurrentBlock(editor) || []
+    if (!isCodeBlock(block!.type)) {
+      e.preventDefault()
+      Editor.insertText(editor, '\n')
+    }
   }
   // commend+enter跳出当前的块
   if (e.key === 'Enter' && e.metaKey) {

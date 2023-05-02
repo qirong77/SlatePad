@@ -1,4 +1,4 @@
-import { Editor, Element, Path, Node } from 'slate'
+import { Editor, Element, Path, Node, NodeEntry } from 'slate'
 import {
   CustomEditor,
   CustomElementType,
@@ -38,4 +38,14 @@ export const isCodeBlock = (type: CustomElementType) => {
 }
 export const isHeadBlock = (type: CustomElementType) => {
   return type.includes('heading')
+}
+// 判断当前的段落是否是在list中
+export const isListParagraph = (editor: CustomEditor, paragraphPath: Path) => {
+  const [list, listPath] = Editor.parent(
+    editor,
+    paragraphPath
+  ) as NodeEntry<SlateElement>
+  const isListParagraph =
+    list.type === 'list-item' && list.children.length === 1
+  return isListParagraph
 }

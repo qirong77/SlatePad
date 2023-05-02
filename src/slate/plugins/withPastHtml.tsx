@@ -57,7 +57,6 @@ export const withPastHtml = (editor: CustomEditor) => {
     if (html) {
       const parsed = new DOMParser().parseFromString(html, 'text/html')
       const fragment = deserialize(parsed.body)
-      console.log(fragment)
       Transforms.insertFragment(editor, fragment)
       return
     }
@@ -106,6 +105,7 @@ export const deserialize = el => {
           children: [{ text: line }]
         } as CodeLineElement
       })
+      fragment.language = 'typescript'
     }
     return fragment
   }

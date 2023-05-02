@@ -2,13 +2,12 @@ import { CustomEditor, CustomElementType } from '../../types/slate'
 import {
   Editor,
   NodeEntry,
-  Path,
   Point,
   Range,
   Element as SlateElement,
   Transforms
 } from 'slate'
-import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
+import { getCurrentBlock, isListParagraph } from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
@@ -88,18 +87,12 @@ export const withShortcuts = (editor: CustomEditor) => {
       const newProperties: Partial<SlateElement> = {
         type: 'paragraph'
       }
-
       // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
-      if (list && listPath && block.type === 'paragraph') {
-        const [ul, ulPath] = Editor.parent(
+      if (block.type === 'paragraph' && isListParagraph(editor, path)) {
+        const [list, listPath] = Editor.parent(
           editor,
           path
         ) as NodeEntry<SlateElement>
-        const isNoramlParagraph = ul.children.length !== 1
-        if (isNoramlParagraph) {
-          deleteBackward(...args)
-          return
-        }
         Transforms.setNodes(editor, newProperties, { at: listPath })
         Transforms.unwrapNodes(editor, {
           match: n =>
@@ -128,12 +121,10 @@ export const withShortcuts = (editor: CustomEditor) => {
               children: [{ text: '' }]
             })
           }
-        } else {
-          Transforms.setNodes(editor, newProperties)
-          return
         }
+        return
       }
-
+      Transforms.setNodes(editor, newProperties)
       deleteBackward(...args)
     }
   }
