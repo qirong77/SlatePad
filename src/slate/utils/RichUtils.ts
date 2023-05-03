@@ -1,5 +1,6 @@
 import {
   Editor,
+  Element,
   Node,
   NodeEntry,
   Element as SlateElement,
@@ -8,10 +9,11 @@ import {
 import {
   CustomEditor,
   CustomElementType,
+  HeadingElement,
   ImageElement
 } from '../../types/slate'
 import { wrapLink } from '../plugins/withInlines'
-import { getCurrentBlock } from './BlockUtils'
+import { getCurrentBlock, isHeadBlock } from './BlockUtils'
 
 const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
@@ -87,8 +89,31 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   )
   return !!match
 }
+const collapseHeads = (editor: CustomEditor) => {
+  const headEntries = Array.from(
+    Editor.nodes(editor, {
+      at: [],
+      mode: 'highest',
+      match: node => Element.isElement(node) && isHeadBlock(node.type)
+    })
+  ) as NodeEntry<HeadingElement>[]
+  headEntries.forEach(([, path]) => {
+    Transforms.setNodes(
+      editor,
+      // 更新所有节点的isCollapseAll,每次传过去的都是新的对象,就到导致每次isCollapseAll判断都是true
+      // 但是某些情况,比如粘贴的时候,依然还是false
+      {
+        isCollapseAll: {}
+      },
+      {
+        at: path
+      }
+    )
+  })
+}
 export const RichUtils = {
   toggleBlock,
   insertImage,
-  insertLink: wrapLink
+  insertLink: wrapLink,
+  collapseHeads
 }

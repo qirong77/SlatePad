@@ -13,11 +13,12 @@ import {
   BlockQuote,
   Menu,
   MenuBack,
-  MarkDown
+  MarkDown,
+  Collapse
 } from '../../assets/svg'
 import { RichUtils } from '../SlatePad'
 
-export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
+export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {
   const editor = useSlateStatic()
   return (
     <div className="slatepad-toolbar flex justify-start items-center px-[10px] h-[44px] border-b-[2px] border-gray-200">
@@ -47,6 +48,7 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }) => {
       <Image onMouseDown={() => RichUtils.insertImage(editor)} />
       <Link onMouseDown={() => RichUtils.insertLink(editor)} />
       <MarkDown onClick={() => {}} />
+      <Collapse onMouseDown={() => RichUtils.collapseHeads(editor)} />
       {children}
     </div>
   )

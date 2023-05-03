@@ -8,39 +8,24 @@ import {
 } from 'slate-react'
 import { Arrow } from '../../assets/svg'
 import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
+import { HeadingElement } from '../../types/slate'
 
 export function Heading({
   props,
   type
 }: {
-  props: RenderElementProps
+  props: RenderElementProps<HeadingElement>
   type: string
 }) {
   const { attributes, children, element } = props
   const selected = useSelected()
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
+  // 当前的段落是否已经处于selected的状态
   const isEdit = useRef(false)
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    const path = ReactEditor.findPath(editor, element)
-    const doms: HTMLElement[] = []
-    let currentPath = path
-    while (true) {
-      const nextBlock = getNextBlock(editor, currentPath)
-      if (nextBlock && !isHeadBlock(nextBlock.type)) {
-        doms.push(ReactEditor.toDOMNode(editor, nextBlock))
-        currentPath = Path.next(currentPath)
-      } else break
-    }
-    doms.forEach(dom => {
-      if (collapse) {
-        dom.classList.remove('hidden-block')
-      } else {
-        dom.classList.add('hidden-block')
-      }
-    })
-    setCollapse(!collapse)
+    collapseHead()
   }
   useEffect(() => {
     const { selection } = editor
@@ -82,8 +67,12 @@ export function Heading({
     }
   })
   useEffect(() => {
+    element.isCollapseAll && !selected && collapseHead()
+  }, [element.isCollapseAll])
+  useEffect(() => {
     isEdit.current = selected
   }, [selected])
+
   return (
     <div
       {...attributes}
@@ -121,5 +110,25 @@ export function Heading({
         return <h1 className="font-bold text-4xl my-[8px] ">{children}</h1>
       }
     }
+  }
+  function collapseHead() {
+    const path = ReactEditor.findPath(editor, element)
+    const doms: HTMLElement[] = []
+    let currentPath = path
+    while (true) {
+      const nextBlock = getNextBlock(editor, currentPath)
+      if (nextBlock && !isHeadBlock(nextBlock.type)) {
+        doms.push(ReactEditor.toDOMNode(editor, nextBlock))
+        currentPath = Path.next(currentPath)
+      } else break
+    }
+    doms.forEach(dom => {
+      if (collapse) {
+        dom.classList.remove('hidden-block')
+      } else {
+        dom.classList.add('hidden-block')
+      }
+    })
+    setCollapse(!collapse)
   }
 }

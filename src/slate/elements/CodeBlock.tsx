@@ -85,7 +85,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       />
       <div
         contentEditable={false}
-        className={`absolute right-[0]  bottom-0 p-[6px] w-[90px] opacity-${
+        className={`absolute right-[0]  bottom-0 p-[6px] w-[100px] opacity-${
           isIptFocus ? '100' : 0
         } group-hover:opacity-100`}>
         <input

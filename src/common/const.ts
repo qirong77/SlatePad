@@ -1,3 +1,8 @@
 import { Descendant } from 'slate'
 
-export const initialValue: Descendant[] = [{ text: '' }]
+export const initialValue: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }]
+  }
+]
