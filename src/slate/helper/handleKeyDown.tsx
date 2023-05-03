@@ -58,6 +58,7 @@ export const handleKeyDown = (
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
     const { selection } = editor
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
+
     if (selection && Range.isCollapsed(selection)) {
       // 当前是标题,换行之后不保留保留标题样式
       if (isHeadBlock(block.type)) {
@@ -73,7 +74,7 @@ export const handleKeyDown = (
       if (isCodeBlock(block.type)) {
         return
       }
-      // 当光标在某个list的最后,按下enter.生成新的平级list
+      // 当光标处于某个list,按下enter.生成新的平级list
       if (block.type === 'paragraph' && isListParagraph(editor, path)) {
         e.preventDefault()
         const [list, listPath] = Editor.parent(
@@ -93,11 +94,35 @@ export const handleKeyDown = (
           Transforms.select(editor, Editor.end(editor, Path.next(listPath)))
           return
         }
+        // 如果当前的list-paragraph没有内容, 就转化为普通的段落
         if (!Node.string(block).length) {
           // 如果当前块是个列表
           editor.deleteBackward('block')
           return
         }
+      }
+      // 当光标在某个空段落,这个块在list中,如果当前的块是list的最后一个元素,跳出当前的list
+      const [list, listPath] = Editor.parent(
+        editor,
+        path
+      ) as NodeEntry<SlateElement>
+      if (
+        block.type === 'paragraph' &&
+        list.type === 'list-item' &&
+        !isListParagraph(editor, path) &&
+        !Node.string(block)
+      ) {
+        e.preventDefault()
+        editor.deleteBackward('character')
+        Transforms.insertNodes(
+          editor,
+          {
+            type: 'list-item',
+            children: []
+          },
+          { at: Path.next(listPath) }
+        )
+        Transforms.select(editor, Path.next(listPath))
       }
     }
   }
