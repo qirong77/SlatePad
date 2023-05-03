@@ -1,4 +1,10 @@
-import { Editor, NodeEntry, Element as SlateElement, Transforms } from 'slate'
+import {
+  Editor,
+  Node,
+  NodeEntry,
+  Element as SlateElement,
+  Transforms
+} from 'slate'
 import {
   CustomEditor,
   CustomElementType,
@@ -10,19 +16,25 @@ import { getCurrentBlock } from './BlockUtils'
 const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
-  const [, ulPath] = getCurrentBlock(
-    editor,
-    'bulleted-list',
-    'number-list'
-  ) as NodeEntry<SlateElement>
-  Transforms.unwrapNodes(editor, {
-    match: n =>
-      !Editor.isEditor(n) &&
-      SlateElement.isElement(n) &&
-      (n.type === 'bulleted-list' || n.type === 'number-list'),
-    split: true,
-    at: ulPath
-  })
+  // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol结构,不进行下一步
+  const [, ulPath] =
+    getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
+  if (ulPath && (format === 'bulleted-list' || format === 'number-list')) {
+    // 如果在某个ul/ol里面,因为里面的list-item是有嵌套个段落的,所以要把里面的每个list都解构再把外层的ul/ol解构
+    for (const [child, childPath] of Node.children(editor, ulPath)) {
+      if (SlateElement.isElement(child) && child.type === 'list-item') {
+        Transforms.unwrapNodes(editor, { at: childPath })
+      }
+    }
+    Transforms.unwrapNodes(editor, {
+      match: n =>
+        SlateElement.isElement(n) &&
+        (n.type === 'bulleted-list' || n.type === 'number-list'),
+      split: true,
+      at: ulPath
+    })
+    return
+  }
   const newType: CustomElementType = isActive
     ? 'paragraph'
     : isLists

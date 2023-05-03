@@ -17,7 +17,8 @@ export const getCurrentBlock = (
       Editor.isBlock(editor, n) &&
       (types.length ? types.includes(n.type) : true)
   })
-  if (block) {
+  // 如果没有指定要获取具体的块,肯定会返回某个块
+  if (block || !types.length) {
     return block as [SlateElement, Path]
   }
   return false
