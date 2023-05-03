@@ -1,4 +1,4 @@
-import { Transforms, Node, Editor, Path, Element, Range } from 'slate'
+import { Transforms, Node, Editor, Path, Element, Range, Text } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { getCurrentBlock } from '../utils/BlockUtils'
 /* 
@@ -19,14 +19,18 @@ export const withNormalizing = (editor: CustomEditor) => {
     const [node, path] = entry as [SlateElement, Path]
     if (Element.isElement(node) && node.type === 'list-item') {
       for (const [child, childPath] of Node.children(editor, path)) {
-        if (!Element.isElement(child)) {
+        // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
+        if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {
           Transforms.wrapNodes(
             editor,
+            { type: 'paragraph', children: [] },
             {
-              type: 'paragraph',
-              children: [child]
-            },
-            { at: childPath }
+              at: path,
+              match: node =>
+                Text.isText(node) ||
+                (Element.isElement(node) && Editor.isInline(editor, node)),
+              split: true
+            }
           )
           return
         }
