@@ -16,9 +16,10 @@ import { getCurrentBlock } from './BlockUtils'
 const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
-  // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol结构,不进行下一步
+  // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol解构,不进行下一步
   const [, ulPath] =
     getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
+
   if (ulPath && (format === 'bulleted-list' || format === 'number-list')) {
     // 如果在某个ul/ol里面,因为里面的list-item是有嵌套个段落的,所以要把里面的每个list都解构再把外层的ul/ol解构
     for (const [child, childPath] of Node.children(editor, ulPath)) {
@@ -46,8 +47,15 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     type: newType
   })
   if (!isActive && isLists) {
-    const block: SlateElement = { type: format, children: [] }
-    Transforms.wrapNodes(editor, block)
+    const [, path] = getCurrentBlock(editor) as NodeEntry
+    Transforms.wrapNodes(
+      editor,
+      {
+        type: format,
+        children: []
+      },
+      { at: path }
+    )
   }
   if (!isActive && format === 'code-block') {
     const block: SlateElement = {
