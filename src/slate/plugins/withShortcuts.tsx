@@ -7,7 +7,11 @@ import {
   Element as SlateElement,
   Transforms
 } from 'slate'
-import { getCurrentBlock, isListParagraph } from '../utils/BlockUtils'
+import {
+  getCurrentBlock,
+  isCodeBlock,
+  isListParagraph
+} from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
@@ -79,6 +83,7 @@ export const withShortcuts = (editor: CustomEditor) => {
     const start = Editor.start(editor, path)
     if (selection && Range.isCollapsed(selection)) {
       const [list, listPath] = getCurrentBlock(editor, 'list-item') || []
+      // debugger
       // 如果当前的光标不在当前块的起点,执行默认的方法
       if (!Point.equals(selection.anchor, start)) {
         deleteBackward(...args)
@@ -104,29 +109,30 @@ export const withShortcuts = (editor: CustomEditor) => {
         })
         return
       }
-      // 其他情况按下delete,把他转换为普通的段落即可
-      if (block.type !== 'paragraph') {
-        // 如果是code-line,当按下delete时,需要判断是否是最后一行,如果不是,就不需要转换成普通段落
-        if (block.type === 'code-line') {
-          const [codeBlock, blockPath] = Editor.parent(editor, path)
-          // 是否只有一个codeline
-          const isOne = !getPrePath(editor, path) && !getNextPath(editor, path)
-          if (isOne) {
-            Transforms.unwrapNodes(editor, {
-              match: n => SlateElement.isElement(n) && n.type === 'code-block',
-              at: blockPath
-            })
-            Transforms.insertNodes(editor, {
-              type: 'paragraph',
-              children: [{ text: '' }]
-            })
-          }
+      // 如果是code-line,当按下delete时,需要判断是否是最后一行,如果不是,就不需要转换成普通段落
+      if (block.type === 'code-line') {
+        const [, blockPath] = Editor.parent(editor, path)
+        // 是否只有一个codeline,就把当前的代码块转换为行
+        const isOne = !getPrePath(editor, path) && !getNextPath(editor, path)
+        if (isOne) {
+          Transforms.unwrapNodes(editor, {
+            match: n => SlateElement.isElement(n) && n.type === 'code-block',
+            at: blockPath
+          })
+          Transforms.setNodes(editor, {
+            type: 'paragraph',
+            children: [{ text: '' }]
+          })
+          return
         }
+      }
+      // 其他情况按下delete,把他转换为普通的段落即可
+      if (block.type !== 'paragraph' && !isCodeBlock(block.type)) {
+        Transforms.setNodes(editor, newProperties)
         return
       }
-      Transforms.setNodes(editor, newProperties)
-      deleteBackward(...args)
     }
+    deleteBackward(...args)
   }
   return editor
 }

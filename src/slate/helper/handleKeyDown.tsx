@@ -54,7 +54,7 @@ export const handleKeyDown = (
       }
     }
   }
-  // 处理enter
+  // enter
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
     const { selection } = editor
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
@@ -102,13 +102,13 @@ export const handleKeyDown = (
         }
       }
       // 当光标在某个空段落,这个块在list中,如果当前的块是list的最后一个元素,跳出当前的list
-      const [list, listPath] = Editor.parent(
+      const [parent, parentPath] = Editor.parent(
         editor,
         path
       ) as NodeEntry<SlateElement>
       if (
         block.type === 'paragraph' &&
-        list.type === 'list-item' &&
+        parent.type === 'list-item' &&
         !isListParagraph(editor, path) &&
         !Node.string(block)
       ) {
@@ -120,12 +120,19 @@ export const handleKeyDown = (
             type: 'list-item',
             children: []
           },
-          { at: Path.next(listPath) }
+          { at: Path.next(parentPath) }
         )
-        Transforms.select(editor, Path.next(listPath))
+        Transforms.select(editor, Path.next(parentPath))
+      }
+      // 如果当前的块是个空内容,就编程普通段落
+      if (block.type !== 'paragraph' && !Node.string(block)) {
+        e.preventDefault()
+        editor.deleteBackward('character')
+        return
       }
     }
   }
+  // shift+enter
   if (e.key === 'Enter' && e.shiftKey) {
     const [block, path] = getCurrentBlock(editor) || []
     if (!isCodeBlock(block!.type)) {
@@ -161,7 +168,6 @@ export const handleKeyDown = (
       Transforms.select(editor, Editor.end(editor, Path.next(path as Path)))
     }
   }
-
   if (e.code === 'KeyA' && e.metaKey) {
     e.preventDefault()
     const match = getCurrentBlock(
