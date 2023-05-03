@@ -38,7 +38,7 @@ const SlatePad: React.FC<{
           <div
             className="slatepad-side overflow-scroll transition-all border-gray-200 "
             style={{
-              width: showHeaders ? '200px' : '0px',
+              width: showHeaders ? '230px' : '0px',
               borderRightWidth: showHeaders ? '2px' : '0px'
             }}>
             <Side />

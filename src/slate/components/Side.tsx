@@ -6,8 +6,10 @@ export const Side = () => {
   const [hs, setHs] = useState<HTMLHeadElement[]>([])
   const getH = useCallback(
     debounce(() => {
-      const hs = document.querySelector('.ediable')?.querySelectorAll('h1')
-      hs && setHs([...hs])
+      const hs = document
+        .querySelector('.ediable')
+        ?.querySelectorAll('h1,h2,h3,h4,h5')
+      hs && setHs([...hs] as HTMLElement[])
     }, 1000),
     []
   )
