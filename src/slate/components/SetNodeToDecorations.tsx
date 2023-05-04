@@ -1,7 +1,7 @@
 import { Editor, Element, NodeEntry, Node } from 'slate'
 import { useSlate } from 'slate-react'
 import { CodeBlockElement } from '../../types/slate'
-import { normalizeTokens } from '../utils/normalize-tokens'
+import { normalizeTokens } from '../lib/normalize-tokens'
 import Prism from 'prismjs'
 // 需要引入相应的语法库!
 import 'prismjs/components/prism-javascript'

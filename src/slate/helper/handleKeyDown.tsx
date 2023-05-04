@@ -5,19 +5,9 @@ import {
   isHeadBlock,
   isListParagraph
 } from '../utils/BlockUtils'
-import {
-  Editor,
-  Range,
-  Transforms,
-  Path,
-  Node,
-  Element,
-  NodeEntry,
-  Point
-} from 'slate'
+import { Editor, Range, Transforms, Path, Node, NodeEntry, Point } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
-import { getNextPath } from '../utils/PathUtils'
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (
   e: React.KeyboardEvent<HTMLDivElement>,

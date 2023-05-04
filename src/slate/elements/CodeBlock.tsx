@@ -3,7 +3,7 @@ import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
 
 import { CodeBlockElement } from '../../types/slate'
-import { Arrow, Copy } from '../../assets/svg'
+import { Arrow, Copy } from '../../assets/svg/icon'
 import { getNextPath } from '../utils/PathUtils'
 import { getNextBlock } from '../utils/BlockUtils'
 

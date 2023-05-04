@@ -6,7 +6,7 @@ import {
   useSelected,
   useSlateStatic
 } from 'slate-react'
-import { Arrow } from '../../assets/svg'
+import { Arrow } from '../../assets/svg/icon'
 import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
 import { CustomElementType, HeadingElement } from '../../types/slate'
 

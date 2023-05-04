@@ -15,7 +15,7 @@ import {
   MenuBack,
   MarkDown,
   Collapse
-} from '../../assets/svg'
+} from '../../assets/svg/icon'
 import { RichUtils } from '../SlatePad'
 
 export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {

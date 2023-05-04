@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useSlateStatic, useSlateSelection, useFocused } from 'slate-react'
 import { Range, Editor, Transforms, Text } from 'slate'
-import { Bold, Italic, StrickThrough, UnderLine } from '../../assets/svg'
+import { Bold, Italic, StrickThrough, UnderLine } from '../../assets/svg/icon'
 export const HoveringToolBar = () => {
   const selection = useSlateSelection()
   const editor = useSlateStatic()
@@ -33,7 +33,7 @@ export const HoveringToolBar = () => {
         style={{
           boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 8%)'
         }}
-        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded" >
+        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded">
         <Bold
           onMouseDown={e => {
             e.preventDefault()
@@ -52,7 +52,7 @@ export const HoveringToolBar = () => {
             toggle('italic')
           }}
         />
-        <StrickThrough/>
+        <StrickThrough />
       </div>
     </div>
   )
