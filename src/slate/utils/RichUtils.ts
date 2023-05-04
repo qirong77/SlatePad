@@ -90,6 +90,7 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   return !!match
 }
 const collapseHeads = (editor: CustomEditor) => {
+  // 找到所有的Heade节点
   const headEntries = Array.from(
     Editor.nodes(editor, {
       at: [],
@@ -114,6 +115,6 @@ const collapseHeads = (editor: CustomEditor) => {
 export const RichUtils = {
   toggleBlock,
   insertImage,
-  insertLink: wrapLink,
-  collapseHeads
+  insertLink: wrapLink
+  // collapseHeads
 }

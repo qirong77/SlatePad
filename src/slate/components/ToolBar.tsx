@@ -48,7 +48,7 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {
       <Image onMouseDown={() => RichUtils.insertImage(editor)} />
       <Link onMouseDown={() => RichUtils.insertLink(editor)} />
       <MarkDown onClick={() => {}} />
-      <Collapse onMouseDown={() => RichUtils.collapseHeads(editor)} />
+      {/* <Collapse onMouseDown={() => RichUtils.collapseHeads(editor)} /> */}
       {children}
     </div>
   )

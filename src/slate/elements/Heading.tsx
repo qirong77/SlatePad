@@ -8,7 +8,7 @@ import {
 } from 'slate-react'
 import { Arrow } from '../../assets/svg'
 import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
-import { HeadingElement } from '../../types/slate'
+import { CustomElementType, HeadingElement } from '../../types/slate'
 
 export function Heading({
   props,
@@ -67,7 +67,7 @@ export function Heading({
     }
   })
   useEffect(() => {
-    element.isCollapseAll && !selected && collapseHead()
+    element.isCollapseAll && collapseHead()
   }, [element.isCollapseAll])
   useEffect(() => {
     isEdit.current = selected
@@ -111,24 +111,43 @@ export function Heading({
       }
     }
   }
+  /* 
+  折叠段落的逻辑:把和当前段落平级的块都加一个隐藏的类(隐藏小标题和非标题)
+  打开段落的逻辑:把和当前段落平级的块都移除这个类(只打开前面非标题,)
+  */
   function collapseHead() {
     const path = ReactEditor.findPath(editor, element)
     const doms: HTMLElement[] = []
     let currentPath = path
     while (true) {
       const nextBlock = getNextBlock(editor, currentPath)
-      if (nextBlock && !isHeadBlock(nextBlock.type)) {
+      if (nextBlock && canCollapse(nextBlock.type)) {
         doms.push(ReactEditor.toDOMNode(editor, nextBlock))
         currentPath = Path.next(currentPath)
       } else break
     }
-    doms.forEach(dom => {
+    for (const dom of doms) {
       if (collapse) {
+        // const canOpens = doms.filter(dom => {
+        //   console.log(dom.tagName)
+        //   const level = dom.tagName.toLocaleLowerCase().match(/^h\d$/)
+        //   // console.log(level)
+        // })
+        // if (dom.tagName.toLocaleLowerCase().match(/^h\d$/)) {
+        //   console.log(dom.tagName)
+        // }
+        // console.log(dom.tagName)
         dom.classList.remove('hidden-block')
       } else {
         dom.classList.add('hidden-block')
       }
-    })
+    }
     setCollapse(!collapse)
+    function canCollapse(type: CustomElementType) {
+      if (!isHeadBlock(type)) return true
+      const headLevel = Number(type.at(-1))
+      const currentLevel = Number(element.type.at(-1))
+      return currentLevel < headLevel
+    }
   }
 }
