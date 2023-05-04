@@ -1,51 +1,55 @@
 # SlatePad
 
-slatepad is a WYSIWYG editor which built with [Slate.js](https://github.com/ianstormtaylor/slate).It provides a robust editing experience with advanced formatting options, including nested blocks, nested inlines, custom styles, and custom components. SlatePad also includes several built-in plugins and tools.
+slatepad is a WYSIWYG text editor built with [Slate.js](https://github.com/ianstormtaylor/slate).No need for cumbersome configuration, out of the box. It has built-in common editor functions, providing a powerful editing experience, including nested blocks, nested inline, custom styles and custom components, etc. SlatePad also includes several built-in plugins and tools. This editor will not have rich and powerful functions like word, but it will bring you a simple and elegant input experience. More and more features will be added in the future.
+
+slatepad 是一个所见即所得的文本编辑器，它使用 Slate.js 构建.无需要繁琐的配置,开箱即用.它内置了常见的编辑器功能,提供强大的编辑体验，包括嵌套块、嵌套内联、自定义样式和自定义组件等。 SlatePad 还包括几个内置的插件和工具。这个编辑器不会像word一样有丰富强大的功能，但它会给你带来简单优雅的输入体验。 将来会添加越来越多的功能。
 
 ## PlayGround
 
-[SlatePad](https://qirong77.github.io/SlatePad/)
+[Click here to experience it now](https://qirong77.github.io/SlatePad/)
 
 ## Features
 
 - Rich text editing with advanced formatting options
 - integrates common functions of rich text editors
-- Built-in plugins and tools
-- Highly customizable,Nested block is supported
-- Prower by Slate.js an React
+- Built-in plugins and toolsasd
+
+- Highly customizablea
+
+
 
 ## Getting Started
 
-```sh
+```
 npm install slatepad
 ```
 
 Then, in your project:
 
-```js
+```
 import { useMemo } from 'react'
-import { SlatePad } from './slate/SlatePad'
-import { createSlatepad } from './slate/plugins/editor'
+import { SlatePad } from 'slatepad'
+// optional:custom code highlight theme. befor import it,remember run :npm i prism-themes
 import 'prism-themes/themes/prism-one-light.css'
+
 
 export const App = () => {
   const editor = useMemo(() => createSlatepad(), [])
   return (
     <div>
-      <h1 className="text-center text-4xl my-[20px]">SlatePad</h1>
-      <main className="w-[80vw] h-[80vh]">
-        <SlatePad editor={editor} />
+      <h1>SlatePad</h1>
+      <main>
+        <SlatePad editor={editor}/>
       </main>
     </div>
   )
 }
 ```
 
+
+
 ## RoadMap
 
-Lastly, we're constantly adding cool new features to this playground. So make sure you check back here when you next get a chance .Here are some feature developments in progress
+Table-Block
 
-- [ ] Image size control
-- [ ] table block
-- [ ] markdown serialization
-- [ ] darktheme
+markdown Serializing

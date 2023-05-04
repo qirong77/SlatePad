@@ -14,6 +14,7 @@ import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
 import { SetNodeToDecorations } from './components/SetNodeToDecorations'
+import { blankInitial } from '../common/const'
 
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
@@ -29,7 +30,10 @@ const SlatePad: React.FC<{
     <div
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
       spellCheck={false}>
-      <Slate editor={editor} value={initialValue} onChange={onChange}>
+      <Slate
+        editor={editor}
+        value={initialValue || blankInitial}
+        onChange={onChange}>
         <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
           <Search search={search} setSearch={setSearch} />
         </ToolBar>
