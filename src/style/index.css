@@ -29,3 +29,6 @@ div pre[class*='language-'] {
 .hidden-block {
   display: none;
 }
+/* toggle-block */
+.side-hidden {
+}

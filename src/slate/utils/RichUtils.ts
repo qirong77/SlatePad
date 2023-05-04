@@ -89,6 +89,7 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   )
   return !!match
 }
+// 折叠所有节点,逻辑比较复杂,功能一般暂时放弃
 const collapseHeads = (editor: CustomEditor) => {
   // 找到所有的Heade节点
   const headEntries = Array.from(
