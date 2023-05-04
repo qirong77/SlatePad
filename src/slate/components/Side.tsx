@@ -1,13 +1,13 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { useSlate } from 'slate-react'
+import React, { useCallback, useState } from 'react'
+import { ReactEditor, useSlate } from 'slate-react'
 import debounce from 'debounce'
 import { HeaderTree, getHeaderTree } from '../lib/getHeaders'
 import { ArrowIcon } from '../../assets/svg/icon'
+import { Editor, Node, Path, Range, Transforms } from 'slate'
+import { getCurrentBlock } from '../utils/BlockUtils'
 
 export const Side = ({ showHeaders }: any) => {
   const [width, setSideWidth] = useState(250)
-  const sideRef = useRef<HTMLDivElement>(null)
-  sideRef.current?.offsetLeft
   function handleMouseDown(e1: React.MouseEvent) {
     const startPosition = e1.clientX
     document.onmousemove = e => {
@@ -25,7 +25,6 @@ export const Side = ({ showHeaders }: any) => {
   return (
     <>
       <div
-        ref={sideRef}
         className="slatepad-side relative overflow-scroll transition-all border-gray-200 "
         style={{
           width: showHeaders ? `${width}px` : '0px',
@@ -33,6 +32,7 @@ export const Side = ({ showHeaders }: any) => {
         }}>
         <SideHeaders />
       </div>
+      {/* drag-line */}
       <div
         className="drag absolute left-0 w-[4px] h-[-webkit-fill-available] cursor-col-resize "
         onMouseDown={handleMouseDown}
@@ -44,7 +44,15 @@ export const Side = ({ showHeaders }: any) => {
 }
 
 const SideHeaders = () => {
-  useSlate()
+  const editor = useSlate()
+  // // console.log(editor.children)
+  // const selection = editor.selection
+  // // console.log(ReactEditor.toDOMNode(editor, current[0]))
+  // if (selection && Range.isCollapsed(selection)) {
+  //   const current = getCurrentBlock(editor)
+  //   // console.log(current)
+  // }
+  // console.log(editor.selection)
   const debounceRender = useCallback(debounce(Headers, 1000), [])
   return <>{debounceRender()}</>
   function Headers() {
@@ -56,17 +64,29 @@ const SideHeaders = () => {
       return hs.map(h => {
         const level = Number(h.header.nodeName[1])
         return (
-          <ul key={h.header.textContent} className="overflow-hidden">
+          <ul
+            key={h.header.textContent}
+            className="overflow-hidden"
+            onClick={e => {
+              e.stopPropagation()
+              if (!h.children.length) h.header.scrollIntoView()
+              else {
+                const isSvg = /svg|path/.test(
+                  (e.target as HTMLElement).nodeName
+                )
+                if (isSvg) {
+                  e.currentTarget.classList.toggle('side-hidden')
+                } else h.header.scrollIntoView()
+                // if(e.target instanceof )
+              }
+            }}>
             <li
-              onClick={() => {
-                h.header.scrollIntoView()
-              }}
               className="text-sm flex items-center p-[5px] overflow-hidden whitespace-nowrap text-slate-500 hover:text-black hover:cursor-pointer"
               style={{
                 paddingLeft: level * 10 + '' + 'px'
               }}>
-              <span className="mr-[4px] ">
-                {h.children.length ? <ArrowIcon /> : <></>}
+              <span className="mr-[4px] hover:bg-slate-100 rounded">
+                {h.children.length ? <ArrowIcon className="" /> : <></>}
               </span>
               <span> {h.header.textContent}</span>
             </li>
@@ -75,6 +95,7 @@ const SideHeaders = () => {
         )
       })
     }
+    function SideHeader() {}
     return mapHeaderTree(getHeaderTree(allHeaders))
   }
 }

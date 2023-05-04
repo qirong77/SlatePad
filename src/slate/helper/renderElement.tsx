@@ -65,7 +65,10 @@ export function _renderElement(props: RenderElementProps) {
       return (
         <div
           {...attributes}
-          className="code-line  font-[monospace] relative text-[16px] leading-[20px] mx-[10px] my-[4px]">
+          style={{
+            fontFamily: 'Menlo, Monaco, "Courier New", monospace'
+          }}
+          className="code-line relative text-[16px] leading-[20px] mx-[10px] my-[4px]">
           {children}
         </div>
       )

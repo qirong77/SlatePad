@@ -31,4 +31,8 @@ div pre[class*='language-'] {
 }
 /* toggle-block */
 .side-hidden {
+  height: 30px;
+}
+.side-hidden svg {
+  transform: rotate(-90deg);
 }

@@ -67,9 +67,6 @@ export function Heading({
     }
   })
   useEffect(() => {
-    element.isCollapseAll && collapseHead()
-  }, [element.isCollapseAll])
-  useEffect(() => {
     isEdit.current = selected
   }, [selected])
 
@@ -127,20 +124,9 @@ export function Heading({
       } else break
     }
     for (const dom of doms) {
-      if (collapse) {
-        // const canOpens = doms.filter(dom => {
-        //   console.log(dom.tagName)
-        //   const level = dom.tagName.toLocaleLowerCase().match(/^h\d$/)
-        //   // console.log(level)
-        // })
-        // if (dom.tagName.toLocaleLowerCase().match(/^h\d$/)) {
-        //   console.log(dom.tagName)
-        // }
-        // console.log(dom.tagName)
-        dom.classList.remove('hidden-block')
-      } else {
-        dom.classList.add('hidden-block')
-      }
+      collapse
+        ? dom.classList.remove('hidden-block')
+        : dom.classList.add('hidden-block')
     }
     setCollapse(!collapse)
     function canCollapse(type: CustomElementType) {

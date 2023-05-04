@@ -22,7 +22,7 @@ const SlatePad: React.FC<{
   initialValue: Descendant[]
 }> = ({ onChange, editor, initialValue }) => {
   const [search, setSearch] = useState('')
-  const [showHeaders, setShowHeaders] = useState(false)
+  const [showHeaders, setShowHeaders] = useState(true)
   const renderElement = useCallback(_renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(useDecorate(editor, search), [search])
