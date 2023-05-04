@@ -8,8 +8,7 @@ import { HoveringToolBar } from './components/HoveringToolBar'
 import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
-import { Descendant, Editor } from 'slate'
-import { initialValue } from '../common/const'
+import { Descendant } from 'slate'
 import { CustomEditor } from '../types/slate'
 import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
@@ -19,7 +18,8 @@ import { SetNodeToDecorations } from './components/SetNodeToDecorations'
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor
-}> = ({ onChange, editor }) => {
+  initialValue: Descendant[]
+}> = ({ onChange, editor, initialValue }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(false)
   const renderElement = useCallback(_renderElement, [])
@@ -35,14 +35,7 @@ const SlatePad: React.FC<{
         </ToolBar>
         <HoveringToolBar />
         <div className="flex-1 flex overflow-scroll">
-          <div
-            className="slatepad-side overflow-scroll transition-all border-gray-200 "
-            style={{
-              width: showHeaders ? '230px' : '0px',
-              borderRightWidth: showHeaders ? '2px' : '0px'
-            }}>
-            <Side />
-          </div>
+          <Side showHeaders={showHeaders} />
           <div className="flex-1 overflow-scroll">
             <SetNodeToDecorations />
             <Editable
