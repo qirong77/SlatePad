@@ -3,9 +3,9 @@ import { useSlate } from 'slate-react'
 import debounce from 'debounce'
 import { HeaderTree, getHeaderTree } from '../lib/getHeaders'
 import { ArrowIcon } from '../../assets/svg/icon'
-
 export const Side = ({ showHeaders }: any) => {
   const [width, setSideWidth] = useState(250)
+  const [lazyUpdate, setLazyUpdate] = useState({})
   function handleMouseDown(e1: React.MouseEvent) {
     const startPosition = e1.clientX
     document.onmousemove = e => {
@@ -28,7 +28,8 @@ export const Side = ({ showHeaders }: any) => {
           width: showHeaders ? `${width}px` : '0px',
           borderRightWidth: showHeaders ? '2px' : '0px'
         }}>
-        <SideHeaders />
+        <SideHeaders setLazyUpdate={() => setLazyUpdate({})} />
+        {Headers()}
       </div>
       {/* drag-line */}
       <div
@@ -40,51 +41,59 @@ export const Side = ({ showHeaders }: any) => {
     </>
   )
 }
-
-const SideHeaders = () => {
+// 监听变化,延迟更新
+const SideHeaders = ({ setLazyUpdate }: { setLazyUpdate: Function }) => {
   useSlate()
-  const debounceRender = useCallback(debounce(Headers, 0), [])
-  return <>{debounceRender()}</>
-  function Headers() {
-    const allHeaders = Array.from(
-      document.querySelector('.ediable')?.querySelectorAll('h1,h2,h3,h4,h5') ||
-        []
-    ) as HTMLElement[]
-    function mapHeaderTree(hs: HeaderTree[]) {
-      return hs.map(h => {
-        const level = Number(h.header.nodeName[1])
-        return (
-          <ul
-            key={h.header.textContent}
-            className="overflow-hidden"
-            onClick={e => {
-              e.stopPropagation()
-              if (!h.children.length) h.header.scrollIntoView()
-              else {
-                const isSvg = /svg|path/.test(
-                  (e.target as HTMLElement).nodeName
-                )
-                if (isSvg) {
-                  e.currentTarget.classList.toggle('side-hidden')
-                } else h.header.scrollIntoView()
-              }
+  const shouldUpdate = useCallback(
+    debounce(() => {
+      const allHeaders = Array.from(
+        document
+          .querySelector('.ediable')
+          ?.querySelectorAll('h1,h2,h3,h4,h5') || []
+      ) as HTMLElement[]
+      setLazyUpdate()
+    }, 300),
+    []
+  )
+  shouldUpdate()
+  return <></>
+}
+function Headers() {
+  const allHeaders = Array.from(
+    document.querySelector('.ediable')?.querySelectorAll('h1,h2,h3,h4,h5') || []
+  ) as HTMLElement[]
+  function mapHeaderTree(hs: HeaderTree[]) {
+    return hs.map(h => {
+      const level = Number(h.header.nodeName[1])
+      return (
+        <ul
+          key={h.header.textContent}
+          className="overflow-hidden"
+          onClick={e => {
+            e.stopPropagation()
+            if (!h.children.length) h.header.scrollIntoView()
+            else {
+              const isSvg = /svg|path/.test((e.target as HTMLElement).nodeName)
+              if (isSvg) {
+                e.currentTarget.classList.toggle('side-hidden')
+              } else h.header.scrollIntoView()
+            }
+          }}>
+          <li
+            className="text-sm flex items-center p-[5px] overflow-hidden whitespace-nowrap text-slate-500 hover:text-black hover:cursor-pointer"
+            style={{
+              paddingLeft: level * 10 + '' + 'px'
             }}>
-            <li
-              className="text-sm flex items-center p-[5px] overflow-hidden whitespace-nowrap text-slate-500 hover:text-black hover:cursor-pointer"
-              style={{
-                paddingLeft: level * 10 + '' + 'px'
-              }}>
-              <span className="mr-[4px] hover:bg-slate-100 rounded">
-                {h.children.length ? <ArrowIcon className="" /> : <></>}
-              </span>
-              <span> {h.header.textContent}</span>
-            </li>
-            {mapHeaderTree(h.children)}
-          </ul>
-        )
-      })
-    }
-    const reactNodes = mapHeaderTree(getHeaderTree(allHeaders))
-    return reactNodes
+            <span className="mr-[4px] hover:bg-slate-100 rounded">
+              {h.children.length ? <ArrowIcon className="" /> : <></>}
+            </span>
+            <span> {h.header.textContent}</span>
+          </li>
+          {mapHeaderTree(h.children)}
+        </ul>
+      )
+    })
   }
+  const reactNodes = mapHeaderTree(getHeaderTree(allHeaders))
+  return reactNodes
 }
