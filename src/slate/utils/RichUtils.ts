@@ -105,7 +105,7 @@ const collapseHeads = (editor: CustomEditor) => {
       // 更新所有节点的isCollapseAll,每次传过去的都是新的对象,就到导致每次isCollapseAll判断都是true
       // 但是某些情况,比如粘贴的时候,依然还是false
       {
-        isCollapseAll: {}
+        // isCollapseAll: {}
       },
       {
         at: path

@@ -63,11 +63,11 @@ function Headers() {
     document.querySelector('.ediable')?.querySelectorAll('h1,h2,h3,h4,h5') || []
   ) as HTMLElement[]
   function mapHeaderTree(hs: HeaderTree[]) {
-    return hs.map(h => {
+    return hs.map((h, index) => {
       const level = Number(h.header.nodeName[1])
       return (
         <ul
-          key={h.header.textContent}
+          key={h.header.textContent + index.toString()}
           className="overflow-hidden"
           onClick={e => {
             e.stopPropagation()
