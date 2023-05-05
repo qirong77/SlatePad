@@ -1,10 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import { ReactEditor, useSlate } from 'slate-react'
+import { useSlate } from 'slate-react'
 import debounce from 'debounce'
 import { HeaderTree, getHeaderTree } from '../lib/getHeaders'
 import { ArrowIcon } from '../../assets/svg/icon'
-import { Editor, Node, Path, Range, Transforms } from 'slate'
-import { getCurrentBlock } from '../utils/BlockUtils'
 
 export const Side = ({ showHeaders }: any) => {
   const [width, setSideWidth] = useState(250)
@@ -44,16 +42,8 @@ export const Side = ({ showHeaders }: any) => {
 }
 
 const SideHeaders = () => {
-  const editor = useSlate()
-  // // console.log(editor.children)
-  // const selection = editor.selection
-  // // console.log(ReactEditor.toDOMNode(editor, current[0]))
-  // if (selection && Range.isCollapsed(selection)) {
-  //   const current = getCurrentBlock(editor)
-  //   // console.log(current)
-  // }
-  // console.log(editor.selection)
-  const debounceRender = useCallback(debounce(Headers, 1000), [])
+  useSlate()
+  const debounceRender = useCallback(debounce(Headers, 0), [])
   return <>{debounceRender()}</>
   function Headers() {
     const allHeaders = Array.from(
@@ -77,7 +67,6 @@ const SideHeaders = () => {
                 if (isSvg) {
                   e.currentTarget.classList.toggle('side-hidden')
                 } else h.header.scrollIntoView()
-                // if(e.target instanceof )
               }
             }}>
             <li
@@ -95,7 +84,7 @@ const SideHeaders = () => {
         )
       })
     }
-    function SideHeader() {}
-    return mapHeaderTree(getHeaderTree(allHeaders))
+    const reactNodes = mapHeaderTree(getHeaderTree(allHeaders))
+    return reactNodes
   }
 }
