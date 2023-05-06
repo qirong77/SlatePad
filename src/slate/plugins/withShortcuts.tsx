@@ -26,34 +26,39 @@ export const withShortcuts = (editor: CustomEditor) => {
         const newProperties: Partial<SlateElement> = {
           type
         }
-        Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
+        // 使用withoutNormaling来避免触发norme导致Transformer错乱
+        editor.withoutNormalizing(() => {
+          Transforms.setNodes<SlateElement>(editor, newProperties, {
+            match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
+          })
+          if (type === 'list-item') {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: /\d\./.test(beforeText) ? 'number-list' : 'bulleted-list',
+                children: []
+              },
+              {
+                match: n =>
+                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'list-item'
+              }
+            )
+          }
+          if (type === 'code-line') {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: 'code-block',
+                language: beforeText?.replace('```', '') || '',
+                children: []
+              },
+              {
+                match: n =>
+                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line'
+              }
+            )
+          }
         })
-        if (type === 'list-item') {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: /\d\./.test(beforeText) ? 'number-list' : 'bulleted-list',
-              children: []
-            },
-            {
-              match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'list-item'
-            }
-          )
-        }
-        if (type === 'code-line') {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: 'code-block',
-              language: beforeText?.replace('```', '') || '',
-              children: []
-            },
-            {
-              match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line'
-            }
-          )
-        }
         return
       }
     }

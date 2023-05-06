@@ -6,51 +6,54 @@ import { getCurrentBlock, isHeadBlock } from './BlockUtils'
 const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
-  // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol解构,不进行下一步
-  const [, ulPath] = getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
-  if (ulPath && (format === 'bulleted-list' || format === 'number-list')) {
-    // 如果在某个ul/ol里面,因为里面的list-item是有嵌套个段落的,所以要把里面的每个list都解构再把外层的ul/ol解构
-    for (const [child, childPath] of Node.children(editor, ulPath)) {
-      if (SlateElement.isElement(child) && child.type === 'list-item') {
-        Transforms.unwrapNodes(editor, { at: childPath })
+  editor.withoutNormalizing(() => {
+    // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol解构,不进行下一步
+    const [, ulPath] = getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
+    if (ulPath && (format === 'bulleted-list' || format === 'number-list')) {
+      // 如果在某个ul/ol里面,因为里面的list-item是有嵌套个段落的,所以要把里面的每个list都解构再把外层的ul/ol解构
+      for (const [child, childPath] of Node.children(editor, ulPath)) {
+        if (SlateElement.isElement(child) && child.type === 'list-item') {
+          Transforms.unwrapNodes(editor, { at: childPath })
+        }
       }
+      Transforms.unwrapNodes(editor, {
+        match: n =>
+          SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
+        split: true,
+        at: ulPath
+      })
+      return
     }
-    Transforms.unwrapNodes(editor, {
-      match: n =>
-        SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
-      split: true,
-      at: ulPath
+    const newType: CustomElementType = isActive
+      ? 'paragraph'
+      : isLists
+      ? 'list-item'
+      : format === 'code-block'
+      ? 'code-line'
+      : format
+    Transforms.setNodes(editor, {
+      type: newType,
+      children: []
     })
-    return
-  }
-  const newType: CustomElementType = isActive
-    ? 'paragraph'
-    : isLists
-    ? 'list-item'
-    : format === 'code-block'
-    ? 'code-line'
-    : format
-  Transforms.setNodes(editor, {
-    type: newType
-  })
-  if (!isActive && isLists) {
-    Transforms.wrapNodes(
-      editor,
-      {
-        type: format,
-        children: []
-      },
-      { match: node => Element.isElement(node) && node.type === 'list-item' }
-    )
-  }
-  if (!isActive && format === 'code-block') {
-    const block: SlateElement = {
-      type: 'code-block',
-      children: [],
-      language: ''
+    if (!isActive && isLists) {
+      Transforms.wrapNodes(
+        editor,
+        {
+          type: format,
+          children: []
+        },
+        { match: node => Element.isElement(node) && node.type === 'list-item' }
+      )
     }
-    Transforms.wrapNodes(editor, block)
-  }
+    if (!isActive && format === 'code-block') {
+      const block: SlateElement = {
+        type: 'code-block',
+        children: [],
+        language: ''
+      }
+      Transforms.wrapNodes(editor, block)
+    }
+  })
 }
 const insertImage = (editor: CustomEditor, url = 'https://source.unsplash.com/kFrdX5IeQzI') => {
   const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
