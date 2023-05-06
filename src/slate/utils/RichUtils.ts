@@ -24,6 +24,12 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
       })
       return
     }
+    // 解构代码块
+    Transforms.unwrapNodes(editor, {
+      match: node => Element.isElement(node) && node.type === 'code-block',
+      split: true
+    })
+
     const newType: CustomElementType = isActive
       ? 'paragraph'
       : isLists
