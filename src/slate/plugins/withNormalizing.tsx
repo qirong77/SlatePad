@@ -1,4 +1,4 @@
-import { Transforms, Node, Editor, Path, Element, Range, Text } from 'slate'
+import { Transforms, Node, Editor, Path, Element, Range, Text, NodeEntry } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { getCurrentBlock } from '../utils/BlockUtils'
 /* 
@@ -18,6 +18,23 @@ export const withNormalizing = (editor: CustomEditor) => {
   editor.normalizeNode = entry => {
     const [node, path] = entry as [SlateElement, Path]
     if (Element.isElement(node) && node.type === 'list-item') {
+      const [parentBlock, parentPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
+      // 从飞书对话框粘贴列表,发现里面的list没有用ul或者ol包围
+      if (parentBlock.type !== 'bulleted-list' && parentBlock.type !== 'number-list') {
+        Transforms.wrapNodes(
+          editor,
+          {
+            type: 'bulleted-list',
+            children: []
+          },
+          {
+            match: n => Element.isElement(n) && n.type === 'list-item',
+            at: parentPath,
+            split: true
+          }
+        )
+        return
+      }
       for (const [child, childPath] of Node.children(editor, path)) {
         // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
         if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {
