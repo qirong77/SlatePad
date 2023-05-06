@@ -40,7 +40,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
     const { selection } = editor
     if (!selection) return
-    if (e.nativeEvent.isComposing || Range.isCollapsed(selection)) return
+    if (e.nativeEvent.isComposing || !Range.isCollapsed(selection)) return
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
     // 如果当前是一个代码块,就跳过
     if (isCodeBlock(block.type)) {
@@ -72,16 +72,18 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
           { at: Path.next(listPath) }
         )
         Transforms.select(editor, Editor.end(editor, Path.next(listPath)))
+        return
       }
-      //否则就是在这个列表的中间按下enter,会把这个列表一分为2
-      return
+      //如果在这个列表的中间按下enter,会把这个列表一分为2
+      // return
+      // 如果当前的list-paragraph没有内容, 就转化为普通的段落
+      if (!Node.string(block).length && block.type !== 'paragraph') {
+        // 如果当前块是个列表
+        editor.deleteBackward('block')
+        return
+      }
     }
-    // 如果当前的list-paragraph没有内容, 就转化为普通的段落
-    if (!Node.string(block).length) {
-      // 如果当前块是个列表
-      editor.deleteBackward('block')
-      return
-    }
+
     // 当光标在某个空段落,这个块在list中,如果当前的块是list的最后一个元素,跳出当前的list
     const [parent, parentPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
     if (
