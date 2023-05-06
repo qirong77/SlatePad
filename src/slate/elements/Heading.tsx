@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Editor, Transforms, Node, Range, Path } from 'slate'
-import {
-  ReactEditor,
-  RenderElementProps,
-  useSelected,
-  useSlateStatic
-} from 'slate-react'
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 import { Arrow } from '../../assets/svg/icon'
 import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
 import { CustomElementType, HeadingElement } from '../../types/slate'
@@ -124,9 +119,7 @@ export function Heading({
       } else break
     }
     for (const dom of doms) {
-      collapse
-        ? dom.classList.remove('hidden-block')
-        : dom.classList.add('hidden-block')
+      collapse ? dom.classList.remove('hidden-block') : dom.classList.add('hidden-block')
     }
     setCollapse(!collapse)
     function canCollapse(type: CustomElementType) {

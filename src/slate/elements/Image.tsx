@@ -7,9 +7,7 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
   return (
     <div
       {...attributes}
-      className={`border-[3px] rounded ${
-        selected ? 'border-blue-500' : 'border-transparent'
-      }`}>
+      className={`border-[3px] rounded ${selected ? 'border-blue-500' : 'border-transparent'}`}>
       {children}
       <img src={(element as ImageElement).url} className="w-full h-full" />
     </div>

@@ -27,18 +27,13 @@ export const SetNodeToDecorations = () => {
       match: n => Element.isElement(n) && n.type === 'code-block'
     })
   ) as NodeEntry<CodeBlockElement>[]
-  const nodeToDecorations = mergeMaps(
-    ...blockEntries.map(getChildNodeToDecorations)
-  )
+  const nodeToDecorations = mergeMaps(...blockEntries.map(getChildNodeToDecorations))
 
   editor.nodeToDecorations = nodeToDecorations
   return <></>
 }
 
-function getChildNodeToDecorations([
-  block,
-  blockPath
-]: NodeEntry<CodeBlockElement>) {
+function getChildNodeToDecorations([block, blockPath]: NodeEntry<CodeBlockElement>) {
   const nodeToDecorations = new Map<Element, Range[]>()
   const text = block.children.map(line => Node.string(line)).join('\n')
   let tokens

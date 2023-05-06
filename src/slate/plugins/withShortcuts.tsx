@@ -1,17 +1,6 @@
 import { CustomEditor, CustomElementType } from '../../types/slate'
-import {
-  Editor,
-  NodeEntry,
-  Point,
-  Range,
-  Element as SlateElement,
-  Transforms
-} from 'slate'
-import {
-  getCurrentBlock,
-  isCodeBlock,
-  isListParagraph
-} from '../utils/BlockUtils'
+import { Editor, NodeEntry, Point, Range, Element as SlateElement, Transforms } from 'slate'
+import { getCurrentBlock, isCodeBlock, isListParagraph } from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
@@ -48,10 +37,7 @@ export const withShortcuts = (editor: CustomEditor) => {
               children: []
             },
             {
-              match: n =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n) &&
-                n.type === 'list-item'
+              match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'list-item'
             }
           )
         }
@@ -64,10 +50,7 @@ export const withShortcuts = (editor: CustomEditor) => {
               children: []
             },
             {
-              match: n =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n) &&
-                n.type === 'code-line'
+              match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line'
             }
           )
         }
@@ -94,15 +77,11 @@ export const withShortcuts = (editor: CustomEditor) => {
       }
       // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
       if (block.type === 'paragraph' && isListParagraph(editor, path)) {
-        const [list, listPath] = Editor.parent(
-          editor,
-          path
-        ) as NodeEntry<SlateElement>
+        const [list, listPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
         Transforms.setNodes(editor, newProperties, { at: listPath })
         Transforms.unwrapNodes(editor, {
           match: n =>
-            SlateElement.isElement(n) &&
-            (n.type === 'bulleted-list' || n.type === 'number-list'),
+            SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
           split: true,
           // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
           at: listPath

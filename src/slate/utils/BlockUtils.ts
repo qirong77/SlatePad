@@ -1,15 +1,8 @@
 import { Editor, Element, Path, Node, NodeEntry } from 'slate'
-import {
-  CustomEditor,
-  CustomElementType,
-  SlateElement
-} from '../../types/slate'
+import { CustomEditor, CustomElementType, SlateElement } from '../../types/slate'
 
 // 获取当前光标所在位置的某个块,只会返回最先匹配到的块
-export const getCurrentBlock = (
-  editor: CustomEditor,
-  ...types: CustomElementType[]
-) => {
+export const getCurrentBlock = (editor: CustomEditor, ...types: CustomElementType[]) => {
   // above:从当前的最里层节点向外递归
   const block = Editor.above(editor, {
     match: n =>
@@ -42,11 +35,7 @@ export const isHeadBlock = (type: CustomElementType) => {
 }
 // 判断当前的段落是否是在list中
 export const isListParagraph = (editor: CustomEditor, paragraphPath: Path) => {
-  const [list, listPath] = Editor.parent(
-    editor,
-    paragraphPath
-  ) as NodeEntry<SlateElement>
-  const isListParagraph =
-    list.type === 'list-item' && list.children.length === 1
+  const [list, listPath] = Editor.parent(editor, paragraphPath) as NodeEntry<SlateElement>
+  const isListParagraph = list.type === 'list-item' && list.children.length === 1
   return isListParagraph
 }

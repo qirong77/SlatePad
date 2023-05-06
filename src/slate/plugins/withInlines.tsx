@@ -10,7 +10,6 @@ export const withInlines = (editor: CustomEditor) => {
     return element.type === 'link' || isInline(element)
   }
   editor.insertText = text => {
-
     if (text && isUrl(text)) {
       wrapLink(editor, text)
     } else {
@@ -32,14 +31,12 @@ export const withInlines = (editor: CustomEditor) => {
 
 export function wrapLink(editor: CustomEditor, url = 'www.baidu.com') {
   const [link] = Editor.nodes(editor, {
-    match: n =>
-      !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
+    match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
   })
   // 当前的选区含有link,解除link样式
   if (link) {
     Transforms.unwrapNodes(editor, {
-      match: n =>
-        !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
+      match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
     })
     return
   }

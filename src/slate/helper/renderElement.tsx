@@ -19,9 +19,7 @@ export function _renderElement(props: RenderElementProps) {
       )
     case 'bulleted-list':
       return (
-        <ul
-          className="slatepad-bulleted-list pl-[20px] my-[8px]"
-          {...attributes}>
+        <ul className="slatepad-bulleted-list pl-[20px] my-[8px]" {...attributes}>
           {children}
         </ul>
       )

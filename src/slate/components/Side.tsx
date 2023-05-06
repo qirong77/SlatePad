@@ -47,9 +47,7 @@ const SideHeaders = ({ setLazyUpdate }: { setLazyUpdate: Function }) => {
   const shouldUpdate = useCallback(
     debounce(() => {
       const allHeaders = Array.from(
-        document
-          .querySelector('.ediable')
-          ?.querySelectorAll('h1,h2,h3,h4,h5') || []
+        document.querySelector('.ediable')?.querySelectorAll('h1,h2,h3,h4,h5') || []
       ) as HTMLElement[]
       setLazyUpdate()
     }, 300),

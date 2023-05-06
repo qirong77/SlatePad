@@ -13,9 +13,7 @@ export const createSlatepad = () => {
   const editor = withInlines(
     withPastHtml(
       withImages(
-        withForceLayout(
-          withNormalizing(withShortcuts(withHistory(withReact(createEditor()))))
-        )
+        withForceLayout(withNormalizing(withShortcuts(withHistory(withReact(createEditor())))))
       )
     )
   )

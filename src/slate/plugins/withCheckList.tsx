@@ -1,10 +1,4 @@
-import {
-  Editor,
-  Element as SlateElement,
-  Range,
-  Point,
-  Transforms
-} from 'slate'
+import { Editor, Element as SlateElement, Range, Point, Transforms } from 'slate'
 import { CustomEditor } from '../../types/slate'
 
 export const withChecklists = (editor: CustomEditor) => {
@@ -15,10 +9,7 @@ export const withChecklists = (editor: CustomEditor) => {
 
     if (selection && Range.isCollapsed(selection)) {
       const [match] = Editor.nodes(editor, {
-        match: n =>
-          !Editor.isEditor(n) &&
-          SlateElement.isElement(n) &&
-          n.type === 'check-list-item'
+        match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item'
       })
 
       if (match) {
@@ -31,9 +22,7 @@ export const withChecklists = (editor: CustomEditor) => {
           }
           Transforms.setNodes(editor, newProperties, {
             match: n =>
-              !Editor.isEditor(n) &&
-              SlateElement.isElement(n) &&
-              n.type === 'check-list-item'
+              !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item'
           })
           return
         }

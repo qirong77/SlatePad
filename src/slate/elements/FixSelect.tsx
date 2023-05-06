@@ -1,11 +1,6 @@
 import { useEffect } from 'react'
 import { Editor, Range, Transforms, Path } from 'slate'
-import {
-  ReactEditor,
-  RenderElementProps,
-  useSelected,
-  useSlateStatic
-} from 'slate-react'
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 // 作用:当第一个元素不是普通段落(代码块)无法通过commend + a方式删除,或者delete删除的问题
 export const FixSelect = ({ props }: { props: RenderElementProps }) => {
   const { attributes, children, element } = props

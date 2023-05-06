@@ -27,8 +27,7 @@ export const withNormalizing = (editor: CustomEditor) => {
             {
               at: path,
               match: node =>
-                Text.isText(node) ||
-                (Element.isElement(node) && Editor.isInline(editor, node)),
+                Text.isText(node) || (Element.isElement(node) && Editor.isInline(editor, node)),
               split: true
             }
           )

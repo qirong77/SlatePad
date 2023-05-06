@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
 import { Transforms } from 'slate'
-import {
-  ReactEditor,
-  RenderElementProps,
-  useSelected,
-  useSlateStatic
-} from 'slate-react'
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 
 export function Link({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props
@@ -38,11 +33,7 @@ export function Link({ props }: { props: RenderElementProps }) {
           boxShadow: 'rgb(4 4 4 / 10%) 0px 0px 5px 1px',
           zIndex: selected ? 1 : -1
         }}>
-        <input
-          onChange={resetUrl}
-          className="rounded  outline-none "
-          value={element.url}
-        />
+        <input onChange={resetUrl} className="rounded  outline-none " value={element.url} />
       </span>
     </a>
   )

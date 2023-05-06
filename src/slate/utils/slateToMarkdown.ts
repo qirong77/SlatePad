@@ -3,10 +3,7 @@ import { CustomEditor, SlateElement } from './../../types/slate'
 
 import { Node } from 'slate'
 import { isHeadBlock } from './BlockUtils'
-export function slateToMarkdown(
-  editor: CustomEditor,
-  elements: SlateElement[]
-): string {
+export function slateToMarkdown(editor: CustomEditor, elements: SlateElement[]): string {
   return elements.map(el => parseBlock(el)).join('\n')
   function parseLeafs(element: any): string {
     const leafs = element.children || [element]
@@ -24,9 +21,7 @@ export function slateToMarkdown(
   }
   function parseBlock(element: SlateElement, listLevel = 0): string {
     if (element.type === 'code-block') {
-      const codeLines = element.children
-        .map(line => Node.string(line))
-        .join('\n')
+      const codeLines = element.children.map(line => Node.string(line)).join('\n')
       return '```' + (element.language || '') + '\n' + codeLines + '\n```'
     }
     if (isHeadBlock(element.type)) {
@@ -36,14 +31,11 @@ export function slateToMarkdown(
     if (element.type === 'bulleted-list' || element.type === 'number-list') {
       return element.children
         .map((li: any, index) => {
-          const listMark =
-            element.type === 'bulleted-list' ? '*' : index + 1 + '.'
+          const listMark = element.type === 'bulleted-list' ? '*' : index + 1 + '.'
           const mark = '  '.repeat(listLevel) + listMark + ' '
           const listItemContent = li.children.map((child: SlateElement) => {
             if (Element.isElement(child) && Editor.isBlock(editor, child)) {
-              return (
-                parseBlock(child, listLevel + 1) + '\n' + '  '.repeat(listLevel)
-              )
+              return parseBlock(child, listLevel + 1) + '\n' + '  '.repeat(listLevel)
             }
             return parseLeafs(child)
           })

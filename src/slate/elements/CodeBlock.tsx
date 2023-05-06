@@ -65,9 +65,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         <code className="whitespace-pre-wrap">{children}</code>
       </pre>
       {collapse && (
-        <div
-          contentEditable={false}
-          className="rest pl-[10px]  h-[30px] relative">
+        <div contentEditable={false} className="rest pl-[10px]  h-[30px] relative">
           <span className="absolute top-0">......</span>
         </div>
       )}
@@ -79,9 +77,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         onClick={handleClick}
         className={`absolute hover:bg-white left-[-30px]  top-[0px] opacity-${
           collapse ? 100 : 0
-        } group-hover:opacity-100 transition-all ${
-          collapse ? '-rotate-90' : ''
-        }`}
+        } group-hover:opacity-100 transition-all ${collapse ? '-rotate-90' : ''}`}
       />
       <div
         contentEditable={false}

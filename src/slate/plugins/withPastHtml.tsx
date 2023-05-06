@@ -78,11 +78,7 @@ export const deserialize = el => {
   const { nodeName } = el
   let parent = el
   // 有些编辑的代码块的形状是这样,有些的不是
-  if (
-    nodeName === 'PRE' &&
-    el.childNodes[0] &&
-    el.childNodes[0].nodeName === 'CODE'
-  ) {
+  if (nodeName === 'PRE' && el.childNodes[0] && el.childNodes[0].nodeName === 'CODE') {
     parent = el.childNodes[0]
   }
   let children = Array.from(parent.childNodes).map(deserialize).flat()
