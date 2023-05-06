@@ -9,10 +9,7 @@ import { Editor, Range, Transforms, Path, Node, NodeEntry, Point } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
 // 后面需要引入第三库进行隔离,只进行一次判定
-export const handleKeyDown = (
-  e: React.KeyboardEvent<HTMLDivElement>,
-  editor: CustomEditor
-) => {
+export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: CustomEditor) => {
   // enter codeblock-languageSelector
   if (e.code === 'ArrowUp') {
     const [block, path] = getCurrentBlock(editor) || []
@@ -22,9 +19,7 @@ export const handleKeyDown = (
         const preBlock = Node.get(editor, prePath) as SlateElement
         if (preBlock?.type === 'code-block') {
           e.preventDefault()
-          ReactEditor.toDOMNode(editor, preBlock)
-            .querySelector('input')
-            ?.focus()
+          ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
         }
       } catch (e) {}
     }
@@ -37,15 +32,13 @@ export const handleKeyDown = (
       if (!nextCodeLine) {
         e.preventDefault()
         const [codeBlock] = getCurrentBlock(editor, 'code-block') || []
-        codeBlock &&
-          ReactEditor.toDOMNode(editor, codeBlock)
-            .querySelector('input')
-            ?.focus()
+        codeBlock && ReactEditor.toDOMNode(editor, codeBlock).querySelector('input')?.focus()
       }
     }
   }
   // enter
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
+    if (e.nativeEvent.isComposing) return
     const { selection } = editor
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
 
@@ -67,10 +60,7 @@ export const handleKeyDown = (
       // 当光标处于某个list,按下enter.生成新的平级list
       if (block.type === 'paragraph' && isListParagraph(editor, path)) {
         e.preventDefault()
-        const [list, listPath] = Editor.parent(
-          editor,
-          path
-        ) as NodeEntry<SlateElement>
+        const [list, listPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
         const end = Editor.end(editor, path)
         if (Point.equals(selection.anchor, end) && Node.string(list)) {
           Transforms.insertNodes(
@@ -92,10 +82,7 @@ export const handleKeyDown = (
         }
       }
       // 当光标在某个空段落,这个块在list中,如果当前的块是list的最后一个元素,跳出当前的list
-      const [parent, parentPath] = Editor.parent(
-        editor,
-        path
-      ) as NodeEntry<SlateElement>
+      const [parent, parentPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
       if (
         block.type === 'paragraph' &&
         parent.type === 'list-item' &&
@@ -135,8 +122,7 @@ export const handleKeyDown = (
     e.preventDefault()
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
-      const [block, path] =
-        getCurrentBlock(editor, 'list-item', 'code-line') || []
+      const [block, path] = getCurrentBlock(editor, 'list-item', 'code-line') || []
       if (block && path) {
         const [ul, ulPath] = Editor.parent(editor, path)
         const isLast = path[path.length - 1] === ul.children.length - 1
@@ -160,12 +146,7 @@ export const handleKeyDown = (
   }
   if (e.code === 'KeyA' && e.metaKey) {
     e.preventDefault()
-    const match = getCurrentBlock(
-      editor,
-      'bulleted-list',
-      'code-block',
-      'number-list'
-    )
+    const match = getCurrentBlock(editor, 'bulleted-list', 'code-block', 'number-list')
     if (match) {
       const [, path] = match
       Transforms.select(editor, path)

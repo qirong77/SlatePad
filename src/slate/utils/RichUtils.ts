@@ -1,17 +1,5 @@
-import {
-  Editor,
-  Element,
-  Node,
-  NodeEntry,
-  Element as SlateElement,
-  Transforms
-} from 'slate'
-import {
-  CustomEditor,
-  CustomElementType,
-  HeadingElement,
-  ImageElement
-} from '../../types/slate'
+import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms } from 'slate'
+import { CustomEditor, CustomElementType, HeadingElement, ImageElement } from '../../types/slate'
 import { wrapLink } from '../plugins/withInlines'
 import { getCurrentBlock, isHeadBlock } from './BlockUtils'
 
@@ -19,9 +7,7 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
   // 当前是否在某个ul/ol里面,如果是,就把这个ul或者ol解构,不进行下一步
-  const [, ulPath] =
-    getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
-
+  const [, ulPath] = getCurrentBlock(editor, 'bulleted-list', 'number-list') || []
   if (ulPath && (format === 'bulleted-list' || format === 'number-list')) {
     // 如果在某个ul/ol里面,因为里面的list-item是有嵌套个段落的,所以要把里面的每个list都解构再把外层的ul/ol解构
     for (const [child, childPath] of Node.children(editor, ulPath)) {
@@ -31,8 +17,7 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     }
     Transforms.unwrapNodes(editor, {
       match: n =>
-        SlateElement.isElement(n) &&
-        (n.type === 'bulleted-list' || n.type === 'number-list'),
+        SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
       split: true,
       at: ulPath
     })
@@ -49,14 +34,13 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     type: newType
   })
   if (!isActive && isLists) {
-    const [, path] = getCurrentBlock(editor) as NodeEntry
     Transforms.wrapNodes(
       editor,
       {
         type: format,
         children: []
       },
-      { at: path }
+      { match: node => Element.isElement(node) && node.type === 'list-item' }
     )
   }
   if (!isActive && format === 'code-block') {
@@ -65,15 +49,10 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
       children: [],
       language: ''
     }
-    Transforms.wrapNodes(editor, block, {
-      split: true
-    })
+    Transforms.wrapNodes(editor, block)
   }
 }
-const insertImage = (
-  editor: CustomEditor,
-  url = 'https://source.unsplash.com/kFrdX5IeQzI'
-) => {
+const insertImage = (editor: CustomEditor, url = 'https://source.unsplash.com/kFrdX5IeQzI') => {
   const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
   Transforms.insertNodes(editor, image)
 }
@@ -83,8 +62,7 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   const [match] = Array.from(
     Editor.nodes(editor, {
       at: Editor.unhangRange(editor, selection),
-      match: n =>
-        !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format
+      match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format
     })
   )
   return !!match
