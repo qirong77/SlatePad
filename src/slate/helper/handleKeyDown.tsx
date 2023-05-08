@@ -77,7 +77,8 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
       //如果在这个列表的中间按下enter,会把这个列表一分为2
       // return
       // 如果当前的list-paragraph没有内容, 就转化为普通的段落
-      if (!Node.string(block).length && block.type !== 'paragraph') {
+      if (!Node.string(block).length) {
+        e.preventDefault()
         // 如果当前块是个列表
         editor.deleteBackward('block')
         return
