@@ -32,7 +32,10 @@ export type EditableVoidElement = {
   type: 'editable-void'
   children: EmptyText[]
 }
-
+export type DividerElement = {
+  type: 'divider'
+  children: EmptyText[]
+}
 export type HeadingElement = {
   type: 'heading1' | 'heading2' | 'heading3' | 'heading4' | 'heading5'
   align?: string
@@ -95,7 +98,7 @@ export type SlateElement =
   | CodeLineElement
   | NumberListElement
   | FixSelectElement
-
+  | DividerElement
 export type CustomElementType = Pick<SlateElement, 'type'>['type']
 
 export type CustomText = {

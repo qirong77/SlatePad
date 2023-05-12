@@ -5,7 +5,7 @@ export const withImages = (editor: CustomEditor) => {
 
   // void元素就是不可编辑的元素，slate默认都是返回false，这里重写这个方法
   editor.isVoid = element => {
-    return element.type === 'image' ? true : isVoid(element)
+    return element.type === 'image' || element.type === 'divider' ? true : isVoid(element)
   }
   // 在粘贴和拖住上增加image的功能
   editor.insertData = data => {

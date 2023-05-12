@@ -132,7 +132,9 @@ function getType(str: string): CustomElementType | false {
     '##': 'heading2',
     '###': 'heading3',
     '####': 'heading4',
-    '#####': 'heading5'
+    '#####': 'heading5',
+    '---': 'divider',
+    '***': 'divider'
   }
   if (/\d\./.test(str)) return 'list-item'
   if (/^```/.test(str)) return 'code-line'

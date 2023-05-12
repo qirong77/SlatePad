@@ -22,7 +22,8 @@ const ELEMENT_TAGS: {
   OL: () => ({ type: 'number-list' }),
   P: () => ({ type: 'paragraph' }),
   PRE: () => ({ type: 'code-block' }),
-  UL: () => ({ type: 'bulleted-list' })
+  UL: () => ({ type: 'bulleted-list' }),
+  HR: () => ({ type: 'divider' })
 }
 
 // COMPAT: `B` is omitted here because Google Docs uses `<b>` in weird ways.
@@ -74,7 +75,6 @@ export const deserialize = el => {
   } else if (el.nodeName === 'BR') {
     return '\n'
   }
-
   const { nodeName } = el
   let parent = el
   // 有些编辑的代码块的形状是这样,有些的不是
@@ -103,6 +103,7 @@ export const deserialize = el => {
       })
       fragment.language = 'typescript'
     }
+    console.log(fragment)
     return fragment
   }
 

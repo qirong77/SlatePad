@@ -5,6 +5,7 @@ import { Image } from '../elements/Image'
 import { CheckList } from '../elements/CheckList'
 import { Link } from '../elements/Link'
 import { FixSelect } from '../elements/FixSelect'
+import { Divider } from '../elements/Divider'
 // 结构参考:https://marked.js.org/demo/
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -72,6 +73,8 @@ export function _renderElement(props: RenderElementProps) {
       )
     case 'code-block':
       return <CodeBlock props={props} />
+    case 'divider':
+      return <Divider props={props} />
     default:
       return <p {...attributes}>{children}</p>
   }
