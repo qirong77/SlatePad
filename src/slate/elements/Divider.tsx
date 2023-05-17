@@ -10,7 +10,7 @@ export const Divider = ({ props }: { props: RenderElementProps }) => {
         selected ? 'border-blue-500' : 'border-none'
       }`}>
       {children}
-      <hr className="w-full" />
+      <hr contentEditable={false} className="w-full" />
     </div>
   )
 }

@@ -1,5 +1,6 @@
-import { Editor, Element, Path, Node, NodeEntry } from 'slate'
+import { Editor, Element, Path, Node, NodeEntry, Transforms } from 'slate'
 import { CustomEditor, CustomElementType, SlateElement } from '../../types/slate'
+import { getNextPath } from './PathUtils'
 
 // 获取当前光标所在位置的某个块,只会返回最先匹配到的块
 export const getCurrentBlock = (editor: CustomEditor, ...types: CustomElementType[]) => {
@@ -29,6 +30,15 @@ export const getNextBlock = (editor: CustomEditor, path: Path) => {
 
 export const isCodeBlock = (type: CustomElementType) => {
   return type === 'code-block' || type === 'code-line'
+}
+document.querySelector('p')?.nextSibling
+// 选择下一个平级块
+export const selectNextSibling = (editor: CustomEditor) => {
+  const [block, path] = getCurrentBlock(editor) || []
+  if (block && path) {
+    const nextPath = getNextPath(editor, path)
+    nextPath && Transforms.select(editor, Editor.start(editor, nextPath))
+  }
 }
 export const isHeadBlock = (type: CustomElementType) => {
   return type.includes('heading')

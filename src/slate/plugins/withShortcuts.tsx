@@ -1,6 +1,11 @@
 import { CustomEditor, CustomElementType } from '../../types/slate'
 import { Editor, NodeEntry, Point, Range, Element as SlateElement, Transforms } from 'slate'
-import { getCurrentBlock, isCodeBlock, isListParagraph } from '../utils/BlockUtils'
+import {
+  getCurrentBlock,
+  isCodeBlock,
+  isListParagraph,
+  selectNextSibling
+} from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: CustomEditor) => {
   const { deleteBackward, insertText } = editor
@@ -57,6 +62,11 @@ export const withShortcuts = (editor: CustomEditor) => {
                   !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line'
               }
             )
+          }
+          if (type === 'divider') {
+            window.queueMicrotask(() => {
+              selectNextSibling(editor)
+            })
           }
         })
         return

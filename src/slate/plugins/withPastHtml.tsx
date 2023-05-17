@@ -103,7 +103,6 @@ export const deserialize = el => {
       })
       fragment.language = 'typescript'
     }
-    console.log(fragment)
     return fragment
   }
 
