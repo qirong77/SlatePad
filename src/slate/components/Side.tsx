@@ -41,19 +41,18 @@ export const Side = ({ showHeaders }: any) => {
     </>
   )
 }
+let timer: any
 // 监听变化,延迟更新
 const SideHeaders = ({ setLazyUpdate }: { setLazyUpdate: Function }) => {
   useSlate()
-  const shouldUpdate = useCallback(
-    debounce(() => {
-      const allHeaders = Array.from(
-        document.querySelector('.ediable')?.querySelectorAll('h1,h2,h3,h4,h5') || []
-      ) as HTMLElement[]
+  if (timer) {
+    clearTimeout(timer)
+    timer = null
+  } else {
+    timer = setTimeout(() => {
       setLazyUpdate()
-    }, 300),
-    []
-  )
-  shouldUpdate()
+    }, 300)
+  }
   return <></>
 }
 function Headers() {
