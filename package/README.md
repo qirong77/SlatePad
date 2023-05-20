@@ -79,23 +79,68 @@ const handleSave = value => {
   console.log(value)
 }
 ;<SlatePad onChange={handleSave} editor={editor} />
+// Data Structor
+/*
+[
+    {
+        "type": "fix-select",
+        "children": [
+            {
+                "text": ""
+            }
+        ]
+    },
+    {
+        "type": "heading2",
+        "children": [
+            {
+                "text": "hello"
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "children": [
+            {
+                "text": "content"
+            }
+        ]
+    },
+    {
+        "type": "paragraph",
+        "children": [
+            {
+                "text": ""
+            }
+        ]
+    }
+]
+*/
 ```
 
 ## Normalizing
 
-normalizing is in dev，but you can do it own your own way.You can reference :https://docs.slatejs.org/concepts/11-normalizing
+You use SlatePad's default data structure and convert it into the form you need, such as markdown. Slatepad does not provide this function, you can achieve your needs through custom serialization. Reference: https://docs.slatejs.org/concepts/11-normalizing
 
 # API
 
 ## EditorUtils
 
-- clearAll(editor)：clear editor content.
+- clearAll：clear editor content.
 - clearHistory：clear slatepad history
 - replaceAll：replace content with slate.js fragment
+
+```js
+import { SlatePad, EditorUtils, createSlatepad } from 'slatepad'
+const editor = createSlatepad()
+EditorUtils.clearAll(editor)
+```
 
 ## RichUtils
 
 ## createSlatepad
+
+create editor instance of slate.js
 
 ## SlatePad
 
@@ -105,4 +150,3 @@ SlatePad is currently in development，I will add new feature in the future.
 
 - [ ] Table-Block
 - [ ] Dark-Theme
-- [ ] Markdown Serializing

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import { useSlate } from 'slate-react'
-import debounce from 'debounce'
 import { HeaderTree, getHeaderTree } from '../lib/getHeaders'
 import { ArrowIcon } from '../../assets/svg/icon'
 export const Side = ({ showHeaders }: any) => {
@@ -41,10 +40,12 @@ export const Side = ({ showHeaders }: any) => {
     </>
   )
 }
+
 let timer: any
 // 监听变化,延迟更新
 const SideHeaders = ({ setLazyUpdate }: { setLazyUpdate: Function }) => {
   useSlate()
+  console.log(useSlate().children)
   if (timer) {
     clearTimeout(timer)
     timer = null
