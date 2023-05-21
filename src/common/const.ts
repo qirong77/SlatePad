@@ -21,7 +21,7 @@ export const initialValue: Descendant[] = [
     type: 'paragraph',
     children: [
       {
-        text: 'slatepad is a WYSIWYG text editor built with '
+        text: 'slatepad is a WYSIWYG text editor built with react and '
       },
       {
         type: 'link',
@@ -33,7 +33,7 @@ export const initialValue: Descendant[] = [
         ]
       },
       {
-        text: '.No need for cumbersome configuration, out of the box. It has built-in common editor functions, providing a powerful editing experience, including nested blocks, nested inline, custom styles and custom components, etc. SlatePad also includes several built-in plugins and tools. This editor will not have rich and powerful functions like word, but it will bring you a simple and elegant input experience. More and more features will be added in the future.'
+        text: '. It integrates common editor functions and provides a simple and elegant text input experience.'
       }
     ]
   },
@@ -41,72 +41,35 @@ export const initialValue: Descendant[] = [
     type: 'paragraph',
     children: [
       {
-        text: 'slatepad 是一个所见即所得的文本编辑器，它使用 Slate.js 构建.无需要繁琐的配置,开箱即用.它内置了常见的编辑器功能,提供强大的编辑体验，包括嵌套块、嵌套内联、自定义样式和自定义组件等。 SlatePad 还包括几个内置的插件和工具。这个编辑器不会像 word 一样有丰富强大的功能，但它会给你带来简单优雅的输入体验。 将来会添加越来越多的功能。'
+        text: 'slatepad是一个所见即所得的React文本编辑器。它集成了常见的编辑器功能，提供了简单优雅的文本输入体验。'
       }
     ]
   },
   {
-    type: 'heading1',
+    type: 'heading2',
     children: [
       {
-        text: 'Features'
+        text: 'Try It Now'
       }
     ]
   },
   {
-    type: 'bulleted-list',
+    type: 'paragraph',
     children: [
       {
-        type: 'list-item',
+        text: ''
+      },
+      {
+        type: 'link',
+        url: 'https://qirong77.github.io/SlatePad/',
         children: [
           {
-            type: 'paragraph',
-            children: [
-              {
-                text: 'Rich text editing with advanced formatting options'
-              }
-            ]
+            text: 'click here to Playground'
           }
         ]
       },
       {
-        type: 'list-item',
-        children: [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                text: 'integrates common functions of rich text editors'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        type: 'list-item',
-        children: [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                text: 'Built-in plugins and toolsasd'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        type: 'list-item',
-        children: [
-          {
-            type: 'paragraph',
-            children: [
-              {
-                text: 'Highly customizablea'
-              }
-            ]
-          }
-        ]
+        text: ''
       }
     ]
   },
@@ -130,7 +93,7 @@ export const initialValue: Descendant[] = [
         ]
       }
     ],
-    language: 'typescript'
+    language: 'shell'
   },
   {
     type: 'paragraph',
@@ -171,7 +134,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "import 'prism-themes/themes/prism-one-light.css'"
+            text: "// import 'prism-themes/themes/prism-one-light.css'"
           }
         ]
       },
@@ -294,14 +257,7 @@ export const initialValue: Descendant[] = [
     type: 'paragraph',
     children: [
       {
-        text: 'By default, Slatepad will come with a toolbar, you can customize the toolbar through '
-      },
-      {
-        text: 'RichUtils',
-        code: true
-      },
-      {
-        text: ', the following code shows how to operate in your custom toolbar component:'
+        text: 'By default, Slatepad will come with a toolbar, you can customize the toolbar through RichUtils, the following code shows how to operate in your custom toolbar component:'
       }
     ]
   },
@@ -328,7 +284,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  const editor = useSlateStatic()'
+            text: '  const editor = useSlateStatic()'
           }
         ]
       },
@@ -336,7 +292,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  return ('
+            text: '  return ('
           }
         ]
       },
@@ -344,7 +300,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    <div>'
+            text: '    <div>'
           }
         ]
       },
@@ -352,7 +308,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <H1 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />"
+            text: "      <H1 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />"
           }
         ]
       },
@@ -360,7 +316,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <H2 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading2')} />"
+            text: "      <NumberList onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')} />"
           }
         ]
       },
@@ -368,7 +324,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <H3 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading3')} />"
+            text: '      <Image onMouseDown={() => RichUtils.insertImage(editor)} />'
           }
         ]
       },
@@ -376,7 +332,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <NumberList onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')} />"
+            text: '      <Link onMouseDown={() => RichUtils.insertLink(editor)} />'
           }
         ]
       },
@@ -384,55 +340,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <BulletedList onMouseDown={() => RichUtils.toggleBlock(editor, 'bulleted-list')} />"
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: "      <CheckList onMouseDown={() => RichUtils.toggleBlock(editor, 'check-list-item')} />"
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: "      <CodeBlock onMouseDown={() => RichUtils.toggleBlock(editor, 'code-block')} />"
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: "      <BlockQuote onMouseDown={() => RichUtils.toggleBlock(editor, 'block-quote')} />"
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '      <Image onMouseDown={() => RichUtils.insertImage(editor)} />'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '      <Link onMouseDown={() => RichUtils.insertLink(editor)} />'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    </div>'
+            text: '    </div>'
           }
         ]
       },
@@ -467,7 +375,38 @@ export const initialValue: Descendant[] = [
     type: 'paragraph',
     children: [
       {
-        text: 'The core components of slatepad have a unique class name, you can change its style through CSS class selector.'
+        text: 'The core components of slatepad have a unique class name, you can change its style through CSS class selector.For example:'
+      }
+    ]
+  },
+  {
+    type: 'bulleted-list',
+    children: [
+      {
+        type: 'list-item',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                text: '.slatepad-checklist'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: 'list-item',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                text: '.slatepad-code-block'
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -483,7 +422,7 @@ export const initialValue: Descendant[] = [
     type: 'paragraph',
     children: [
       {
-        text: 'Currently, Slatepad will use the JSON structure of slate.js as the data storage object, the following is a feasible way:'
+        text: 'Slatepad will use the JSON structure of slate.js as the data storage object, the following is a feasible way:'
       }
     ]
   },
@@ -502,23 +441,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  console.log(value)'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '}'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '<SlatePad onChange={handleSave} editor={editor} />'
+            text: '  console.log(value)'
           }
         ]
       },
@@ -543,198 +466,6 @@ export const initialValue: Descendant[] = [
         children: [
           {
             text: '['
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "type": "fix-select",'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "children": ['
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '                "text": ""'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            }'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        ]'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    },'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "type": "heading2",'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "children": ['
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '                "text": "hello"'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            }'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        ]'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    },'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "type": "paragraph",'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        "children": ['
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            {'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '                "text": "content"'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '            }'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '        ]'
-          }
-        ]
-      },
-      {
-        type: 'code-line',
-        children: [
-          {
-            text: '    },'
           }
         ]
       },
@@ -815,6 +546,22 @@ export const initialValue: Descendant[] = [
         children: [
           {
             text: '*/'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '}'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '<SlatePad onChange={handleSave} editor={editor} />'
           }
         ]
       }
@@ -935,15 +682,127 @@ export const initialValue: Descendant[] = [
             text: 'EditorUtils.clearAll(editor)'
           }
         ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: 'const fragment = ['
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '    {'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '        "type": "paragraph",'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '        "children": ['
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '            {'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '                "text": ""'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '            }'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '        ]'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '    }'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: ']'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: '// clearAll Content and insert new editor state'
+          }
+        ]
+      },
+      {
+        type: 'code-line',
+        children: [
+          {
+            text: 'EditorUtils.replaceAll(editor,fragment)'
+          }
+        ]
       }
     ],
     language: 'typescript'
+  },
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: ''
+      }
+    ]
   },
   {
     type: 'heading2',
     children: [
       {
         text: 'RichUtils'
+      }
+    ]
+  },
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: 'reference: CustomToolBar'
       }
     ]
   },
@@ -968,6 +827,14 @@ export const initialValue: Descendant[] = [
     children: [
       {
         text: 'SlatePad'
+      }
+    ]
+  },
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: 'Text input area as well as React component for the editor'
       }
     ]
   },
@@ -1013,24 +880,16 @@ export const initialValue: Descendant[] = [
                 text: ' Dark-Theme'
               }
             ]
+          },
+          {
+            type: 'paragraph',
+            children: [
+              {
+                text: ''
+              }
+            ]
           }
         ]
-      }
-    ]
-  },
-  {
-    type: 'paragraph',
-    children: [
-      {
-        text: '\n'
-      }
-    ]
-  },
-  {
-    type: 'paragraph',
-    children: [
-      {
-        text: ''
       }
     ]
   }
