@@ -57,6 +57,7 @@ export const withPastHtml = (editor: CustomEditor) => {
     }
     if (html) {
       const parsed = new DOMParser().parseFromString(html, 'text/html')
+      console.log(parsed)
       const fragment = deserialize(parsed.body)
       Transforms.insertFragment(editor, fragment)
       return
@@ -66,6 +67,7 @@ export const withPastHtml = (editor: CustomEditor) => {
 
   return editor
 }
+const x: HTMLElement = document.createElement('div')
 
 export const deserialize = el => {
   if (el.nodeType === 3) {
@@ -80,6 +82,28 @@ export const deserialize = el => {
   // 有些编辑的代码块的形状是这样,有些的不是
   if (nodeName === 'PRE' && el.childNodes[0] && el.childNodes[0].nodeName === 'CODE') {
     parent = el.childNodes[0]
+  }
+  if (nodeName === 'DIV' && el.classList.contains('slatepad-code-block')) {
+    const code = el.querySelector('code') as HTMLElement
+    const codeLines = [...code.children]
+      .filter(el => {
+        return el instanceof HTMLElement
+      })
+      .map(codeLine => {
+        return {
+          type: 'code-line',
+          children: [
+            {
+              text: codeLine.textContent
+            }
+          ]
+        } as CodeLineElement
+      })
+    return {
+      type: 'code-block',
+      children: codeLines,
+      language: 'typescript'
+    } as CodeBlockElement
   }
   let children = Array.from(parent.childNodes).map(deserialize).flat()
 

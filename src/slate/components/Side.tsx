@@ -45,7 +45,6 @@ let timer: any
 // 监听变化,延迟更新
 const SideHeaders = ({ setLazyUpdate }: { setLazyUpdate: Function }) => {
   useSlate()
-  console.log(useSlate().children)
   if (timer) {
     clearTimeout(timer)
     timer = null

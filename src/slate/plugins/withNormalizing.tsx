@@ -53,7 +53,7 @@ export const withNormalizing = (editor: CustomEditor) => {
       }
     }
     // If the element is a paragraph, ensure its children are valid.
-    if (Element.isElement(node) && node.type === 'paragraph') {
+    if (Element.isElement(node) && (node.type === 'paragraph' || node.type === 'block-quote')) {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {
           Transforms.unwrapNodes(editor, { at: childPath })
