@@ -1,6 +1,5 @@
-import { Editor, Element, Range, Point, Transforms } from 'slate'
-import { CustomEditor } from '../../types/slate'
-import { getCurrentBlock } from '../utils/BlockUtils'
+import { Editor, Element, Range, Point, NodeEntry } from 'slate'
+import { CustomEditor, SlateElement } from '../../types/slate'
 
 export const withTables = (editor: CustomEditor) => {
   const { deleteBackward } = editor
@@ -9,18 +8,15 @@ export const withTables = (editor: CustomEditor) => {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
       const [cell] = Editor.nodes(editor, {
-        match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'table-cell'
+        match: n => Element.isElement(n) && n.type === 'table-cell'
       })
       if (cell) {
-        const [, cellPath] = cell
+        const [cellNode, cellPath] = cell as NodeEntry<SlateElement>
         const start = Editor.start(editor, cellPath)
-        if (Point.equals(selection.anchor, start)) {
-          console.log(222)
-          const [block, path] = getCurrentBlock(editor) || []
-          if (block && block.type !== 'paragraph') {
-            console.log(123)
-            Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
-          }
+        if (
+          Point.equals(selection.anchor, start) &&
+          (cellNode.children[0] as any)?.type === 'paragraph'
+        ) {
           return
         }
       }

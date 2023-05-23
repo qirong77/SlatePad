@@ -35,7 +35,8 @@ export const withNormalizing = (editor: CustomEditor) => {
         )
         return
       }
-      wrapTextNode(editor, path)
+      const isOperation = wrapTextNode(editor, path)
+      if (isOperation) return
     }
     // 段落或者引用无法嵌套
     if (Element.isElement(node) && (node.type === 'paragraph' || node.type === 'block-quote')) {
@@ -61,8 +62,8 @@ export const withNormalizing = (editor: CustomEditor) => {
       }
     }
     if (Element.isElement(node) && node.type === 'table-cell') {
-      wrapTextNode(editor, path)
-      return
+      const isOperation = wrapTextNode(editor, path)
+      if (isOperation) return
     }
     return normalizeNode([node, path])
   }
@@ -85,7 +86,7 @@ function wrapTextNode(editor: CustomEditor, path: Path) {
           split: true
         }
       )
-      return
+      return true
     }
   }
 }
