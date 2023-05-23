@@ -4,6 +4,7 @@ import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'sl
 import { Arrow } from '../../assets/svg/icon'
 import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
 import { CustomElementType, HeadingElement } from '../../types/slate'
+import { HistoryEditor } from 'slate-history'
 
 export function Heading({
   props,
@@ -32,11 +33,16 @@ export function Heading({
     const [, tags] = /^(#+)\s/.exec(Node.string(element)) || []
     if (selected) {
       if (!tags) {
+        // 某些更改不存入记录,否则会导致重做循环
         if (isEdit.current) {
-          Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+          HistoryEditor.withoutSaving(editor, () => {
+            Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+          })
         } else
-          Transforms.insertText(editor, '#'.repeat(currentHead) + ' ', {
-            at: start
+          HistoryEditor.withoutSaving(editor, () => {
+            Transforms.insertText(editor, '#'.repeat(currentHead) + ' ', {
+              at: start
+            })
           })
       } else {
         if (tags.length === currentHead) return
