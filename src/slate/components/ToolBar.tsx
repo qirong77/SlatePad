@@ -14,7 +14,8 @@ import {
   Menu,
   MenuBack,
   MarkDown,
-  Collapse
+  Collapse,
+  TableIcon
 } from '../../assets/svg/icon'
 import { RichUtils } from '../SlatePad'
 
@@ -37,6 +38,7 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {
       <BlockQuote onMouseDown={() => RichUtils.toggleBlock(editor, 'block-quote')} />
       <Image onMouseDown={() => RichUtils.insertImage(editor)} />
       <Link onMouseDown={() => RichUtils.insertLink(editor)} />
+      <TableIcon onMouseDown={() => RichUtils.insertTable(editor)} />
       {/* <MarkDown onClick={() => {}} /> */}
       {/* <Collapse onMouseDown={() => RichUtils.collapseHeads(editor)} /> */}
       {children}

@@ -81,7 +81,22 @@ export type CodeBlockElement = {
   language: string
   children: Descendant[]
 }
-
+export type TableElement = {
+  type: 'table'
+  children: Descendant[]
+}
+export type TableRowElement = {
+  type: 'table-row'
+  children: Descendant[]
+}
+export type TableCellElement = {
+  type: 'table-cell'
+  children: Descendant[]
+}
+export type TableHeadElement = {
+  type: 'table-head'
+  children: Descendant[]
+}
 export type SlateElement =
   | BlockQuoteElement
   | BulletedListElement
@@ -99,6 +114,10 @@ export type SlateElement =
   | NumberListElement
   | FixSelectElement
   | DividerElement
+  | TableCellElement
+  | TableElement
+  | TableHeadElement
+  | TableRowElement
 export type CustomElementType = Pick<SlateElement, 'type'>['type']
 
 export type CustomText = {

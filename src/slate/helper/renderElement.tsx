@@ -6,6 +6,7 @@ import { CheckList } from '../elements/CheckList'
 import { Link } from '../elements/Link'
 import { FixSelect } from '../elements/FixSelect'
 import { Divider } from '../elements/Divider'
+import { Table } from '../elements/Table'
 // 结构参考:https://marked.js.org/demo/
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -75,6 +76,20 @@ export function _renderElement(props: RenderElementProps) {
       return <CodeBlock props={props} />
     case 'divider':
       return <Divider props={props} />
+    case 'table':
+      return <Table props={props} />
+    case 'table-row':
+      return (
+        <tr {...attributes} className="h-[30px]">
+          {children}
+        </tr>
+      )
+    case 'table-cell':
+      return (
+        <td className="border-gray border-[2px] px-[4px]" {...attributes}>
+          {children}
+        </td>
+      )
     default:
       return <p {...attributes}>{children}</p>
   }

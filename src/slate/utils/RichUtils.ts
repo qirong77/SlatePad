@@ -1,5 +1,11 @@
 import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms } from 'slate'
-import { CustomEditor, CustomElementType, HeadingElement, ImageElement } from '../../types/slate'
+import {
+  CustomEditor,
+  CustomElementType,
+  HeadingElement,
+  ImageElement,
+  TableElement
+} from '../../types/slate'
 import { wrapLink } from '../plugins/withInlines'
 import { getCurrentBlock, isHeadBlock } from './BlockUtils'
 
@@ -76,6 +82,76 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   )
   return !!match
 }
+const insertTable = (editor: CustomEditor) => {
+  const table: TableElement = {
+    type: 'table',
+    children: [
+      {
+        type: 'table-row',
+        children: [
+          {
+            type: 'table-cell',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    text: '1111'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            type: 'table-cell',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    text: '1111'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: 'table-row',
+        children: [
+          {
+            type: 'table-cell',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    text: '1111'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            type: 'table-cell',
+            children: [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    text: '1111'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  Transforms.insertNodes(editor, table)
+}
 // 折叠所有节点,逻辑比较复杂,功能一般暂时放弃
 const collapseHeads = (editor: CustomEditor) => {
   // 找到所有的Heade节点
@@ -103,6 +179,7 @@ const collapseHeads = (editor: CustomEditor) => {
 export const RichUtils = {
   toggleBlock,
   insertImage,
-  insertLink: wrapLink
+  insertLink: wrapLink,
+  insertTable
   // collapseHeads
 }
