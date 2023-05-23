@@ -64,12 +64,15 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
     // console.log(selected)
   }
   return (
-    <div className="slatepad-table relative my-[25px]">
+    <div
+      className="slatepad-table relative my-[25px]"
+      onClick={e => {
+        e.stopPropagation()
+        setShow(false)
+      }}>
       <div
         onClick={e => {
           e.stopPropagation()
-          e.preventDefault()
-          ReactEditor.blur(editor)
         }}>
         <div
           contentEditable={false}
@@ -84,7 +87,7 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
           <div
             onBlur={handleBlur}
             contentEditable={false}
-            className="absolute bg-white  rounded w-[160px] p-[10px]"
+            className="absolute bg-white rounded w-[160px] p-[10px]"
             style={{
               boxShadow: 'rgba(4, 4, 4, 0.1) 0px 2px 4px 3px'
             }}>

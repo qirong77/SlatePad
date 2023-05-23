@@ -23,6 +23,9 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
         }
       } catch (e) {}
     }
+    // const [table, tablePath] = getCurrentBlock(editor, 'table') || []
+    // if (table && tablePath) {
+    // }
   }
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
@@ -149,7 +152,13 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
   }
   if (e.code === 'KeyA' && e.metaKey) {
     e.preventDefault()
-    const match = getCurrentBlock(editor, 'bulleted-list', 'code-block', 'number-list')
+    const match = getCurrentBlock(
+      editor,
+      'bulleted-list',
+      'code-block',
+      'number-list',
+      'table-cell'
+    )
     if (match) {
       const [, path] = match
       Transforms.select(editor, path)

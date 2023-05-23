@@ -1,5 +1,6 @@
-import { Editor, Element, Range, Point } from 'slate'
+import { Editor, Element, Range, Point, Transforms } from 'slate'
 import { CustomEditor } from '../../types/slate'
+import { getCurrentBlock } from '../utils/BlockUtils'
 
 export const withTables = (editor: CustomEditor) => {
   const { deleteBackward } = editor
@@ -14,6 +15,12 @@ export const withTables = (editor: CustomEditor) => {
         const [, cellPath] = cell
         const start = Editor.start(editor, cellPath)
         if (Point.equals(selection.anchor, start)) {
+          console.log(222)
+          const [block, path] = getCurrentBlock(editor) || []
+          if (block && block.type !== 'paragraph') {
+            console.log(123)
+            Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+          }
           return
         }
       }
