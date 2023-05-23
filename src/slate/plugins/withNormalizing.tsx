@@ -35,24 +35,9 @@ export const withNormalizing = (editor: CustomEditor) => {
         )
         return
       }
-      for (const [child, childPath] of Node.children(editor, path)) {
-        // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
-        if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {
-          Transforms.wrapNodes(
-            editor,
-            { type: 'paragraph', children: [] },
-            {
-              at: path,
-              match: node =>
-                Text.isText(node) || (Element.isElement(node) && Editor.isInline(editor, node)),
-              split: true
-            }
-          )
-          return
-        }
-      }
+      wrapTextNode(editor, path)
     }
-    // If the element is a paragraph, ensure its children are valid.
+    // 段落或者引用无法嵌套
     if (Element.isElement(node) && (node.type === 'paragraph' || node.type === 'block-quote')) {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {
@@ -61,8 +46,46 @@ export const withNormalizing = (editor: CustomEditor) => {
         }
       }
     }
+    if (Element.isElement(node) && node.type === 'table-row') {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (!(Element.isElement(child) && child.type === 'table-cell')) {
+          Transforms.wrapNodes(
+            editor,
+            { type: 'table-cell', children: [] },
+            {
+              at: childPath
+            }
+          )
+          return
+        }
+      }
+    }
+    if (Element.isElement(node) && node.type === 'table-cell') {
+      wrapTextNode(editor, path)
+      return
+    }
     return normalizeNode([node, path])
   }
 
   return editor
+}
+
+// 不希望某些元素的直接子元素是text,比如不希望list或者td里面的直接子元素是文本,需要把这些文本用段落包裹起来
+function wrapTextNode(editor: CustomEditor, path: Path) {
+  for (const [child] of Node.children(editor, path)) {
+    // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
+    if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {
+      Transforms.wrapNodes(
+        editor,
+        { type: 'paragraph', children: [] },
+        {
+          at: path,
+          match: node =>
+            Text.isText(node) || (Element.isElement(node) && Editor.isInline(editor, node)),
+          split: true
+        }
+      )
+      return
+    }
+  }
 }

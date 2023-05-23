@@ -76,7 +76,7 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
         }}>
         <div
           contentEditable={false}
-          className="absolute top-[-20px]  [&>svg]:cursor-pointer"
+          className="slatepad-table-icon absolute top-[-20px]  [&>svg]:cursor-pointer"
           style={{
             display: selected ? 'flex' : 'none'
           }}>
@@ -87,11 +87,11 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
           <div
             onBlur={handleBlur}
             contentEditable={false}
-            className="absolute bg-white rounded w-[160px] p-[10px]"
+            className="slatepad-table-size absolute bg-white rounded w-[160px] p-[10px]"
             style={{
               boxShadow: 'rgba(4, 4, 4, 0.1) 0px 2px 4px 3px'
             }}>
-            <div className="flex justify-between items-center">
+            <div className=" flex justify-between items-center">
               <input
                 autoFocus
                 value={row}

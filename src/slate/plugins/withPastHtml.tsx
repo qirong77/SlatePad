@@ -1,5 +1,6 @@
 import { Transforms, Node, Element } from 'slate'
 import {
+  CheckListItemElement,
   CodeBlockElement,
   CodeLineElement,
   CustomEditor,
@@ -23,7 +24,10 @@ const ELEMENT_TAGS: {
   P: () => ({ type: 'paragraph' }),
   PRE: () => ({ type: 'code-block' }),
   UL: () => ({ type: 'bulleted-list' }),
-  HR: () => ({ type: 'divider' })
+  HR: () => ({ type: 'divider' }),
+  TABLE: () => ({ type: 'table' }),
+  TR: () => ({ type: 'table-row' }),
+  TD: () => ({ type: 'table-cell' })
 }
 
 // COMPAT: `B` is omitted here because Google Docs uses `<b>` in weird ways.
@@ -57,7 +61,6 @@ export const withPastHtml = (editor: CustomEditor) => {
     }
     if (html) {
       const parsed = new DOMParser().parseFromString(html, 'text/html')
-      console.log(parsed)
       const fragment = deserialize(parsed.body)
       Transforms.insertFragment(editor, fragment)
       return
@@ -105,7 +108,14 @@ export const deserialize = el => {
       language: 'typescript'
     } as CodeBlockElement
   }
-  let children = Array.from(parent.childNodes).map(deserialize).flat()
+  if (nodeName === 'DIV' && el.classList.contains('slatepad-checklist')) {
+    return {
+      type: 'check-list-item',
+      children: [{ text: el.textContent }],
+      checked: el.querySelector('input')?.value
+    } as CheckListItemElement
+  }
+  let children: any = Array.from(parent.childNodes).map(deserialize).flat()
 
   if (children.length === 0) {
     children = [{ text: '' }]
@@ -126,6 +136,9 @@ export const deserialize = el => {
         } as CodeLineElement
       })
       fragment.language = 'typescript'
+    }
+    if (fragment.type === 'table') {
+      fragment.children = fragment.children.filter(child => child?.type === 'table-row')
     }
     return fragment
   }
