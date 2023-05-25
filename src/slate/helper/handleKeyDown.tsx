@@ -5,9 +5,10 @@ import {
   isHeadBlock,
   isListParagraph
 } from '../utils/BlockUtils'
-import { Editor, Range, Transforms, Path, Node, NodeEntry, Point } from 'slate'
+import { Editor, Range, Transforms, Path, Node, NodeEntry, Point, Element } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
+
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: CustomEditor) => {
   // enter codeblock-languageSelector
@@ -23,9 +24,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
         }
       } catch (e) {}
     }
-    // const [table, tablePath] = getCurrentBlock(editor, 'table') || []
-    // if (table && tablePath) {
-    // }
+    tableHelper(editor, 'ArrowUp')
   }
   if (e.code === 'ArrowDown') {
     const codeLine = getCurrentBlock(editor, 'code-line')
@@ -38,6 +37,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
         codeBlock && ReactEditor.toDOMNode(editor, codeBlock).querySelector('input')?.focus()
       }
     }
+    tableHelper(editor, 'ArrowDown')
   }
   // enter
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
@@ -63,6 +63,13 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
     if (block.type === 'paragraph' && isListParagraph(editor, path)) {
       const [list, listPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
       const end = Editor.end(editor, path)
+      // 如果当前的list-paragraph没有内容, 就转化为普通的段落
+      if (!Node.string(block).length) {
+        e.preventDefault()
+        // 如果当前块是个列表
+        editor.deleteBackward('block')
+        return
+      }
       // 在列表的末尾,,按下enter.生成新的平级list.生成新的平级list
       if (Point.equals(selection.anchor, end) && Node.string(list)) {
         e.preventDefault()
@@ -76,15 +83,33 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
         )
         Transforms.select(editor, Editor.end(editor, Path.next(listPath)))
         return
-      }
-      //如果在这个列表的中间按下enter,会把这个列表一分为2
-      // return
-      // 如果当前的list-paragraph没有内容, 就转化为普通的段落
-      if (!Node.string(block).length) {
-        e.preventDefault()
-        // 如果当前块是个列表
-        editor.deleteBackward('block')
-        return
+        //如果在这个列表的中间或者开头按下enter,会把这个列表一分为2
+      } else {
+        Editor.withoutNormalizing(editor, () => {
+          const [, ulPath] = Editor.parent(editor, listPath)
+          Transforms.unwrapNodes(editor, {
+            match(node) {
+              return Element.isElement(node) && node.type === 'list-item'
+            },
+            at: listPath
+          })
+          // slatejs会合并多个Trasnformer,在上一个Transform结束后,为了获取最新的状态,使用宏任务
+          setTimeout(() => {
+            for (const [child, childPath] of Node.children(editor, ulPath)) {
+              if (Element.isElement(child) && child.type !== 'list-item')
+                Transforms.wrapNodes(
+                  editor,
+                  {
+                    type: 'list-item',
+                    children: []
+                  },
+                  {
+                    at: childPath
+                  }
+                )
+            }
+          })
+        })
       }
     }
 
@@ -166,4 +191,21 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
       Transforms.select(editor, [])
     }
   }
+}
+
+// 在表格中,进行上下切换,需要进一步完善
+function tableHelper(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
+  const [, cellPath] = getCurrentBlock(editor, 'table-cell') || []
+  if (!cellPath) return
+  setTimeout(() => {
+    const [, nextCellPath] = getCurrentBlock(editor, 'table-cell') || []
+    if (nextCellPath && cellPath && cellPath.join('') !== nextCellPath.join('')) {
+      const nextLevel = direction === 'ArrowDown' ? 1 : -1
+      const realNextPath = [...cellPath]
+      realNextPath[realNextPath.length - 2] = realNextPath[realNextPath.length - 2] + nextLevel
+      if (Path.isPath(realNextPath) && Editor.hasPath(editor, realNextPath)) {
+        Transforms.select(editor, Editor.end(editor, realNextPath))
+      }
+    }
+  }, 10)
 }

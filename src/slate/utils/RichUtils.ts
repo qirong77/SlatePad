@@ -96,7 +96,7 @@ const insertTable = (editor: CustomEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: '1111'
+                    text: ''
                   }
                 ]
               }
@@ -109,7 +109,7 @@ const insertTable = (editor: CustomEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: '1111'
+                    text: ''
                   }
                 ]
               }
@@ -127,7 +127,7 @@ const insertTable = (editor: CustomEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: '1111'
+                    text: ''
                   }
                 ]
               }
@@ -140,7 +140,7 @@ const insertTable = (editor: CustomEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: '1111'
+                    text: ''
                   }
                 ]
               }

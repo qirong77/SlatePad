@@ -19,7 +19,7 @@ import { blankInitial } from '../common/const'
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
   editor: CustomEditor
-  initialValue: Descendant[]
+  initialValue?: Descendant[]
 }> = ({ onChange, editor, initialValue }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(true)
