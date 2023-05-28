@@ -12,7 +12,8 @@ export const useDecorate = (editor: CustomEditor, search: string) => {
       const ranges = editor.nodeToDecorations?.get(node) || []
       return ranges
     }
-    return [priviewLeaf(node, path), highlightLeaf(node, path, search)].flat(1)
+    // 过滤掉code元素还是会对里面的文本节点进行操作,可能是广度遍历?
+    return [highlightLeaf(node, path, search)].flat(1)
   }
 
   function priviewLeaf(node: Node, path: Path): Range[] {
