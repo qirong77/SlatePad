@@ -193,23 +193,22 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
   }
   if (e.code === 'Tab') {
     e.preventDefault()
-    if (!editor.selection) return
     const [block, path] = getCurrentBlock(editor, 'code-block') || []
+    if (!editor.selection || !block || !path) return
     const codeLines: [SlateElement, Path][] = []
-    if (block && path) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (Element.isElement(child) && Range.includes(editor.selection, childPath)) {
-          codeLines.push([child, childPath])
-          if (!e.shiftKey) {
-            Transforms.insertText(editor, '  ', {
-              at: Editor.start(editor, childPath)
-            })
-          }
+    for (const [child, childPath] of Node.children(editor, path)) {
+      if (Element.isElement(child) && Range.includes(editor.selection, childPath)) {
+        codeLines.push([child, childPath])
+        if (!e.shiftKey) {
+          Transforms.insertText(editor, '  ', {
+            at: Editor.start(editor, childPath)
+          })
         }
       }
     }
     if (e.shiftKey) {
       codeLines.forEach(([child, childPath]) => {
+        // 由于setNodes无法直接改变子元素的children,为了简便操作直接使用移除和新增节点,完成缩进文本空白删除
         const text = Node.string(child).split('')
         if (text[0] === ' ') text.splice(0, 1)
         if (text[0] === ' ') text.splice(0, 1)
@@ -230,9 +229,14 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
     }
     Transforms.select(editor, newRange)
   }
+  if (e.metaKey && e.code === 'KeyF') {
+    e.preventDefault()
+    const ipt = document.querySelector('.slatepad-search') as HTMLInputElement
+    ipt.focus()
+  }
 }
 
-// 在表格中,进行上下切换,需要进一步完善
+// 在表格中,进行上下切换,需要进一步完善.可以用Path.next或者pre来判断下一个块,而不是选择后再判断下一个块
 function tableHelper(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
   const [, cellPath] = getCurrentBlock(editor, 'table-cell') || []
   if (!cellPath) return

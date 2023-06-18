@@ -24,9 +24,9 @@ export const Search = ({ search, setSearch }) => {
         onBlur={() => setShowMatch(false)}
         onFocus={() => setShowMatch(true)}
         value={search}
-        placeholder="搜索"
+        placeholder="搜索 Commend + F"
         onKeyDown={handleKeyDown}
-        className="border-blue-300  pl-[30px] pr-[40px] rounded border-2 outline-blue-600"
+        className="slatepad-search  border-blue-300  pl-[30px] pr-[40px] rounded border-2 outline-blue-600"
         onChange={e => setSearch(e.target.value)}
       />
       {showMatch && (
