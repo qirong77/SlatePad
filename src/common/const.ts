@@ -182,7 +182,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  const editor = useMemo(() => createSlatepad(), [])'
+            text: '  const editor = useMemo(() => createSlatepad(), [])'
           }
         ]
       },
@@ -190,7 +190,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  return ('
+            text: '  return ('
           }
         ]
       },
@@ -198,7 +198,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    <div>'
+            text: '    <div>'
           }
         ]
       },
@@ -206,7 +206,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '      <h1>SlatePad</h1>'
+            text: '      <h1>SlatePad</h1>'
           }
         ]
       },
@@ -214,7 +214,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '      <main>'
+            text: '      <main>'
           }
         ]
       },
@@ -222,7 +222,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        <SlatePad editor={editor} initialValue={initialValue} />'
+            text: '        <SlatePad editor={editor} initialValue={initialValue} />'
           }
         ]
       },
@@ -230,7 +230,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '      </main>'
+            text: '      </main>'
           }
         ]
       },
@@ -238,7 +238,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    </div>'
+            text: '    </div>'
           }
         ]
       },
@@ -308,7 +308,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  const editor = useSlateStatic()'
+            text: '  const editor = useSlateStatic()'
           }
         ]
       },
@@ -316,7 +316,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  return ('
+            text: '  return ('
           }
         ]
       },
@@ -324,7 +324,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    <div>'
+            text: '    <div>'
           }
         ]
       },
@@ -332,7 +332,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <H1-Button onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />"
+            text: "      <H1-Button onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />"
           }
         ]
       },
@@ -340,7 +340,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: "      <NumberList-Button onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')} />"
+            text: "      <NumberList-Button onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')} />"
           }
         ]
       },
@@ -348,7 +348,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '      <Image-Button onMouseDown={() => RichUtils.insertImage(editor)} />'
+            text: '      <Image-Button onMouseDown={() => RichUtils.insertImage(editor)} />'
           }
         ]
       },
@@ -356,7 +356,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '      <Link-Button onMouseDown={() => RichUtils.insertLink(editor)} />'
+            text: '      <Link-Button onMouseDown={() => RichUtils.insertLink(editor)} />'
           }
         ]
       },
@@ -364,7 +364,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    </div>'
+            text: '    </div>'
           }
         ]
       },
@@ -465,7 +465,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '  console.log(value)'
+            text: '  console.log(value)'
           }
         ]
       },
@@ -497,7 +497,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    {'
+            text: '    {'
           }
         ]
       },
@@ -505,7 +505,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        "type": "paragraph",'
+            text: '        "type": "paragraph",'
           }
         ]
       },
@@ -513,7 +513,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        "children": ['
+            text: '        "children": ['
           }
         ]
       },
@@ -521,7 +521,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '            {'
+            text: '            {'
           }
         ]
       },
@@ -529,7 +529,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '                "text": ""'
+            text: '                "text": ""'
           }
         ]
       },
@@ -537,7 +537,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '            }'
+            text: '            }'
           }
         ]
       },
@@ -545,7 +545,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        ]'
+            text: '        ]'
           }
         ]
       },
@@ -553,7 +553,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    }'
+            text: '    }'
           }
         ]
       },
@@ -719,7 +719,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    {'
+            text: '    {'
           }
         ]
       },
@@ -727,7 +727,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        "type": "paragraph",'
+            text: '        "type": "paragraph",'
           }
         ]
       },
@@ -735,7 +735,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        "children": ['
+            text: '        "children": ['
           }
         ]
       },
@@ -743,7 +743,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '            {'
+            text: '            {'
           }
         ]
       },
@@ -751,7 +751,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '                "text": ""'
+            text: '                "text": ""'
           }
         ]
       },
@@ -759,7 +759,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '            }'
+            text: '            }'
           }
         ]
       },
@@ -767,7 +767,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '        ]'
+            text: '        ]'
           }
         ]
       },
@@ -775,7 +775,7 @@ export const initialValue: Descendant[] = [
         type: 'code-line',
         children: [
           {
-            text: '    }'
+            text: '    }'
           }
         ]
       },

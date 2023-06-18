@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
+import { format } from 'prettier/standalone'
+import babelPlugin from 'prettier/parser-babel'
 
-import { CodeBlockElement } from '../../types/slate'
-import { Arrow, Copy } from '../../assets/svg/icon'
+import { CodeBlockElement, CodeLineElement } from '../../types/slate'
+import { Arrow, Copy, PrettierIcon } from '../../assets/svg/icon'
 import { getNextPath } from '../utils/PathUtils'
 import { getNextBlock } from '../utils/BlockUtils'
 
@@ -13,7 +15,6 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   const [collapse, setCollapse] = useState(false)
   const [isIptFocus, setIptFocus] = useState(false)
   const iptRef = useRef<HTMLInputElement>(null)
-
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setCollapse(!collapse)
@@ -50,7 +51,49 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       }
     }
   }
-
+  /*
+   * 格式化测试地址:https://prettier.io/playground/
+   * 每种语言需要使用对应的parser,否则会报错. 这里暂时只对ts进行支持
+   */
+  const formatter = () => {
+    const codeString = element.children.map(codeLine => Node.string(codeLine)).join('\n')
+    const path = ReactEditor.findPath(editor, element)
+    const formatStr = (str = '') =>
+      format(str, {
+        parser: 'babel',
+        plugins: [babelPlugin]
+      })
+    try {
+      const codeLines = formatStr(codeString)
+        .split('\n')
+        .map(
+          line =>
+            ({
+              type: 'code-line',
+              children: [{ text: line }]
+            } as CodeLineElement)
+        )
+      // prettier-bug:格式化后,最后一行可能会是空的,如果是空的就去除
+      if (!Node.string(codeLines[codeLines.length - 1])) {
+        codeLines.pop()
+      }
+      Editor.withoutNormalizing(editor, () => {
+        const selection = editor.selection
+        Transforms.removeNodes(editor, { at: path })
+        Transforms.insertNodes(
+          editor,
+          { type: 'code-block', children: codeLines, language: 'ts' },
+          { at: path }
+        )
+        // 格式化后重新选择之前的区域
+        Path.isPath(selection) &&
+          Editor.hasPath(editor, selection) &&
+          Transforms.select(editor, selection)
+      })
+    } catch (error) {
+      console.log('语法出错或者解析器不匹配,格式化失败')
+    }
+  }
   return (
     <div
       {...attributes}
@@ -70,7 +113,8 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         </div>
       )}
       <div className="code-helpers [&>button]:active:opacity-0 absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
-        <Copy />
+        {/* <Copy /> */}
+        <PrettierIcon onClick={formatter} />
       </div>
       <Arrow
         contentEditable={false}

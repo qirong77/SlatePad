@@ -1,5 +1,5 @@
 import { Transforms, Node, Editor, Path, Element, Range, Text, NodeEntry } from 'slate'
-import { CustomEditor, SlateElement } from '../../types/slate'
+import { CodeLineElement, CustomEditor, SlateElement } from '../../types/slate'
 import { getCurrentBlock } from '../utils/BlockUtils'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
@@ -64,6 +64,27 @@ export const withNormalizing = (editor: CustomEditor) => {
     if (Element.isElement(node) && node.type === 'table-cell') {
       const isOperation = wrapTextNode(editor, path)
       if (isOperation) return
+    }
+    // Code-Block里面必须是codeline
+    if (Element.isElement(node) && node.type === 'code-block') {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Element.isElement(child) && child.type !== 'code-line') {
+          const codeLines = Node.string(node)
+            .split('\n')
+            .map(
+              text =>
+                ({
+                  type: 'code-line',
+                  children: [{ text }]
+                } as CodeLineElement)
+            )
+          Transforms.setNodes(editor, {
+            type: 'code-block',
+            children: codeLines
+          })
+          return
+        }
+      }
     }
     return normalizeNode([node, path])
   }

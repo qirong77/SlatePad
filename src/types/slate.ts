@@ -78,7 +78,7 @@ export type FixSelectElement = {
 }
 export type CodeBlockElement = {
   type: 'code-block'
-  language: string
+  language?: string
   children: Descendant[]
 }
 export type TableElement = {
