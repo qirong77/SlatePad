@@ -193,25 +193,42 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
   }
   if (e.code === 'Tab') {
     e.preventDefault()
+    if (!editor.selection) return
     const [block, path] = getCurrentBlock(editor, 'code-block') || []
-    if (block && path && editor.selection) {
+    const codeLines: [SlateElement, Path][] = []
+    if (block && path) {
       for (const [child, childPath] of Node.children(editor, path)) {
-        if (Range.includes(editor.selection, childPath)) {
-          if (e.shiftKey) {
-            // // 反向删除,后续做
-            // Transforms.removeNodes(editor, { at: childPath })
-            // Transforms.insertNodes(
-            //   editor,
-            //   { type: 'code-line', children: [{ text: '123' }] },
-            //   { at: childPath }
-            // )
-          } else
+        if (Element.isElement(child) && Range.includes(editor.selection, childPath)) {
+          codeLines.push([child, childPath])
+          if (!e.shiftKey) {
             Transforms.insertText(editor, '  ', {
               at: Editor.start(editor, childPath)
             })
+          }
         }
       }
     }
+    if (e.shiftKey) {
+      codeLines.forEach(([child, childPath]) => {
+        const text = Node.string(child).split('')
+        if (text[0] === ' ') text.splice(0, 1)
+        if (text[0] === ' ') text.splice(0, 1)
+        Transforms.removeNodes(editor, { at: childPath })
+        Transforms.insertNodes(
+          editor,
+          {
+            type: 'code-line',
+            children: [{ text: text.join('') }]
+          },
+          { at: childPath }
+        )
+      })
+    }
+    const newRange: Range = {
+      anchor: Editor.start(editor, codeLines[0][1]),
+      focus: Editor.end(editor, codeLines[codeLines.length - 1][1])
+    }
+    Transforms.select(editor, newRange)
   }
 }
 
