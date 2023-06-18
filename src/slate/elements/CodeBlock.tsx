@@ -3,13 +3,15 @@ import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
 import { format } from 'prettier/standalone'
 import babelPlugin from 'prettier/parser-babel'
-
+import htmlPlugin from 'prettier/parser-html.js'
+import { PrettierPluginJava } from '../lib/PrettierJavaPlugin'
 import { CodeBlockElement, CodeLineElement } from '../../types/slate'
 import { Arrow, Copy, PrettierIcon } from '../../assets/svg/icon'
 import { getNextPath } from '../utils/PathUtils'
 import { getNextBlock } from '../utils/BlockUtils'
+import { Options } from 'prettier'
 
-export function CodeBlock({ props }: { props: RenderElementProps }) {
+export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElement> }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
@@ -51,20 +53,12 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       }
     }
   }
-  /*
-   * 格式化测试地址:https://prettier.io/playground/
-   * 每种语言需要使用对应的parser,否则会报错. 这里暂时只对ts进行支持
-   */
+
   const formatter = () => {
     const codeString = element.children.map(codeLine => Node.string(codeLine)).join('\n')
     const path = ReactEditor.findPath(editor, element)
-    const formatStr = (str = '') =>
-      format(str, {
-        parser: 'babel',
-        plugins: [babelPlugin]
-      })
     try {
-      const codeLines = formatStr(codeString)
+      const codeLines = formatCodeString(element.language, codeString)
         .split('\n')
         .map(
           line =>
@@ -114,7 +108,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       )}
       <div className="code-helpers [&>button]:active:opacity-0 absolute opacity-0 group-hover:opacity-100 right-0 top-0 p-[4px]">
         {/* <Copy /> */}
-        <PrettierIcon onClick={formatter} />
+        <PrettierIcon onMouseDown={formatter} />
       </div>
       <Arrow
         contentEditable={false}
@@ -141,4 +135,31 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       </div>
     </div>
   )
+}
+
+/*
+ * 格式化测试地址:https://prettier.io/playground/
+ * 每种语言需要使用对应的parser,否则会报错. 这里暂时只对以下进行支持
+ */
+function formatCodeString(lang: string, codeStr = '') {
+  const options = new Map<string, Options>()
+  // Java插件 参考: https://github.com/jhipster/prettier-java/issues/547
+  options.set('java', {
+    parser: 'java',
+    plugins: [PrettierPluginJava]
+  })
+  // 这些语言都可以使用这个解析器
+  ;['javascript', 'typescript', 'jsx', 'tsx'].forEach(lang => {
+    options.set(lang, {
+      parser: 'babel-ts',
+      plugins: [babelPlugin]
+    })
+  })
+  ;['html', 'vue'].forEach(lang => {
+    options.set(lang, {
+      parser: 'vue',
+      plugins: [htmlPlugin]
+    })
+  })
+  return format(codeStr, options.get(lang))
 }
