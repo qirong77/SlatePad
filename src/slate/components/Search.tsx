@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Search as SearchIcon } from '../../assets/svg/icon'
-export const Search = ({ search, setSearch }) => {
+export const Search = ({ search, setSearch }: { search: string; setSearch: Function }) => {
   const [matchs, setMatchs] = useState<HTMLElement[]>([])
   const [current, setCurrent] = useState(0)
   const [showMatch, setShowMatch] = useState(false)
