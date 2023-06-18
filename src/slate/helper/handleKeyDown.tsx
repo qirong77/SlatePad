@@ -191,6 +191,28 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
       Transforms.select(editor, [])
     }
   }
+  if (e.code === 'Tab') {
+    e.preventDefault()
+    const [block, path] = getCurrentBlock(editor, 'code-block') || []
+    if (block && path && editor.selection) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Range.includes(editor.selection, childPath)) {
+          if (e.shiftKey) {
+            // // 反向删除,后续做
+            // Transforms.removeNodes(editor, { at: childPath })
+            // Transforms.insertNodes(
+            //   editor,
+            //   { type: 'code-line', children: [{ text: '123' }] },
+            //   { at: childPath }
+            // )
+          } else
+            Transforms.insertText(editor, '  ', {
+              at: Editor.start(editor, childPath)
+            })
+        }
+      }
+    }
+  }
 }
 
 // 在表格中,进行上下切换,需要进一步完善
