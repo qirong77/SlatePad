@@ -179,7 +179,9 @@ function formatCodeString(lang: string, codeStr = '') {
   ;['javascript', 'typescript', 'jsx', 'tsx'].forEach(lang => {
     options.set(lang, {
       parser: 'babel-ts',
-      plugins: [BabelPlugin]
+      plugins: [BabelPlugin],
+      // 结尾不使用分号;
+      semi: false
     })
   })
   ;['html', 'vue'].forEach(lang => {

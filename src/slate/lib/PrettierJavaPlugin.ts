@@ -7213,7 +7213,8 @@ function ` +
     var t = Nf({ name: e.name, rules: e.rules }),
       n = new Function('tokenVocabulary', 'config', 'chevrotain', t)
     return function (r) {
-      return n(e.tokenVocabulary, r, require('../api'))
+      throw new Error('Java插件出错')
+      // return n(e.tokenVocabulary, r, require('../api'))
     }
   }
   function xf(e) {
