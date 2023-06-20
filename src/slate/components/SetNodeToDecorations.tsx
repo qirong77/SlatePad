@@ -9,14 +9,20 @@ import 'prismjs/components/prism-jsx'
 import 'prismjs/components/prism-typescript'
 import 'prismjs/components/prism-tsx'
 import 'prismjs/components/prism-markdown'
-import 'prismjs/components/prism-python'
-import 'prismjs/components/prism-php'
-import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-java'
-import 'prismjs/components/prism-css'
 import 'prismjs/components/prism-scss'
-import 'prismjs/components/prism-bash'
 
+// 默认支持html,css解析,不用导入
+export const LANGUAGES = [
+  'JavaScript',
+  'Jsx',
+  'TypeScript',
+  'Tsx',
+  'Markdown',
+  'Java',
+  'Scss',
+  'Html'
+]
 // 用于更新decoration
 export const SetNodeToDecorations = () => {
   const editor = useSlate()
@@ -38,7 +44,7 @@ function getChildNodeToDecorations([block, blockPath]: NodeEntry<CodeBlockElemen
   const text = block.children.map(line => Node.string(line)).join('\n')
   let tokens
   try {
-    tokens = Prism.tokenize(text, Prism.languages[block.language || ''])
+    tokens = Prism.tokenize(text, Prism.languages[block.language.toLowerCase() || ''])
   } catch (error) {
     return nodeToDecorations
   }

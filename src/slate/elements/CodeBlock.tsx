@@ -1,21 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Transforms, Node, Editor, Path } from 'slate'
 import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
 import { format } from 'prettier/standalone'
-import babelPlugin from 'prettier/parser-babel'
-import htmlPlugin from 'prettier/parser-html.js'
+import BabelPlugin from 'prettier/parser-babel'
+import CssPlugin from 'prettier/parser-postcss'
+import HtmlPlugin from 'prettier/parser-html.js'
 import { PrettierPluginJava } from '../lib/PrettierJavaPlugin'
 import { CodeBlockElement, CodeLineElement } from '../../types/slate'
 import { Arrow, Copy, PrettierIcon } from '../../assets/svg/icon'
 import { getNextPath } from '../utils/PathUtils'
 import { getNextBlock } from '../utils/BlockUtils'
 import { Options } from 'prettier'
+import { LANGUAGES } from '../components/SetNodeToDecorations'
 
 export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElement> }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
   const [isIptFocus, setIptFocus] = useState(false)
+  const [isSelectLang, setIsSelect] = useState(false)
+  const [langIndex, setLangIndex] = useState(0)
+  const [matchLangs, setMatchLangs] = useState([''])
   const iptRef = useRef<HTMLInputElement>(null)
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -28,29 +33,43 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     e.stopPropagation()
+    !isSelectLang && setIsSelect(true)
+    setLangIndex(0)
     setLanguage(e.target.value)
+    setMatchLangs(LANGUAGES.filter(L => new RegExp(iptRef.current?.value || '', 'i').test(L)))
   }
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'ArrowUp') {
       e.preventDefault()
-      const path = ReactEditor.findPath(editor, element)
-      const [, lastPath] = Node.last(editor, path)
-      // focus的位置默认是[0],所以你需要重置到代码块的底部
-      ReactEditor.focus(editor)
-      Transforms.select(editor, lastPath)
-      Transforms.select(editor, Editor.end(editor, lastPath))
+      if (!isSelectLang) {
+        const path = ReactEditor.findPath(editor, element)
+        const [, lastPath] = Node.last(editor, path)
+        // focus的位置默认是[0],所以你需要重置到代码块的底部
+        ReactEditor.focus(editor)
+        Transforms.select(editor, lastPath)
+        Transforms.select(editor, Editor.end(editor, lastPath))
+      } else {
+        setLangIndex(langIndex <= 1 ? matchLangs.length - 1 : langIndex - 1)
+      }
     }
     if (e.code === 'ArrowDown') {
       e.preventDefault()
-      const path = ReactEditor.findPath(editor, element)
-      const nextPath = getNextPath(editor, path)
-      const nextBlock = getNextBlock(editor, path)
-      if (nextPath && nextBlock) {
-        ReactEditor.focus(editor)
-        Transforms.select(editor, nextPath)
-        Transforms.select(editor, Editor.end(editor, nextPath))
+      if (!isSelectLang) {
+        const path = ReactEditor.findPath(editor, element)
+        const nextPath = getNextPath(editor, path)
+        const nextBlock = getNextBlock(editor, path)
+        if (nextPath && nextBlock) {
+          ReactEditor.focus(editor)
+          Transforms.select(editor, nextPath)
+          Transforms.select(editor, Editor.end(editor, nextPath))
+        }
+      } else {
+        setLangIndex(langIndex === matchLangs.length - 1 ? 0 : langIndex + 1)
       }
+    }
+    if (e.code === 'Enter' && isSelectLang) {
+      setLanguage(matchLangs[langIndex])
+      setIsSelect(false)
     }
   }
 
@@ -58,7 +77,7 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
     const codeString = element.children.map(codeLine => Node.string(codeLine)).join('\n')
     const path = ReactEditor.findPath(editor, element)
     try {
-      const codeLines = formatCodeString(element.language, codeString)
+      const codeLines = formatCodeString(element.language.toLowerCase(), codeString)
         .split('\n')
         .map(
           line =>
@@ -72,17 +91,13 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
         codeLines.pop()
       }
       Editor.withoutNormalizing(editor, () => {
-        const selection = editor.selection
         Transforms.removeNodes(editor, { at: path })
         Transforms.insertNodes(
           editor,
-          { type: 'code-block', children: codeLines, language: 'ts' },
+          { type: 'code-block', children: codeLines, language: element.language },
           { at: path }
         )
-        // 格式化后重新选择之前的区域
-        Path.isPath(selection) &&
-          Editor.hasPath(editor, selection) &&
-          Transforms.select(editor, selection)
+        ReactEditor.blur(editor)
       })
     } catch (error) {
       console.log('语法出错或者解析器不匹配,格式化失败')
@@ -119,7 +134,7 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
       />
       <div
         contentEditable={false}
-        className={`absolute right-[0]  bottom-0 p-[6px] w-[100px] opacity-${
+        className={`slatepad-lang-selector absolute right-[0]  bottom-0 p-[6px] w-[100px] opacity-${
           isIptFocus ? '100' : 0
         } group-hover:opacity-100`}>
         <input
@@ -132,6 +147,18 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
           onKeyDown={handleKeyDown}
           onChange={handleInput}
         />
+        <ul
+          className={
+            `${isSelectLang ? '' : 'hidden'}` + ' absolute rounded bg-slate-100 px-[20px]'
+          }>
+          {matchLangs.map((l, index) => {
+            return (
+              <li className={index === langIndex ? 'slatepad-lang text-red-400' : ''} key={l}>
+                {l}
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </div>
   )
@@ -152,13 +179,19 @@ function formatCodeString(lang: string, codeStr = '') {
   ;['javascript', 'typescript', 'jsx', 'tsx'].forEach(lang => {
     options.set(lang, {
       parser: 'babel-ts',
-      plugins: [babelPlugin]
+      plugins: [BabelPlugin]
     })
   })
   ;['html', 'vue'].forEach(lang => {
     options.set(lang, {
       parser: 'vue',
-      plugins: [htmlPlugin]
+      plugins: [HtmlPlugin]
+    })
+  })
+  ;['css', 'sass', 'scss'].forEach(lang => {
+    options.set(lang, {
+      parser: 'css',
+      plugins: [CssPlugin]
     })
   })
   return format(codeStr, options.get(lang))
