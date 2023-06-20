@@ -149,7 +149,8 @@ export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElemen
         />
         <ul
           className={
-            `${isSelectLang ? '' : 'hidden'}` + ' absolute rounded bg-slate-100 px-[20px]'
+            `${isSelectLang ? '' : 'hidden'}` +
+            ' absolute right-0 mt-[10px] rounded bg-slate-100 px-[20px]'
           }>
           {matchLangs.map((l, index) => {
             return (
