@@ -39,10 +39,10 @@ export const withNormalizing = (editor: CustomEditor) => {
       if (isOperation) return
     }
     // 段落或者引用无法嵌套
-    if (Element.isElement(node) && (node.type === 'paragraph' || node.type === 'block-quote')) {
+    if (Element.isElement(node) && node.type === 'paragraph') {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {
-          Transforms.unwrapNodes(editor, { at: childPath })
+          Transforms.unwrapNodes(editor, { at: path })
           return
         }
       }
