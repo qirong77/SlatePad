@@ -141,7 +141,7 @@ export interface RenderElementProps {
   }
 }
 interface SlatePadEditor {
-  nodeToDecorations?: Map<Element, Range[]>
+  nodeToDecorations?: Map<string, Range[]>
   onInsertImage?: (url: string) => string
 }
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor & SlatePadEditor

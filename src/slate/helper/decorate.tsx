@@ -5,11 +5,26 @@ import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-jsx'
 
 import { CustomEditor } from '../../types/slate'
+import { ReactEditor } from 'slate-react'
+import { getCurrentBlock } from '../utils/BlockUtils'
 export const useDecorate = (editor: CustomEditor, search: string) => {
   return function decorate(entry: NodeEntry) {
+    console.log('decorate.tsx')
     const [node, path] = entry as [Node, Path]
     if (Element.isElement(node) && node.type === 'code-line') {
-      const ranges = editor.nodeToDecorations?.get(node) || []
+      const key = ReactEditor.findKey(editor, node).id
+      const ranges = editor.nodeToDecorations?.get(key) || []
+      const [block] = getCurrentBlock(editor, 'code-line') || []
+      if (
+        editor.selection &&
+        Range.isCollapsed(editor.selection) &&
+        block &&
+        ReactEditor.findKey(editor, block).id == key &&
+        ranges[0].comment
+      ) {
+        console.log(ranges)
+        ranges[0].focus.offset += 1
+      }
       return ranges
     }
     // 过滤掉code元素还是会对里面的文本节点进行操作,可能是广度遍历?
