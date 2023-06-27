@@ -1,17 +1,20 @@
 import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 import { ImageElement } from '../../types/slate'
 import { Transforms } from 'slate'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) => {
   const { attributes, children, element } = props
   const [url, setUrl] = useState(element.url)
   const selected = useSelected()
   const editor = useSlateStatic()
+  useEffect(() => {
+    editor.onInsertImage?.(element.url)
+  }, [])
   return (
     <div
       {...attributes}
-      className={`slatepad-image relative border-[3px] rounded ${
+      className={`slatepad-image min-h-[10px] relative border-[3px] rounded ${
         selected ? 'border-blue-500' : 'border-transparent'
       }`}>
       {children}

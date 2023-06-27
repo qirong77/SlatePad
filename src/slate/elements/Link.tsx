@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
+import { LinkElement } from '../../types/slate'
 
-export function Link({ props }: { props: RenderElementProps }) {
+export function Link({ props }: { props: RenderElementProps<LinkElement> }) {
   const { attributes, children, element } = props
   const editor = useSlateStatic()
   const selected = useSelected()

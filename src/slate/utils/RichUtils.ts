@@ -67,7 +67,7 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     }
   })
 }
-const insertImage = (editor: CustomEditor, url = 'https://source.unsplash.com/kFrdX5IeQzI') => {
+export const insertImage = (editor: CustomEditor, url: string) => {
   const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
   Transforms.insertNodes(editor, image)
 }

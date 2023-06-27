@@ -1,4 +1,7 @@
+import isUrl from 'is-url'
 import { CustomEditor } from '../../types/slate'
+import imageExtensions from 'image-extensions'
+import { insertImage } from '../utils/RichUtils'
 
 export const withImages = (editor: CustomEditor) => {
   const { insertData, isVoid } = editor
@@ -9,7 +12,32 @@ export const withImages = (editor: CustomEditor) => {
   }
   // 在粘贴和拖住上增加image的功能
   editor.insertData = data => {
-    insertData(data)
+    const text = data.getData('text/plain')
+    const { files } = data
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const reader = new FileReader()
+        const [mime] = file.type.split('/')
+
+        if (mime === 'image') {
+          reader.addEventListener('load', () => {
+            const url = reader.result
+            url && insertImage(editor, url as string)
+          })
+          reader.readAsDataURL(file)
+        }
+      }
+    } else if (isImageUrl(text)) {
+      insertImage(editor, text)
+    } else {
+      insertData(data)
+    }
   }
   return editor
+}
+const isImageUrl = (url = '') => {
+  if (!url) return false
+  if (!isUrl(url)) return false
+  const ext = new URL(url).pathname.split('.').pop() || 'error'
+  return imageExtensions.includes(ext)
 }

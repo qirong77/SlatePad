@@ -140,11 +140,11 @@ export interface RenderElementProps {
     ref: any
   }
 }
-export type CustomEditor = BaseEditor &
-  ReactEditor &
-  HistoryEditor & {
-    nodeToDecorations?: Map<Element, Range[]>
-  }
+interface SlatePadEditor {
+  nodeToDecorations?: Map<Element, Range[]>
+  onInsertImage?: (imageUrl: string) => void
+}
+export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor & SlatePadEditor
 
 declare module 'slate' {
   interface CustomTypes {
