@@ -9,18 +9,25 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
   const selected = useSelected()
   const editor = useSlateStatic()
   useEffect(() => {
-    editor.onInsertImage?.([element, ReactEditor.findPath(editor, element)])
+    const newUrl = editor.onInsertImage?.(element.url) || ''
+    Transforms.setNodes(
+      editor,
+      { url: newUrl },
+      {
+        at: ReactEditor.findPath(editor, element)
+      }
+    )
   }, [])
   return (
     <div
       {...attributes}
-      className={`slatepad-image min-h-[10px] relative border-[3px] rounded ${
+      className={`slatepad-image min-h-[50px] relative border-[3px] rounded ${
         selected ? 'border-blue-500' : 'border-transparent'
       }`}>
       {children}
       <div
         contentEditable={false}
-        className="absolute  top-[-32px] left-0 border-[2px] border-blue-400 rounded z-20"
+        className="absolute  top-0 left-0 border-[2px] border-blue-400 rounded z-20"
         style={{
           opacity: selected ? '100%' : '0%'
         }}>
