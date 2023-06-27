@@ -1,4 +1,4 @@
-import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
+import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 import { ImageElement } from '../../types/slate'
 import { Transforms } from 'slate'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
   const selected = useSelected()
   const editor = useSlateStatic()
   useEffect(() => {
-    editor.onInsertImage?.(element.url)
+    editor.onInsertImage?.([element, ReactEditor.findPath(editor, element)])
   }, [])
   return (
     <div

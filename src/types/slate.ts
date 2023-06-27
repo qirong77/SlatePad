@@ -1,4 +1,4 @@
-import { Descendant, BaseEditor, BaseRange, Range, Element } from 'slate'
+import { Descendant, BaseEditor, BaseRange, Range, Element, NodeEntry } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { HistoryEditor } from 'slate-history'
 
@@ -142,7 +142,7 @@ export interface RenderElementProps {
 }
 interface SlatePadEditor {
   nodeToDecorations?: Map<Element, Range[]>
-  onInsertImage?: (imageUrl: string) => void
+  onInsertImage?: (npde: NodeEntry<ImageElement>) => void
 }
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor & SlatePadEditor
 
