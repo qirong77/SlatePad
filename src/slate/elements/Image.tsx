@@ -8,14 +8,7 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
   const [url, setUrl] = useState(element.url)
   const selected = useSelected()
   const editor = useSlateStatic()
-  useEffect(() => {
-    async function resetUrl() {
-      const newUrl = (await editor.onInsertImage?.(element.url)) || ''
-      setUrl(newUrl)
-    }
-    resetUrl()
-  }, [])
-  useEffect(() => {
+  const updateUrl = (url = '') => {
     Transforms.setNodes(
       editor,
       {
@@ -23,7 +16,15 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
       },
       { at: ReactEditor.findPath(editor, element) }
     )
-  }, [url])
+  }
+  useEffect(() => {
+    async function resetUrl() {
+      const newUrl = (await editor.onInsertImage?.(element.url)) || ''
+      updateUrl(newUrl)
+      setUrl(newUrl)
+    }
+    resetUrl()
+  }, [])
   return (
     <div
       {...attributes}
@@ -41,8 +42,10 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
           type="text"
           value={url}
           onChange={e => setUrl(e.target.value)}
+          onBlur={e => updateUrl(e.target.value)}
           className="rounded pl-[2px]"
         />
+        <h4>{element.url}</h4>
       </div>
       <img src={element.url} className="w-full h-full" />
     </div>
