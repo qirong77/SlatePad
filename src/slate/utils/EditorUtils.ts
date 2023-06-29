@@ -25,7 +25,7 @@ function insertMarkdown(editor: CustomEditor, markdownString: string) {
     breaks: true
   })
   const fragment = deserialize(body)
-  console.log(fragment)
+  return fragment
 }
 export const EditorUtils = {
   clearAll,

@@ -38,7 +38,6 @@ export const SetNodeToDecorations = () => {
   editor.nodeToDecorations = nodeToDecorations
   return <></>
   function getChildNodeToDecorations([block, blockPath]: NodeEntry<CodeBlockElement>) {
-    console.log('nodeToDecorations')
     const nodeToDecorations = new Map<string, Range[]>()
 
     const text = block.children.map(line => Node.string(line)).join('\n')

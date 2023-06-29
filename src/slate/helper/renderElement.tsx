@@ -9,7 +9,6 @@ import { Divider } from '../elements/Divider'
 import { Table } from '../elements/Table'
 // 结构参考:https://marked.js.org/demo/
 export function _renderElement(props: RenderElementProps) {
-  console.log('renderElement.tsx')
   const { attributes, children, element } = props
   switch (element.type) {
     case 'block-quote':

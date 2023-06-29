@@ -9,7 +9,6 @@ import { ReactEditor } from 'slate-react'
 import { getCurrentBlock } from '../utils/BlockUtils'
 export const useDecorate = (editor: CustomEditor, search: string) => {
   return function decorate(entry: NodeEntry) {
-    console.log('decorate.tsx')
     const [node, path] = entry as [Node, Path]
     if (Element.isElement(node) && node.type === 'code-line') {
       const key = ReactEditor.findKey(editor, node).id
@@ -22,7 +21,6 @@ export const useDecorate = (editor: CustomEditor, search: string) => {
         ReactEditor.findKey(editor, block).id == key &&
         ranges[0].comment
       ) {
-        console.log(ranges)
         ranges[0].focus.offset += 1
       }
       return ranges
