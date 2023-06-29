@@ -1,12 +1,15 @@
 import { ReactEditor, RenderElementProps, useSelected, useSlate, useSlateStatic } from 'slate-react'
 import { DeleteIcon, GridIcon } from '../../assets/svg/icon'
 import { useEffect, useRef, useState } from 'react'
-import { Element, Path, Transforms } from 'slate'
+import { Transforms } from 'slate'
 import { TableCellElement, TableRowElement } from '../../types/slate'
 
 export const Table = ({ props }: { props: RenderElementProps }) => {
   const { attributes, children, element } = props
   const [show, setShow] = useState(false)
+  const ipt1 = useRef<HTMLInputElement>(null)
+  const ipt2 = useRef<HTMLInputElement>(null)
+
   const [row, setRow] = useState<any>(element.children.length)
   const [colmn, setColum] = useState<any>((element.children[0] as TableRowElement).children.length)
   const editor = useSlateStatic()
@@ -17,11 +20,9 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
       setShow(false)
     }
   }, [selected])
-
-  const updateTable = (e: React.MouseEvent) => {
+  const updateTable = () => {
     let newRow = Number(row) || 1
     let newColmn = Number(colmn) || 1
-    e.stopPropagation()
     let preRows = JSON.parse(JSON.stringify(element.children)) as TableRowElement[]
     const td: TableCellElement = {
       type: 'table-cell',
@@ -60,8 +61,16 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
       at: path
     })
   }
-  const handleBlur = () => {
-    // console.log(selected)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'ArrowUp') {
+      ipt1.current?.focus()
+    }
+    if (e.code === 'ArrowDown') {
+      ipt2.current?.focus()
+    }
+    if (e.code === 'Enter') {
+      updateTable()
+    }
   }
   return (
     <div
@@ -85,28 +94,30 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
         </div>
         {show && (
           <div
-            onBlur={handleBlur}
             contentEditable={false}
-            className="slatepad-table-size absolute bg-white rounded w-[160px] p-[10px]"
+            className="slatepad-table-size absolute bg-white rounded w-[120px] p-[10px]"
             style={{
               boxShadow: 'rgba(4, 4, 4, 0.1) 0px 2px 4px 3px'
             }}>
-            <div className=" flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <input
+                onKeyDown={handleKeyDown}
                 autoFocus
                 value={row}
+                ref={ipt1}
                 onChange={e => setRow(e.target.value)}
-                className="w-[30px] h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
+                className="w-[35px] h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
                 type="text"
               />
               <span>X</span>
               <input
+                onKeyDown={handleKeyDown}
+                ref={ipt2}
                 value={colmn}
-                className="w-[30px]  h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
+                className="w-[35px]  h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
                 type="text"
                 onChange={e => setColum(e.target.value)}
               />
-              <button onClick={updateTable}>确定</button>
             </div>
           </div>
         )}

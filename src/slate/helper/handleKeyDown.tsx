@@ -8,27 +8,33 @@ import {
 import { Editor, Range, Transforms, Path, Node, NodeEntry, Point, Element } from 'slate'
 import { CustomEditor, SlateElement } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
+import { getNextPath, getPrePath } from '../utils/PathUtils'
 
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: CustomEditor) => {
   // enter codeblock-languageSelector
   if (e.code === 'ArrowUp') {
-    const [block, path] = getCurrentBlock(editor) || []
-    if (block && path) {
-      try {
-        const prePath = Path.previous(path)
-        const preBlock = Node.get(editor, prePath) as SlateElement
-        if (preBlock?.type === 'code-block') {
-          e.preventDefault()
-          ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
-        }
-      } catch (e) {
-        console.log(e)
+    // 处理进入到代码块的逻辑
+    const [, path] = getCurrentBlock(editor) || []
+    if (!path) return
+    const prePath = getPrePath(editor, path)
+    if (prePath) {
+      const preBlock = Node.get(editor, prePath) as SlateElement
+      if (preBlock?.type === 'code-block') {
+        e.preventDefault()
+        ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
+        return
       }
     }
-    tableHelper(editor, 'ArrowUp')
+    // 处理表格选择
+    const isHandle = handleTable(editor, 'ArrowUp')
+    if (isHandle) {
+      e.preventDefault()
+      return
+    }
   }
   if (e.code === 'ArrowDown') {
+    // 处理离开代码块的逻辑
     const codeLine = getCurrentBlock(editor, 'code-line')
     if (codeLine) {
       const [, path] = codeLine
@@ -39,7 +45,12 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
         codeBlock && ReactEditor.toDOMNode(editor, codeBlock).querySelector('input')?.focus()
       }
     }
-    tableHelper(editor, 'ArrowDown')
+    // 处理表格选择
+    const isHandle = handleTable(editor, 'ArrowDown')
+    if (isHandle) {
+      e.preventDefault()
+      return
+    }
   }
   // enter
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
@@ -238,19 +249,24 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
   }
 }
 
-// 在表格中,进行上下切换,需要进一步完善.可以用Path.next或者pre来判断下一个块,而不是选择后再判断下一个块
-function tableHelper(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
+// 在表格中,进行上下切换
+function handleTable(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
+  const isArrowDown = direction === 'ArrowDown'
   const [, cellPath] = getCurrentBlock(editor, 'table-cell') || []
-  if (!cellPath) return
-  setTimeout(() => {
-    const [, nextCellPath] = getCurrentBlock(editor, 'table-cell') || []
-    if (nextCellPath && cellPath && cellPath.join('') !== nextCellPath.join('')) {
-      const nextLevel = direction === 'ArrowDown' ? 1 : -1
-      const realNextPath = [...cellPath]
-      realNextPath[realNextPath.length - 2] = realNextPath[realNextPath.length - 2] + nextLevel
-      if (Path.isPath(realNextPath) && Editor.hasPath(editor, realNextPath)) {
-        Transforms.select(editor, Editor.end(editor, realNextPath))
-      }
+  const [block, blockPath] = getCurrentBlock(editor) || []
+  if (!cellPath || !editor.selection || !blockPath || !block) return
+  const hasNext = isArrowDown ? getNextPath(editor, blockPath) : getPrePath(editor, blockPath)
+  const str = Node.string(block)
+  const text = isArrowDown
+    ? str.slice(editor.selection.focus.offset)
+    : str.slice(0, editor.selection.focus.offset)
+  if (!hasNext && !text.includes('\n')) {
+    const realNextPath = [...cellPath]
+    const nextLevel = isArrowDown ? 1 : -1
+    realNextPath[realNextPath.length - 2] = realNextPath[realNextPath.length - 2] + nextLevel
+    if (Path.isPath(realNextPath) && Editor.hasPath(editor, realNextPath)) {
+      Transforms.select(editor, Editor.end(editor, realNextPath))
+      return true
     }
-  }, 10)
+  }
 }
