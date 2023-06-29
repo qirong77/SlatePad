@@ -14,8 +14,8 @@ export const withShortcuts = (editor: CustomEditor) => {
     if (text.endsWith(' ') && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
       const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
-      // 快捷转换不对代码块生效
-      if (block.type === 'code-line' || block.type === 'code-block') {
+      // 快捷转换不对非段落元素生效
+      if (block.type !== 'paragraph') {
         insertText(text)
         return
       }

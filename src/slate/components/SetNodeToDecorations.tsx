@@ -11,6 +11,11 @@ import 'prismjs/components/prism-tsx'
 import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-scss'
+// 以下是还未支持格式化话的高亮组件
+import 'prismjs/components/prism-sql'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-php'
+import 'prismjs/components/prism-python'
 
 // 默认支持html,css解析,不用导入
 export const LANGUAGES = [

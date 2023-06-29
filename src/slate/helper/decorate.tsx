@@ -1,8 +1,6 @@
 import { Element, Node, NodeEntry, Path, Range, Text } from 'slate'
 import Prism from 'prismjs'
-// 需要引入相应的语法库!
 import 'prismjs/components/prism-markdown'
-import 'prismjs/components/prism-jsx'
 
 import { CustomEditor } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
@@ -19,7 +17,7 @@ export const useDecorate = (editor: CustomEditor, search: string) => {
         Range.isCollapsed(editor.selection) &&
         block &&
         ReactEditor.findKey(editor, block).id == key &&
-        ranges[0]?.comment
+        ranges[0].comment
       ) {
         ranges[0].focus.offset += 1
       }
