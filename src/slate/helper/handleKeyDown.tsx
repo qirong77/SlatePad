@@ -256,6 +256,7 @@ function handleTable(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
   const [block, blockPath] = getCurrentBlock(editor) || []
   if (!cellPath || !editor.selection || !blockPath || !block) return
   const hasNext = isArrowDown ? getNextPath(editor, blockPath) : getPrePath(editor, blockPath)
+  // 如果当前的块有换行,按下上下键后,可能还需要保留在当前块,所以需要进行判断
   const str = Node.string(block)
   const text = isArrowDown
     ? str.slice(editor.selection.focus.offset)

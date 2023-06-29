@@ -3,8 +3,8 @@ import { Transforms } from 'slate'
 import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 import { LinkElement } from '../../types/slate'
 
-export function Link({ props }: { props: RenderElementProps<LinkElement> }) {
-  const { attributes, children, element } = props
+export function Link({ props }: { props: RenderElementProps }) {
+  const { attributes, children, element } = props as RenderElementProps<LinkElement>
   const editor = useSlateStatic()
   const selected = useSelected()
   const resetUrl = (e: React.ChangeEvent<HTMLInputElement>) => {

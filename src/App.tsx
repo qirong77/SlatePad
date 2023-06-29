@@ -5,7 +5,6 @@ import { initialValue } from './common/const'
 import { GitHubIcon } from './assets/svg/icon'
 import 'prism-themes/themes/prism-one-light.css'
 export const App = () => {
-  // const editor = useMemo(() => createSlatepad(), [])
   const editor = useMemo(() => createSlatepad(), [])
   return (
     <div>

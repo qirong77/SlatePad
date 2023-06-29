@@ -3,8 +3,8 @@ import { ImageElement } from '../../types/slate'
 import { Transforms } from 'slate'
 import { useEffect, useState } from 'react'
 
-export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) => {
-  const { attributes, children, element } = props
+export const Image = ({ props }: { props: RenderElementProps }) => {
+  const { attributes, children, element } = props as RenderElementProps<ImageElement>
   const [url, setUrl] = useState(element.url)
   const selected = useSelected()
   const editor = useSlateStatic()

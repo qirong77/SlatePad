@@ -13,8 +13,8 @@ import { getNextBlock } from '../utils/BlockUtils'
 import { Options } from 'prettier'
 import { LANGUAGES } from '../components/SetNodeToDecorations'
 
-export function CodeBlock({ props }: { props: RenderElementProps<CodeBlockElement> }) {
-  const { attributes, children, element } = props
+export function CodeBlock({ props }: { props: RenderElementProps }) {
+  const { attributes, children, element } = props as RenderElementProps<CodeBlockElement>
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
   const [isIptFocus, setIptFocus] = useState(false)

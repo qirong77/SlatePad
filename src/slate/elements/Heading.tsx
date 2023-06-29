@@ -6,14 +6,8 @@ import { getNextBlock, isHeadBlock } from '../utils/BlockUtils'
 import { CustomElementType, HeadingElement } from '../../types/slate'
 import { HistoryEditor } from 'slate-history'
 
-export function Heading({
-  props,
-  type
-}: {
-  props: RenderElementProps<HeadingElement>
-  type: string
-}) {
-  const { attributes, children, element } = props
+export function Heading({ props, type }: { props: RenderElementProps; type: string }) {
+  const { attributes, children, element } = props as RenderElementProps<HeadingElement>
   const selected = useSelected()
   const editor = useSlateStatic()
   const [collapse, setCollapse] = useState(false)
