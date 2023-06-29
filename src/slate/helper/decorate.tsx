@@ -19,7 +19,7 @@ export const useDecorate = (editor: CustomEditor, search: string) => {
         Range.isCollapsed(editor.selection) &&
         block &&
         ReactEditor.findKey(editor, block).id == key &&
-        ranges[0].comment
+        ranges[0]?.comment
       ) {
         ranges[0].focus.offset += 1
       }
