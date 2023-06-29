@@ -45,9 +45,18 @@ export const Image = ({ props }: { props: RenderElementProps<ImageElement> }) =>
           onBlur={e => updateUrl(e.target.value)}
           className="rounded pl-[2px]"
         />
-        <h4>{element.url}</h4>
       </div>
-      <img src={element.url} className="w-full h-full" />
+      <img
+        src={element.url}
+        className="w-full h-full"
+        /* 
+        兼容处理:当图片在一个表格的单元格中,且这个单元格里面只有一个image元素时有时无法选中的问题
+        */
+        onClick={e => {
+          e.stopPropagation()
+          Transforms.select(editor, ReactEditor.findPath(editor, element))
+        }}
+      />
     </div>
   )
 }

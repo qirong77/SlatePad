@@ -22,7 +22,9 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
           e.preventDefault()
           ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
         }
-      } catch (e) {}
+      } catch (e) {
+        console.log(e)
+      }
     }
     tableHelper(editor, 'ArrowUp')
   }
