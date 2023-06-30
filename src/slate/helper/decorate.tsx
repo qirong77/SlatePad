@@ -17,7 +17,7 @@ export const useDecorate = (editor: SlatePadEditor, search: string) => {
         Range.isCollapsed(editor.selection) &&
         block &&
         ReactEditor.findKey(editor, block).id == key &&
-        ranges[0].comment
+        ranges[0]?.comment
       ) {
         ranges[0].focus.offset += 1
       }

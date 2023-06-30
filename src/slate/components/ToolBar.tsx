@@ -36,7 +36,7 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {
       <CheckList onMouseDown={() => RichUtils.toggleBlock(editor, 'check-list-item')} />
       <CodeBlock onMouseDown={() => RichUtils.toggleBlock(editor, 'code-block')} />
       <BlockQuote onMouseDown={() => RichUtils.toggleBlock(editor, 'block-quote')} />
-      <Image onMouseDown={() => RichUtils.insertImage(editor)} />
+      <Image onMouseDown={() => RichUtils.insertImage(editor, '')} />
       <Link onMouseDown={() => RichUtils.insertLink(editor)} />
       <TableIcon onMouseDown={() => RichUtils.insertTable(editor)} />
       {/* <MarkDown onClick={() => {}} /> */}
