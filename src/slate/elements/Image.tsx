@@ -19,9 +19,11 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
   }
   useEffect(() => {
     async function resetUrl() {
-      const newUrl = (await editor.onInsertImage?.(element.url)) || ''
-      updateUrl(newUrl)
-      setUrl(newUrl)
+      const newUrl = await editor.onInsertImage?.(element.url)
+      if (newUrl) {
+        updateUrl(newUrl)
+        setUrl(newUrl)
+      }
     }
     resetUrl()
   }, [])
