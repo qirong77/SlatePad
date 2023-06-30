@@ -9,7 +9,6 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
   const [show, setShow] = useState(false)
   const ipt1 = useRef<HTMLInputElement>(null)
   const ipt2 = useRef<HTMLInputElement>(null)
-
   const [row, setRow] = useState<any>(element.children.length)
   const [colmn, setColum] = useState<any>((element.children[0] as TableRowElement).children.length)
   const editor = useSlateStatic()
