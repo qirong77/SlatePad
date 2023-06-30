@@ -1,5 +1,5 @@
 import { Transforms, Node, Editor, Path, Element, Range, Text, NodeEntry } from 'slate'
-import { CodeLineElement, CustomEditor, SlateElement } from '../../types/slate'
+import { CodeLineElement, SlatePadEditor, SlateElement } from '../../types/slate'
 import { getCurrentBlock } from '../utils/BlockUtils'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
@@ -12,7 +12,7 @@ import { getCurrentBlock } from '../utils/BlockUtils'
 // 执行时间:节点变化时,并不会遍历所有的节点,而是类似于Editor.above方式,从内向外,遍历当前选区的节点
 // 当粘贴文本时,会遍历所有的粘贴文本
 // 通过normalizing,可以处理粘贴的文本不符合文档的schema问题
-export const withNormalizing = (editor: CustomEditor) => {
+export const withNormalizing = (editor: SlatePadEditor) => {
   // normalize只有在节点变化的时候会执行
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
@@ -93,7 +93,7 @@ export const withNormalizing = (editor: CustomEditor) => {
 }
 
 // 不希望某些元素的直接子元素是text,比如不希望list或者td里面的直接子元素是文本,需要把这些文本用段落包裹起来
-function wrapTextNode(editor: CustomEditor, path: Path) {
+function wrapTextNode(editor: SlatePadEditor, path: Path) {
   for (const [child] of Node.children(editor, path)) {
     // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
     if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {

@@ -1,8 +1,8 @@
 import { Editor, Transforms, Element as SlateElement, Range } from 'slate'
-import { CustomEditor, LinkElement } from '../../types/slate'
+import { SlatePadEditor, LinkElement } from '../../types/slate'
 import isUrl from 'is-url'
 
-export const withInlines = (editor: CustomEditor) => {
+export const withInlines = (editor: SlatePadEditor) => {
   const { insertData, isInline, insertText } = editor
   //   重写isInline方法，默认情况下这个方法都是返回false
   // 前面那部分表示如果匹配到了行内快，后面表示使用原来的方法，也就一直是返回false
@@ -29,7 +29,7 @@ export const withInlines = (editor: CustomEditor) => {
   return editor
 }
 
-export function wrapLink(editor: CustomEditor, url = 'www.baidu.com') {
+export function wrapLink(editor: SlatePadEditor, url = 'www.baidu.com') {
   const [link] = Editor.nodes(editor, {
     match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
   })

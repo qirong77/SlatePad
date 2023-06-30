@@ -1,9 +1,9 @@
 import { Editor, Element } from 'slate'
-import { CustomEditor, SlateElement } from './../../types/slate'
+import { SlatePadEditor, SlateElement } from './../../types/slate'
 
 import { Node } from 'slate'
 import { isHeadBlock } from './BlockUtils'
-export function slateToMarkdown(editor: CustomEditor, elements: SlateElement[]): string {
+export function slateToMarkdown(editor: SlatePadEditor, elements: SlateElement[]): string {
   return elements.map(el => parseBlock(el)).join('\n')
   function parseLeafs(element: any): string {
     const leafs = element.children || [element]

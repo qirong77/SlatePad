@@ -3,7 +3,7 @@ import {
   CheckListItemElement,
   CodeBlockElement,
   CodeLineElement,
-  CustomEditor,
+  SlatePadEditor,
   CustomElementType
 } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
@@ -40,7 +40,7 @@ const TEXT_TAGS = {
   STRONG: () => ({ bold: true }),
   U: () => ({ underline: true })
 }
-export const withPastHtml = (editor: CustomEditor) => {
+export const withPastHtml = (editor: SlatePadEditor) => {
   const { insertData } = editor
 
   editor.insertData = data => {

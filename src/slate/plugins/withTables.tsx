@@ -1,7 +1,7 @@
 import { Editor, Element, Range, Point, NodeEntry } from 'slate'
-import { CustomEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlateElement } from '../../types/slate'
 
-export const withTables = (editor: CustomEditor) => {
+export const withTables = (editor: SlatePadEditor) => {
   const { deleteBackward } = editor
   // 按下delete的时候,不会删除当前的表格单元
   editor.deleteBackward = unit => {

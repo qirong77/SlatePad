@@ -1,6 +1,6 @@
 import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms } from 'slate'
 import {
-  CustomEditor,
+  SlatePadEditor,
   CustomElementType,
   HeadingElement,
   ImageElement,
@@ -9,7 +9,7 @@ import {
 import { wrapLink } from '../plugins/withInlines'
 import { getCurrentBlock, isHeadBlock } from './BlockUtils'
 
-const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
+const toggleBlock = (editor: SlatePadEditor, format: CustomElementType) => {
   const isActive = isBlockActive(editor, format)
   const isLists = format === 'bulleted-list' || format === 'number-list'
   editor.withoutNormalizing(() => {
@@ -67,11 +67,11 @@ const toggleBlock = (editor: CustomEditor, format: CustomElementType) => {
     }
   })
 }
-export const insertImage = (editor: CustomEditor, url: string) => {
+export const insertImage = (editor: SlatePadEditor, url: string) => {
   const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
   Transforms.insertNodes(editor, image)
 }
-function isBlockActive(editor: CustomEditor, format: CustomElementType) {
+function isBlockActive(editor: SlatePadEditor, format: CustomElementType) {
   const { selection } = editor
   if (!selection) return false
   const [match] = Array.from(
@@ -82,7 +82,7 @@ function isBlockActive(editor: CustomEditor, format: CustomElementType) {
   )
   return !!match
 }
-const insertTable = (editor: CustomEditor) => {
+const insertTable = (editor: SlatePadEditor) => {
   const table: TableElement = {
     type: 'table',
     children: [
@@ -153,7 +153,7 @@ const insertTable = (editor: CustomEditor) => {
   Transforms.insertNodes(editor, table)
 }
 // 折叠所有节点,逻辑比较复杂,功能一般暂时放弃
-const collapseHeads = (editor: CustomEditor) => {
+const collapseHeads = (editor: SlatePadEditor) => {
   // 找到所有的Heade节点
   const headEntries = Array.from(
     Editor.nodes(editor, {

@@ -1,7 +1,7 @@
-import { CustomEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlateElement } from '../../types/slate'
 import { Editor, Node, Path, Transforms, Element, NodeEntry } from 'slate'
 // normalize只有在节点变化的时候会执行
-export const withForceLayout = (editor: CustomEditor) => {
+export const withForceLayout = (editor: SlatePadEditor) => {
   const { normalizeNode } = editor
   // 如果第一个元素,直接是个表格,这里有个bug
   // setTimeout(() => {
@@ -20,7 +20,7 @@ export const withForceLayout = (editor: CustomEditor) => {
 }
 
 // 强制最后一个元素为段落
-function forceLayout(editor: CustomEditor) {
+function forceLayout(editor: SlatePadEditor) {
   const endPath = Editor.end(editor, [])
   const lastBlockType = editor.children.at(-1)?.type || ''
   const block = Editor.above(editor, {

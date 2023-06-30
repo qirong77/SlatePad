@@ -6,12 +6,12 @@ import {
   isListParagraph
 } from '../utils/BlockUtils'
 import { Editor, Range, Transforms, Path, Node, NodeEntry, Point, Element } from 'slate'
-import { CustomEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlateElement } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 
 // 后面需要引入第三库进行隔离,只进行一次判定
-export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: CustomEditor) => {
+export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: SlatePadEditor) => {
   // enter codeblock-languageSelector
   if (e.code === 'ArrowUp') {
     // 处理进入到代码块的逻辑
@@ -250,7 +250,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Cu
 }
 
 // 在表格中,进行上下切换
-function handleTable(editor: CustomEditor, direction: 'ArrowUp' | 'ArrowDown') {
+function handleTable(editor: SlatePadEditor, direction: 'ArrowUp' | 'ArrowDown') {
   const isArrowDown = direction === 'ArrowDown'
   const [, cellPath] = getCurrentBlock(editor, 'table-cell') || []
   const [block, blockPath] = getCurrentBlock(editor) || []

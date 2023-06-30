@@ -9,7 +9,7 @@ import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
 import { Descendant } from 'slate'
-import { CustomEditor } from '../types/slate'
+import { SlatePadEditor } from '../types/slate'
 import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
@@ -18,9 +18,21 @@ import { blankInitial } from '../common/const'
 
 const SlatePad: React.FC<{
   onChange?: (value: Descendant[]) => void
-  editor: CustomEditor
+  editor: SlatePadEditor
   initialValue?: Descendant[]
-}> = ({ onChange, editor, initialValue }) => {
+  SlatePadConfig?: {
+    toolbar?: Boolean
+    sideBar?: Boolean
+  }
+}> = ({
+  onChange,
+  editor,
+  initialValue,
+  SlatePadConfig = {
+    toolbar: true,
+    sideBar: true
+  }
+}) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(true)
   const renderElement = useCallback(_renderElement, [])
@@ -31,12 +43,14 @@ const SlatePad: React.FC<{
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
       spellCheck={false}>
       <Slate editor={editor} value={initialValue || blankInitial} onChange={onChange}>
-        <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
-          <Search search={search} setSearch={setSearch} />
-        </ToolBar>
+        {SlatePadConfig.toolbar && (
+          <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
+            <Search search={search} setSearch={setSearch} />
+          </ToolBar>
+        )}
         <HoveringToolBar />
         <div className="flex-1 flex overflow-scroll">
-          <Side showHeaders={showHeaders} />
+          {SlatePadConfig.sideBar && <Side showHeaders={showHeaders} />}
           <div className="flex-1 overflow-scroll">
             <SetNodeToDecorations />
             <Editable

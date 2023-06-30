@@ -1,7 +1,7 @@
 import { Editor, Element as SlateElement, Range, Point, Transforms } from 'slate'
-import { CustomEditor } from '../../types/slate'
+import { SlatePadEditor } from '../../types/slate'
 
-export const withChecklists = (editor: CustomEditor) => {
+export const withChecklists = (editor: SlatePadEditor) => {
   const { deleteBackward } = editor
 
   editor.deleteBackward = (...args) => {

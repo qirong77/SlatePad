@@ -1,8 +1,8 @@
 import isUrl from 'is-url'
-import { CustomEditor } from '../../types/slate'
+import { SlatePadEditor } from '../../types/slate'
 import { insertImage } from '../utils/RichUtils'
 
-export const withImages = (editor: CustomEditor) => {
+export const withImages = (editor: SlatePadEditor) => {
   const { insertData, isVoid } = editor
 
   // void元素就是不可编辑的元素，slate默认都是返回false，这里重写这个方法

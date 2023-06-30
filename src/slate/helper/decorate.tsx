@@ -2,10 +2,10 @@ import { Element, Node, NodeEntry, Path, Range, Text } from 'slate'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-markdown'
 
-import { CustomEditor } from '../../types/slate'
+import { SlatePadEditor } from '../../types/slate'
 import { ReactEditor } from 'slate-react'
 import { getCurrentBlock } from '../utils/BlockUtils'
-export const useDecorate = (editor: CustomEditor, search: string) => {
+export const useDecorate = (editor: SlatePadEditor, search: string) => {
   return function decorate(entry: NodeEntry) {
     const [node, path] = entry as [Node, Path]
     if (Element.isElement(node) && node.type === 'code-line') {

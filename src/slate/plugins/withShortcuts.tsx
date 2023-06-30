@@ -1,4 +1,4 @@
-import { CustomEditor, CustomElementType } from '../../types/slate'
+import { SlatePadEditor, CustomElementType } from '../../types/slate'
 import { Editor, NodeEntry, Point, Range, Element as SlateElement, Transforms } from 'slate'
 import {
   getCurrentBlock,
@@ -7,7 +7,7 @@ import {
   selectNextSibling
 } from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
-export const withShortcuts = (editor: CustomEditor) => {
+export const withShortcuts = (editor: SlatePadEditor) => {
   const { deleteBackward, insertText } = editor
   editor.insertText = text => {
     const { selection } = editor
