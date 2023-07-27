@@ -22,7 +22,7 @@ export const withForceLayout = (editor: SlatePadEditor) => {
 // 强制最后一个元素为段落
 function forceLayout(editor: SlatePadEditor) {
   const endPath = Editor.end(editor, [])
-  const lastBlockType = editor.children.at(-1)?.type || ''
+  const lastBlockType = (editor.children.at(-1) as any)?.type || ''
   const block = Editor.above(editor, {
     match: node =>
       Element.isElement(node) && Editor.isBlock(editor, node) && node.type === lastBlockType,
@@ -46,7 +46,7 @@ function forceLayout(editor: SlatePadEditor) {
   }
   // 强制第一个为fixSelect
   const startPath = Editor.start(editor, [])
-  const firstBlockType = editor.children.at(-1)?.type || ''
+  const firstBlockType = (editor.children.at(-1) as any)?.type || ''
   const [startBlock] =
     (Editor.above(editor, {
       match: node =>

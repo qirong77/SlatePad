@@ -16,7 +16,7 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-bash'
 import 'prismjs/components/prism-php'
 import 'prismjs/components/prism-python'
-
+const NOT_FORMATTERS = ['Shell', 'Python', 'Sql']
 // 默认支持html,css解析,不用导入
 export const LANGUAGES = [
   'JavaScript',
@@ -26,7 +26,8 @@ export const LANGUAGES = [
   'Markdown',
   'Java',
   'Scss',
-  'Html'
+  'Html',
+  ...NOT_FORMATTERS
 ]
 // 用于更新decoration
 export const SetNodeToDecorations = () => {

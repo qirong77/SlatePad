@@ -80,7 +80,6 @@ export const withShortcuts = (editor: SlatePadEditor) => {
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
     const start = Editor.start(editor, path)
     if (selection && Range.isCollapsed(selection)) {
-      const [list, listPath] = getCurrentBlock(editor, 'list-item') || []
       // debugger
       // 如果当前的光标不在当前块的起点,执行默认的方法
       if (!Point.equals(selection.anchor, start)) {

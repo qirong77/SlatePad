@@ -7,6 +7,7 @@ import { Link } from '../elements/Link'
 import { FixSelect } from '../elements/FixSelect'
 import { Divider } from '../elements/Divider'
 import { Table } from '../elements/Table'
+import { ListContainer } from '../elements/ListContainer'
 // 结构参考:https://marked.js.org/demo/
 export function _renderElement(props: RenderElementProps) {
   const { attributes, children, element } = props
@@ -20,17 +21,9 @@ export function _renderElement(props: RenderElementProps) {
         </blockquote>
       )
     case 'bulleted-list':
-      return (
-        <ul className="slatepad-bulleted-list pl-[20px] my-[8px]" {...attributes}>
-          {children}
-        </ul>
-      )
+      return <ListContainer props={props} />
     case 'number-list':
-      return (
-        <ol className="slatepad-number-list pl-[20px] my-[8px]" {...attributes}>
-          {children}
-        </ol>
-      )
+      return <ListContainer props={props} />
     case 'heading1':
       return <Heading props={props} type={element.type} />
     case 'heading2':

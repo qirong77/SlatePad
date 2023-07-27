@@ -20,8 +20,8 @@ export const HoveringToolBar = () => {
     const domRange = domSelection!.getRangeAt(0)
     const rect = domRange.getBoundingClientRect()
     el.style.opacity = '1'
-    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-    el.style.left = `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2}px`
+    el.style.top = `${rect.top + window.scrollY - el.offsetHeight}px`
+    el.style.left = `${rect.left + window.scrollX - el.offsetWidth / 2 + rect.width / 2}px`
   })
   return (
     <div
@@ -63,7 +63,7 @@ export const HoveringToolBar = () => {
     )
     function isLeafActive(format: string) {
       const [match] = Editor.nodes(editor, {
-        match: n => n[format],
+        match: (node: any) => node[format],
         universal: true
       })
       return !!match
