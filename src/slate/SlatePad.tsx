@@ -42,7 +42,7 @@ const SlatePad: React.FC<{
     <div
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
       spellCheck={false}>
-      <Slate editor={editor} value={initialValue || blankInitial} onChange={onChange}>
+      <Slate editor={editor} initialValue={initialValue || blankInitial} onChange={onChange}>
         {SlatePadConfig.toolbar && (
           <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
             <Search search={search} setSearch={setSearch} />
