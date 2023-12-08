@@ -1,5 +1,5 @@
 import { Editor, Path } from 'slate'
-import { SlatePadEditor } from '../../types/slate'
+import { SlatePadEditor } from '../types'
 
 export const getNextPath = (editor: SlatePadEditor, path: Path) => {
   const hasNext = Editor.hasPath(editor, Path.next(path))

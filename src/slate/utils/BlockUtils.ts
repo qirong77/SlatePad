@@ -1,5 +1,5 @@
 import { Editor, Element, Path, Node, NodeEntry, Transforms } from 'slate'
-import { SlatePadEditor, CustomElementType, SlateElement } from '../../types/slate'
+import { SlatePadEditor, CustomElementType, SlateElement } from '../types'
 import { getNextPath } from './PathUtils'
 
 // 获取当前光标所在位置的某个块,只会返回最先匹配到的块

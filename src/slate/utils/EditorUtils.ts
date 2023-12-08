@@ -1,4 +1,4 @@
-import { SlatePadEditor } from './../../types/slate'
+import { SlatePadEditor, SlatePadElementEnum } from '../types'
 import { Transforms, Node } from 'slate'
 import { slateToMarkdown } from './slateToMarkdown'
 import { deserialize } from '../plugins/withPastHtml'
@@ -6,7 +6,7 @@ import { marked } from 'marked'
 function clearAll(editor: SlatePadEditor) {
   Transforms.select(editor, [])
   Transforms.delete(editor)
-  Transforms.setNodes(editor, { type: 'paragraph' })
+  Transforms.setNodes(editor, { type: SlatePadElementEnum.PARAGRAPH })
 }
 function clearHistory(editor: SlatePadEditor) {
   editor.history = {

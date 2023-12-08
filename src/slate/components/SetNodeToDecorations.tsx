@@ -1,6 +1,6 @@
 import { Editor, Element, NodeEntry, Node } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { CodeBlockElement } from '../../types/slate'
+import { CodeBlockElement } from '../types'
 import { normalizeTokens } from '../lib/normalize-tokens'
 import Prism from 'prismjs'
 // 需要引入相应的语法库!

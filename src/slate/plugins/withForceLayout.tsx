@@ -1,4 +1,4 @@
-import { SlatePadEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from '../types'
 import { Editor, Node, Path, Transforms, Element, NodeEntry } from 'slate'
 // normalize只有在节点变化的时候会执行
 export const withForceLayout = (editor: SlatePadEditor) => {
@@ -27,7 +27,7 @@ function forceLayout(editor: SlatePadEditor) {
     match: node =>
       Element.isElement(node) && Editor.isBlock(editor, node) && node.type === lastBlockType,
     at: endPath
-  }) as NodeEntry<SlateElement>
+  }) as NodeEntry<SlatePadElement>
   if (block) {
     const [lastBlock, lastPath] = block
     if (lastBlock.type === 'paragraph' && !Node.string(lastBlock).length) {
@@ -36,7 +36,7 @@ function forceLayout(editor: SlatePadEditor) {
     Transforms.insertNodes(
       editor,
       {
-        type: 'paragraph',
+        type: SlatePadElementEnum.PARAGRAPH,
         children: [{ text: '' }]
       },
       {
@@ -52,12 +52,12 @@ function forceLayout(editor: SlatePadEditor) {
       match: node =>
         Element.isElement(node) && Editor.isBlock(editor, node) && node.type === firstBlockType,
       at: startPath
-    }) as NodeEntry<SlateElement>) || []
-  if (startBlock?.type !== 'fix-select') {
+    }) as NodeEntry<SlatePadElement>) || []
+  if (startBlock?.type !== SlatePadElementEnum.FIX_SELECT) {
     Transforms.insertNodes(
       editor,
       {
-        type: 'fix-select',
+        type: SlatePadElementEnum.FIX_SELECT,
         children: [{ text: '' }]
       },
       { at: [0] }

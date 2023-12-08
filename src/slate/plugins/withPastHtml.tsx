@@ -5,7 +5,7 @@ import {
   CodeLineElement,
   SlatePadEditor,
   CustomElementType
-} from '../../types/slate'
+} from '../types'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
 const ELEMENT_TAGS: {

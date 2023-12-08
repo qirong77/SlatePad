@@ -1,5 +1,5 @@
-import { Transforms, Node, Editor, Path, Element, Range, Text, NodeEntry } from 'slate'
-import { CodeLineElement, SlatePadEditor, SlateElement } from '../../types/slate'
+import { Transforms, Node, Editor, Path, Element,  Text, NodeEntry } from 'slate'
+import {  SlatePadEditor,  SlatePadElement,  SlatePadElementEnum } from '../types'
 /* 
 在 Slate.js 中，normalizeNode 方法用于规范化节点，它的执行时机有以下几种情况：
 
@@ -15,15 +15,15 @@ export const withNormalizing = (editor: SlatePadEditor) => {
   // normalize只有在节点变化的时候会执行
   const { normalizeNode } = editor
   editor.normalizeNode = entry => {
-    const [node, path] = entry as [SlateElement, Path]
+    const [node, path] = entry as [SlatePadElement, Path]
     if (Element.isElement(node) && node.type === 'list-item') {
-      const [parentBlock, parentPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
+      const [parentBlock, parentPath] = Editor.parent(editor, path) as NodeEntry<SlatePadElement>
       // 从飞书对话框粘贴列表,发现里面的list没有用ul或者ol包围
-      if (parentBlock.type !== 'bulleted-list' && parentBlock.type !== 'number-list') {
+      if (parentBlock.type !== SlatePadElementEnum.BULLED_LIST && parentBlock.type !== SlatePadElementEnum.NUMBER_LIST) {
         Transforms.wrapNodes(
           editor,
           {
-            type: 'bulleted-list',
+            type: SlatePadElementEnum.BULLED_LIST,
             children: []
           },
           {
@@ -51,7 +51,7 @@ export const withNormalizing = (editor: SlatePadEditor) => {
         if (!(Element.isElement(child) && child.type === 'table-cell')) {
           Transforms.wrapNodes(
             editor,
-            { type: 'table-cell', children: [] },
+            { type: SlatePadElementEnum.TABLE_CELL, children: [] },
             {
               at: childPath
             }
@@ -67,18 +67,18 @@ export const withNormalizing = (editor: SlatePadEditor) => {
     // Code-Block里面必须是codeline
     if (Element.isElement(node) && node.type === 'code-block') {
       for (const [child, childPath] of Node.children(editor, path)) {
-        if (Element.isElement(child) && child.type !== 'code-line') {
+        if (Element.isElement(child) && child.type !== SlatePadElementEnum.CODE_LINE) {
           const codeLines = Node.string(node)
             .split('\n')
             .map(
               text =>
                 ({
-                  type: 'code-line',
+                  type: SlatePadElementEnum.CODE_LINE,
                   children: [{ text }]
-                } as CodeLineElement)
+                } as any)
             )
           Transforms.setNodes(editor, {
-            type: 'code-block',
+            type: SlatePadElementEnum.CODE_BLOCK,
             children: codeLines
           })
           return
@@ -98,7 +98,7 @@ function wrapTextNode(editor: SlatePadEditor, path: Path) {
     if (!(Element.isElement(child) && Editor.isBlock(editor, child))) {
       Transforms.wrapNodes(
         editor,
-        { type: 'paragraph', children: [] },
+        { type: SlatePadElementEnum.PARAGRAPH, children: [] },
         {
           at: path,
           match: node =>

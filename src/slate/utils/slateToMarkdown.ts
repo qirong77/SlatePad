@@ -1,5 +1,5 @@
 import { Editor, Element } from 'slate'
-import { SlatePadEditor, SlateElement } from './../../types/slate'
+import { SlatePadEditor, SlateElement } from '../types'
 
 import { Node } from 'slate'
 import { isHeadBlock } from './BlockUtils'

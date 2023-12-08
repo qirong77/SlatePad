@@ -6,7 +6,7 @@ import {
   isListParagraph
 } from '../utils/BlockUtils'
 import { Editor, Range, Transforms, Path, Node, NodeEntry, Point, Element } from 'slate'
-import { SlatePadEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlateElement } from '../types'
 import { ReactEditor } from 'slate-react'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 

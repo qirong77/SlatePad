@@ -39,3 +39,6 @@ div pre[class*='language-'] {
 .changeMargin {
   margin-top: 300px;
 }
+.ediable {
+  outline: none;
+}

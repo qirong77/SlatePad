@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Editable, Slate } from 'slate-react'
 import { handleKeyDown } from './helper/handleKeyDown'
-import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
 import { ToolBar } from './components/ToolBar'
 import { HoveringToolBar } from './components/HoveringToolBar'
@@ -9,7 +8,7 @@ import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
 import { Descendant } from 'slate'
-import { SlatePadEditor } from '../types/slate'
+import { SlatePadEditor } from './types'
 import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
@@ -35,7 +34,7 @@ const SlatePad: React.FC<{
 }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(true)
-  const renderElement = useCallback(_renderElement, [])
+  const renderElement = useCallback(editor.renderElement, [])
   const renderLeaf = useCallback(_renderLeaf, [])
   const decorate = useCallback(useDecorate(editor, search), [search])
   return (

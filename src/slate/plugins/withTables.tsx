@@ -1,5 +1,5 @@
 import { Editor, Element, Range, Point, NodeEntry } from 'slate'
-import { SlatePadEditor, SlateElement } from '../../types/slate'
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from '../types'
 
 export const withTables = (editor: SlatePadEditor) => {
   const { deleteBackward } = editor
@@ -8,14 +8,14 @@ export const withTables = (editor: SlatePadEditor) => {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
       const [cell] = Editor.nodes(editor, {
-        match: n => Element.isElement(n) && n.type === 'table-cell'
+        match: n => Element.isElement(n) && n.type === SlatePadElementEnum.TABLE_CELL
       })
       if (cell) {
-        const [cellNode, cellPath] = cell as NodeEntry<SlateElement>
+        const [cellNode, cellPath] = cell as NodeEntry<SlatePadElement>
         const start = Editor.start(editor, cellPath)
         if (
           Point.equals(selection.anchor, start) &&
-          (cellNode.children[0] as any)?.type === 'paragraph'
+          (cellNode.children[0] as any)?.type === SlatePadElementEnum.PARAGRAPH
         ) {
           return
         }
