@@ -4,7 +4,9 @@ import { useEffect } from 'react'
 
 export const ListContainer = ({ props }: { props: RenderElementProps }) => {
   // 连续的list合并为一个
-  useEffect(() => {}, [])
+  useEffect(() => {
+    console.log('unwrap')
+  }, [])
   const { attributes, children, element } = props as RenderElementProps<
     NumberListElement | BulletedListElement
   >
