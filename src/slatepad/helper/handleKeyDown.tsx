@@ -12,46 +12,6 @@ import { getNextPath, getPrePath } from '../utils/PathUtils'
 
 // 后面需要引入第三库进行隔离,只进行一次判定
 export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: SlatePadEditor) => {
-  // enter codeblock-languageSelector
-  if (e.code === 'ArrowUp') {
-    // 处理进入到代码块的逻辑
-    const [, path] = getCurrentBlock(editor) || []
-    if (!path) return
-    const prePath = getPrePath(editor, path)
-    if (prePath) {
-      const preBlock = Node.get(editor, prePath) as SlateElement
-      if (preBlock?.type === 'code-block') {
-        e.preventDefault()
-        ReactEditor.toDOMNode(editor, preBlock).querySelector('input')?.focus()
-        return
-      }
-    }
-    // 处理表格选择
-    const isHandle = handleTable(editor, 'ArrowUp')
-    if (isHandle) {
-      e.preventDefault()
-      return
-    }
-  }
-  if (e.code === 'ArrowDown') {
-    // 处理离开代码块的逻辑
-    const codeLine = getCurrentBlock(editor, 'code-line')
-    if (codeLine) {
-      const [, path] = codeLine
-      const nextCodeLine = getNextBlock(editor, path)
-      if (!nextCodeLine) {
-        e.preventDefault()
-        const [codeBlock] = getCurrentBlock(editor, 'code-block') || []
-        codeBlock && ReactEditor.toDOMNode(editor, codeBlock).querySelector('input')?.focus()
-      }
-    }
-    // 处理表格选择
-    const isHandle = handleTable(editor, 'ArrowDown')
-    if (isHandle) {
-      e.preventDefault()
-      return
-    }
-  }
   // enter
   if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
     const { selection } = editor
@@ -60,16 +20,6 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>
     // 如果当前是一个代码块,就跳过
     if (isCodeBlock(block.type)) {
-      return
-    }
-    // 当前是标题,换行之后不保留保留标题样式
-    if (isHeadBlock(block.type)) {
-      e.preventDefault()
-      Transforms.insertNodes(editor, {
-        type: 'paragraph',
-        children: [{ text: '' }]
-      })
-      Transforms.select(editor, Path.next(path))
       return
     }
     // 当光标处于某个list
@@ -146,106 +96,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
       )
       Transforms.select(editor, Path.next(parentPath))
     }
-    // 如果当前的块是个空内容,就编程普通段落
-    if (block.type !== 'paragraph' && !Node.string(block)) {
-      e.preventDefault()
-      editor.deleteBackward('character')
-      return
-    }
-  }
-  // shift+enter
-  if (e.key === 'Enter' && e.shiftKey) {
-    const [block, path] = getCurrentBlock(editor) || []
-    if (!isCodeBlock(block!.type)) {
-      e.preventDefault()
-      Editor.insertText(editor, '\n')
-    }
-  }
-  // commend+enter跳出当前的块
-  if (e.key === 'Enter' && e.metaKey) {
-    e.preventDefault()
-    const { selection } = editor
-    if (selection && Range.isCollapsed(selection)) {
-      const [block, path] = getCurrentBlock(editor, 'list-item', 'code-line') || []
-      if (block && path) {
-        const [ul, ulPath] = Editor.parent(editor, path)
-        const isLast = path[path.length - 1] === ul.children.length - 1
-        if (isLast) {
-          Transforms.insertNodes(
-            editor,
-            {
-              type: 'paragraph',
-              children: [{ text: '' }]
-            },
-            {
-              at: Path.next(ulPath)
-            }
-          )
-          Transforms.select(editor, Editor.end(editor, Path.next(ulPath)))
-          return
-        }
-      }
-      Transforms.select(editor, Editor.end(editor, Path.next(path as Path)))
-    }
-  }
-  if (e.code === 'KeyA' && e.metaKey) {
-    e.preventDefault()
-    const match = getCurrentBlock(
-      editor,
-      'bulleted-list',
-      'code-block',
-      'number-list',
-      'table-cell'
-    )
-    if (match) {
-      const [, path] = match
-      Transforms.select(editor, path)
-    } else {
-      Transforms.select(editor, [])
-    }
-  }
-  if (e.code === 'Tab') {
-    e.preventDefault()
-    const [block, path] = getCurrentBlock(editor, 'code-block') || []
-    if (!editor.selection || !block || !path) return
-    const codeLines: [SlateElement, Path][] = []
-    for (const [child, childPath] of Node.children(editor, path)) {
-      if (Element.isElement(child) && Range.includes(editor.selection, childPath)) {
-        codeLines.push([child, childPath])
-        if (!e.shiftKey) {
-          Transforms.insertText(editor, '  ', {
-            at: Editor.start(editor, childPath)
-          })
-        }
-      }
-    }
-    if (e.shiftKey) {
-      codeLines.forEach(([child, childPath]) => {
-        // 由于setNodes无法直接改变子元素的children,为了简便操作直接使用移除和新增节点,完成缩进文本空白删除
-        const text = Node.string(child).split('')
-        if (text[0] === ' ') text.splice(0, 1)
-        if (text[0] === ' ') text.splice(0, 1)
-        Transforms.removeNodes(editor, { at: childPath })
-        Transforms.insertNodes(
-          editor,
-          {
-            type: 'code-line',
-            children: [{ text: text.join('') }]
-          },
-          { at: childPath }
-        )
-      })
-    }
-    const newRange: Range = {
-      anchor: Editor.start(editor, codeLines[0][1]),
-      focus: Editor.end(editor, codeLines[codeLines.length - 1][1])
-    }
-    Transforms.select(editor, newRange)
-  }
-  if (e.metaKey && e.code === 'KeyF') {
-    e.preventDefault()
-    const ipt = document.querySelector('.slatepad-search') as HTMLInputElement
-    ipt.focus()
+
   }
 }
 

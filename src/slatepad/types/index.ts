@@ -50,6 +50,7 @@ interface CustomEditor {
   use: (Plugin: (editor: SlatePadEditor) => SlatePadEditor) => SlatePadEditor;
   renderElement: (props: RenderElementProps) => JSX.Element;
   onShortCuts:(type:SlatePadElementEnum,beforeText:string) => void
+  onKeyDown:(e:React.KeyboardEvent<HTMLDivElement>) => void
   shoutCutsMap:Map<string,SlatePadElementEnum>
 }
 

@@ -6,11 +6,22 @@ import {
 } from "slate-react";
 import { DeleteIcon, GridIcon } from "../../assets/svg/icon";
 import { useEffect, useRef, useState } from "react";
-import { Transforms,Range,Editor,Element,Point, NodeEntry, } from "slate";
+import {
+  Transforms,
+  Range,
+  Editor,
+  Element,
+  Point,
+  NodeEntry,
+  Node,
+  Path,
+} from "slate";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
+import { getCurrentBlock, wrapTextNode } from "../utils/BlockUtils";
+import { getNextPath, getPrePath } from "../utils/PathUtils";
 
 export const withElementTable = (editor: SlatePadEditor) => {
-  const { renderElement,deleteBackward } = editor;
+  const { renderElement, deleteBackward, onKeyDown, normalizeNode } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.TABLE) {
@@ -32,25 +43,74 @@ export const withElementTable = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
-  editor.deleteBackward = unit => {
-    const { selection } = editor
+  editor.deleteBackward = (unit) => {
+    const { selection } = editor;
     if (selection && Range.isCollapsed(selection)) {
       const [cell] = Editor.nodes(editor, {
-        match: n => Element.isElement(n) && n.type === SlatePadElementEnum.TABLE_CELL
-      })
+        match: (n) =>
+          Element.isElement(n) && n.type === SlatePadElementEnum.TABLE_CELL,
+      });
       if (cell) {
-        const [cellNode, cellPath] = cell as NodeEntry<SlatePadElement>
-        const start = Editor.start(editor, cellPath)
+        const [cellNode, cellPath] = cell as NodeEntry<SlatePadElement>;
+        const start = Editor.start(editor, cellPath);
         if (
           Point.equals(selection.anchor, start) &&
           (cellNode.children[0] as any)?.type === SlatePadElementEnum.PARAGRAPH
         ) {
-          return
+          return;
         }
       }
     }
-    deleteBackward(unit)
-  }
+    deleteBackward(unit);
+  };
+  editor.onKeyDown = (e) => {
+    if (e.code === "ArrowUp") {
+      // 处理表格选择
+      const isHandle = handleTable(editor, "ArrowUp");
+      if (isHandle) {
+        e.preventDefault();
+        return;
+      }
+    }
+    if (e.code === "ArrowDown") {
+      // 处理表格选择
+      const isHandle = handleTable(editor, "ArrowDown");
+      if (isHandle) {
+        e.preventDefault();
+        return;
+      }
+    }
+    onKeyDown(e);
+  };
+  editor.normalizeNode = ([node, path]) => {
+    if (
+      Element.isElement(node) &&
+      node.type === SlatePadElementEnum.TABLE_ROW
+    ) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (
+          !(
+            Element.isElement(child) &&
+            child.type === SlatePadElementEnum.TABLE_CELL
+          )
+        ) {
+          Transforms.wrapNodes(
+            editor,
+            { type: SlatePadElementEnum.TABLE_CELL, children: [] },
+            {
+              at: childPath,
+            }
+          );
+          return;
+        }
+      }
+    }
+    if (Element.isElement(node) && node.type === "table-cell") {
+      const isOperation = wrapTextNode(editor, path);
+      if (isOperation) return;
+    }
+    normalizeNode([node,path])
+  };
   return editor;
 };
 
@@ -192,4 +252,33 @@ function Table({ props }: { props: RenderElementProps }) {
       </table>
     </div>
   );
+}
+
+// 在表格中,进行上下切换
+function handleTable(
+  editor: SlatePadEditor,
+  direction: "ArrowUp" | "ArrowDown"
+) {
+  const isArrowDown = direction === "ArrowDown";
+  const [, cellPath] = getCurrentBlock(editor, "table-cell") || [];
+  const [block, blockPath] = getCurrentBlock(editor) || [];
+  if (!cellPath || !editor.selection || !blockPath || !block) return;
+  const hasNext = isArrowDown
+    ? getNextPath(editor, blockPath)
+    : getPrePath(editor, blockPath);
+  // 如果当前的块有换行,按下上下键后,可能还需要保留在当前块,所以需要进行判断
+  const str = Node.string(block);
+  const text = isArrowDown
+    ? str.slice(editor.selection.focus.offset)
+    : str.slice(0, editor.selection.focus.offset);
+  if (!hasNext && !text.includes("\n")) {
+    const realNextPath = [...cellPath];
+    const nextLevel = isArrowDown ? 1 : -1;
+    realNextPath[realNextPath.length - 2] =
+      realNextPath[realNextPath.length - 2] + nextLevel;
+    if (Path.isPath(realNextPath) && Editor.hasPath(editor, realNextPath)) {
+      Transforms.select(editor, Editor.end(editor, realNextPath));
+      return true;
+    }
+  }
 }

@@ -4,6 +4,8 @@ import {
   Node,
   Editor,
   Element as SlateElement,
+  Range,
+  Path,
 } from "slate";
 import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { format } from "prettier/standalone";
@@ -11,15 +13,15 @@ import BabelPlugin from "prettier/parser-babel";
 import CssPlugin from "prettier/parser-postcss";
 import HtmlPlugin from "prettier/parser-html.js";
 import { PrettierPluginJava } from "../lib/PrettierJavaPlugin";
-import { SlatePadEditor,  SlatePadElementEnum } from "../types";
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 import { Arrow, PrettierIcon } from "../../assets/svg/icon";
-import { getNextPath } from "../utils/PathUtils";
-import {  getNextBlock } from "../utils/BlockUtils";
+import { getNextPath, getPrePath } from "../utils/PathUtils";
+import { getCurrentBlock, getNextBlock } from "../utils/BlockUtils";
 import { Options } from "prettier";
 import { LANGUAGES } from "../components/SetNodeToDecorations";
 
 export const withElementCodeBlock = (editor: SlatePadEditor) => {
-  const { renderElement, onShortCuts } = editor;
+  const { renderElement, onShortCuts, onKeyDown, normalizeNode } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.CODE_LINE) {
@@ -41,7 +43,7 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     return renderElement(props);
   };
   editor.shoutCutsMap.set("```", SlatePadElementEnum.CODE_LINE);
-  editor.onShortCuts = (type,beforeText) => {
+  editor.onShortCuts = (type, beforeText) => {
     if (type === SlatePadElementEnum.CODE_LINE && /^```/.test(beforeText)) {
       editor.withoutNormalizing(() => {
         Transforms.setNodes<SlateElement>(
@@ -67,9 +69,116 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
           }
         );
       });
-      return
+      return;
     }
-    onShortCuts(type,beforeText)
+    onShortCuts(type, beforeText);
+  };
+  editor.onKeyDown = (e) => {
+    if (e.code === "ArrowUp") {
+      // 处理进入到代码块的逻辑
+      const [, path] = getCurrentBlock(editor) || [];
+      if (!path) return;
+      const prePath = getPrePath(editor, path);
+      if (prePath) {
+        const preBlock = Node.get(editor, prePath) as SlateElement;
+        if (preBlock?.type === SlatePadElementEnum.CODE_BLOCK) {
+          e.preventDefault();
+          ReactEditor.toDOMNode(editor, preBlock)
+            .querySelector("input")
+            ?.focus();
+          return;
+        }
+      }
+    }
+    if (e.code === "ArrowDown") {
+      // 处理离开代码块的逻辑
+      const codeLine = getCurrentBlock(editor, "code-line");
+      if (codeLine) {
+        const [, path] = codeLine;
+        const nextCodeLine = getNextBlock(editor, path);
+        if (!nextCodeLine) {
+          e.preventDefault();
+          const [codeBlock] = getCurrentBlock(editor, "code-block") || [];
+          codeBlock &&
+            ReactEditor.toDOMNode(editor, codeBlock)
+              .querySelector("input")
+              ?.focus();
+          return;
+        }
+      }
+    }
+    if (e.code === "Tab") {
+      const [block, path] = getCurrentBlock(editor, "code-block") || [];
+      if (!editor.selection || !block || !path) return;
+      e.preventDefault();
+      const codeLines: [SlatePadElement, Path][] = [];
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (
+          SlateElement.isElement(child) &&
+          Range.includes(editor.selection, childPath)
+        ) {
+          codeLines.push([child, childPath]);
+          if (!e.shiftKey) {
+            Transforms.insertText(editor, "  ", {
+              at: Editor.start(editor, childPath),
+            });
+          }
+        }
+      }
+      if (e.shiftKey) {
+        codeLines.forEach(([child, childPath]) => {
+          // 由于setNodes无法直接改变子元素的children,为了简便操作直接使用移除和新增节点,完成缩进文本空白删除
+          const text = Node.string(child).split("");
+          if (text[0] === " ") text.splice(0, 1);
+          if (text[0] === " ") text.splice(0, 1);
+          Transforms.removeNodes(editor, { at: childPath });
+          Transforms.insertNodes(
+            editor,
+            {
+              type: SlatePadElementEnum.CODE_LINE,
+              children: [{ text: text.join("") }],
+            },
+            { at: childPath }
+          );
+        });
+      }
+      const newRange: Range = {
+        anchor: Editor.start(editor, codeLines[0][1]),
+        focus: Editor.end(editor, codeLines[codeLines.length - 1][1]),
+      };
+      Transforms.select(editor, newRange);
+    }
+    onKeyDown(e);
+  };
+  editor.normalizeNode = ([node, path]) => {
+    // Code-Block里面必须是codeline
+    if (
+      SlateElement.isElement(node) &&
+      node.type === SlatePadElementEnum.CODE_BLOCK
+    ) {
+      for (const [child] of Node.children(editor, path)) {
+        if (
+          SlateElement.isElement(child) &&
+          child.type !== SlatePadElementEnum.CODE_LINE
+        ) {
+          const codeLines = Node.string(node)
+            .split("\n")
+            .map(
+              (text) =>
+                ({
+                  type: SlatePadElementEnum.CODE_LINE,
+                  children: [{ text }],
+                } as any)
+            );
+          Transforms.setNodes(editor, {
+            type: SlatePadElementEnum.CODE_BLOCK,
+            children: codeLines,
+          });
+          return;
+        }
+      }
+    }
+    normalizeNode([node, path]);
   };
   return editor;
 };

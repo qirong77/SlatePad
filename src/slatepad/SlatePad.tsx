@@ -57,7 +57,7 @@ const SlatePad: React.FC<{
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               decorate={decorate}
-              onKeyDown={e => handleKeyDown(e, editor)}
+              onKeyDown={editor.onKeyDown}
             />
           </div>
         </div>
