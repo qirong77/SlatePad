@@ -1,11 +1,10 @@
-import { createEditor } from "slate";
+import { createEditor, Range } from "slate";
 import { withPastHtml } from "./withPastHtml";
 import { withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { withShortcuts } from "./withShortcuts";
 import { withForceLayout } from "./withForceLayout";
 import { withNormalizing } from "./withNormalizing";
-import { withTables } from "./withTables";
+import { withTables } from "./withElementTables";
 import { withElementChecklist } from "./withElementCheckList";
 import { withElementCodeBlock } from "./withElementCodeBlock";
 import { withElementFixSelect } from "./withElementFixSelect";
@@ -14,7 +13,7 @@ import { withElementImage } from "./withElementImages";
 import { withElementLink } from "./withElementLink";
 import { withElementList } from "./withElementList";
 import { withElementTable } from "./withElementTable";
-
+import { withShortCuts } from "./withShortCuts";
 export const createSlatepad = () => {
   const editor = createEditor();
   editor.use = (plugin) => {
@@ -22,11 +21,17 @@ export const createSlatepad = () => {
   };
   // 结构参考:https://marked.js.org/demo/
   editor.renderElement = (props) => {
-    const { attributes, children } = props
-    return <p {...attributes}>{children}</p>
-  }
+    const { attributes, children } = props;
+    return <p {...attributes}>{children}</p>;
+  };
   editor
     .use(withReact)
+    .use(withShortCuts)
+    // .use(withNormalizing)
+    // .use(withTables)
+    // .use(withForceLayout)
+    // .use(withHistory)
+    // .use(withPastHtml);
     .use(withElementChecklist)
     .use(withElementCodeBlock)
     .use(withElementFixSelect)
@@ -34,12 +39,7 @@ export const createSlatepad = () => {
     .use(withElementImage)
     .use(withElementLink)
     .use(withElementList)
-    .use(withElementTable)
-    // .use(withShortcuts)
-    // .use(withNormalizing)
-    // .use(withTables)
-    // .use(withForceLayout)
-    // .use(withHistory)
-    // .use(withPastHtml);
+    .use(withElementTable);
+
   return editor;
 };

@@ -1,20 +1,25 @@
 import { useRef, useState } from "react";
-import { Transforms, Node, Editor ,Range} from "slate";
+import {
+  Transforms,
+  Node,
+  Editor,
+  Element as SlateElement,
+} from "slate";
 import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { format } from "prettier/standalone";
 import BabelPlugin from "prettier/parser-babel";
 import CssPlugin from "prettier/parser-postcss";
 import HtmlPlugin from "prettier/parser-html.js";
 import { PrettierPluginJava } from "../lib/PrettierJavaPlugin";
-import { SlatePadEditor, SlatePadElementEnum } from "../types";
+import { SlatePadEditor,  SlatePadElementEnum } from "../types";
 import { Arrow, PrettierIcon } from "../../assets/svg/icon";
 import { getNextPath } from "../utils/PathUtils";
-import { getNextBlock } from "../utils/BlockUtils";
+import {  getNextBlock } from "../utils/BlockUtils";
 import { Options } from "prettier";
 import { LANGUAGES } from "../components/SetNodeToDecorations";
 
 export const withElementCodeBlock = (editor: SlatePadEditor) => {
-  const { renderElement,insertText } = editor;
+  const { renderElement, onShortCuts } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.CODE_LINE) {
@@ -35,14 +40,37 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
-  editor.insertText = (text) => {
-    const { selection } = editor;
-    if (text.endsWith(" ") && selection && Range.isCollapsed(selection)) {
-      editor.withoutNormalizing(()=>{
-        
-      })
+  editor.shoutCutsMap.set("```", SlatePadElementEnum.CODE_LINE);
+  editor.onShortCuts = (type,beforeText) => {
+    if (type === SlatePadElementEnum.CODE_LINE && /^```/.test(beforeText)) {
+      editor.withoutNormalizing(() => {
+        Transforms.setNodes<SlateElement>(
+          editor,
+          { type: SlatePadElementEnum.CODE_LINE },
+          {
+            match: (n) =>
+              SlateElement.isElement(n) && Editor.isBlock(editor, n),
+          }
+        );
+        Transforms.wrapNodes(
+          editor,
+          {
+            type: SlatePadElementEnum.CODE_BLOCK,
+            language: beforeText?.replace("```", "") || "",
+            children: [],
+          },
+          {
+            match: (n) =>
+              !Editor.isEditor(n) &&
+              SlateElement.isElement(n) &&
+              n.type === SlatePadElementEnum.CODE_LINE,
+          }
+        );
+      });
+      return
     }
-  }
+    onShortCuts(type,beforeText)
+  };
   return editor;
 };
 

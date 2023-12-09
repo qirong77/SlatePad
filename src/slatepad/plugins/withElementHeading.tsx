@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Editor, Transforms, Node, Range, Path } from "slate";
+import { Editor, Transforms, Element as SlateElement, Path } from "slate";
 import {
   ReactEditor,
   RenderElementProps,
@@ -8,17 +8,33 @@ import {
 } from "slate-react";
 import { Arrow } from "../../assets/svg/icon";
 import { getNextBlock, isHeadBlock } from "../utils/BlockUtils";
-import { HistoryEditor } from "slate-history";
 import { SlatePadEditor, SlatePadElementEnum } from "../types";
 
 export const withElementHeading = (editor: SlatePadEditor) => {
-  const { renderElement } = editor;
+  const { renderElement,onShortCuts } = editor;
   editor.renderElement = (props) => {
     if (props.element.type.includes("heading")) {
       return <Heading props={props} />;
     }
     return renderElement(props);
   };
+  editor.shoutCutsMap.set('#',SlatePadElementEnum.HEADING_ONE)
+  editor.shoutCutsMap.set('##',SlatePadElementEnum.HEADING_TWO)
+  editor.shoutCutsMap.set('###',SlatePadElementEnum.HEADING_THREE)
+  editor.shoutCutsMap.set('####',SlatePadElementEnum.HEADING_FOUR)
+  editor.shoutCutsMap.set('#####',SlatePadElementEnum.HEADING_FIVE)
+  editor.onShortCuts = (type,beforeText) => {
+    if(type.includes("heading")) {
+      editor.withoutNormalizing(()=>{
+        Transforms.setNodes<SlateElement>(editor, {type}, {
+          match: (n) =>
+            SlateElement.isElement(n) && Editor.isBlock(editor, n),
+        });
+      })
+      return
+    }
+    onShortCuts(type,beforeText)
+  }
   return editor
 };
 
@@ -33,54 +49,6 @@ function Heading({ props }: { props: RenderElementProps }) {
     e.preventDefault();
     collapseHead();
   };
-  useEffect(() => {
-    // const { selection } = editor;
-    // if (!selection || !Range.isCollapsed(selection)) return;
-    // const path = ReactEditor.findPath(editor, element);
-    // // 文本开始的path
-    // const start = Editor.start(editor, path);
-    // const currentHead = Number(/\d/.exec(element.type)?.[0] || "1");
-    // const [, tags] = /^(#+)\s/.exec(Node.string(element)) || [];
-    // if (selected) {
-    //   if (!tags) {
-    //     // 某些更改不存入记录,否则会导致重做循环
-    //     if (isEdit.current) {
-    //       HistoryEditor.withoutSaving(editor, () => {
-    //         Transforms.setNodes(
-    //           editor,
-    //           { type: SlatePadElementEnum.PARAGRAPH },
-    //           { at: path }
-    //         );
-    //       });
-    //     } else
-    //       HistoryEditor.withoutSaving(editor, () => {
-    //         Transforms.insertText(editor, "#".repeat(currentHead) + " ", {
-    //           at: start,
-    //         });
-    //       });
-    //   } else {
-    //     if (tags.length === currentHead) return;
-    //     Transforms.setNodes(
-    //       editor,
-    //       {
-    //         type: `heading${tags.length}` as any,
-    //       },
-    //       {
-    //         at: path,
-    //       }
-    //     );
-    //   }
-    // } else {
-    //   if (!tags) return;
-    //   const prePath = JSON.parse(JSON.stringify(selection.anchor));
-    //   Transforms.select(editor, {
-    //     path: start.path,
-    //     offset: currentHead + 1,
-    //   });
-    //   editor.deleteBackward("line");
-    //   Transforms.select(editor, prePath);
-    // }
-  });
   useEffect(() => {
     isEdit.current = selected;
   }, [selected]);
