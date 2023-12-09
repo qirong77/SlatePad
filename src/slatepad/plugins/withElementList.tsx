@@ -139,7 +139,7 @@ export const withElementList = (editor: SlatePadEditor) => {
           editor,
           {
             type: SlatePadElementEnum.PARAGRAPH,
-            children: [{ text: "1" }],
+            children: [{ text: "" }],
           },
           { at: ulNextPath }
         );
@@ -163,19 +163,26 @@ export const withElementList = (editor: SlatePadEditor) => {
           </li>
       </editor>
       */
-       
+      const remainPath = {
+        anchor: selection.anchor,
+        focus: Editor.end(editor,path),
+      }
+      const remainText = Editor.string(editor,remainPath);
+      Transforms.insertNodes(
+        editor,
+        {
+          type: SlatePadElementEnum.LIST_ITEM,
+          children: [{ text: remainText }],
+        },
+        { at: Path.next(parentPath) }
+      );
+      Transforms.select(editor, Editor.end(editor, Path.next(parentPath)));
+      remainText && editor.delete({
+        at:remainPath
+      })
+      return
     }
     onKeyDown(e);
   };
   return editor;
 };
-
-function isListParagraph(editor: SlatePadEditor, paragraphPath: Path) {
-  const [list] = Editor.parent(
-    editor,
-    paragraphPath
-  ) as NodeEntry<SlateElement>;
-  const isListParagraph =
-    list.type === "list-item" && list.children.length === 1;
-  return isListParagraph;
-}

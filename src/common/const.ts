@@ -13,7 +13,7 @@ export const initialValue: Descendant[] = [
       {
         type: "list-item",
         children: [
-          { type: "paragraph", children: [{ text: "" }] },
+          { type: "paragraph", children: [{ text: "123" }] },
         ],
       },
     ],
