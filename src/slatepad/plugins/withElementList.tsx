@@ -49,6 +49,7 @@ export const withElementList = (editor: SlatePadEditor) => {
   };
   editor.shoutCutsMap.set("-", SlatePadElementEnum.LIST_ITEM);
   editor.normalizeNode = ([node, path]) => {
+    // 检测li是否被ul或者ol包围
     if (
       SlateElement.isElement(node) &&
       node.type === SlatePadElementEnum.LIST_ITEM
@@ -81,9 +82,10 @@ export const withElementList = (editor: SlatePadEditor) => {
       const isOperation = wrapTextNode(editor, path);
       if (isOperation) return;
     }
-    // 如果ul或者ol里面是文本节点,就直接使用list-item包裹
+    // 校验ul和ol
     if (SlateElement.isElement(node) && (node.type === SlatePadElementEnum.BULLED_LIST || node.type === SlatePadElementEnum.NUMBER_LIST)) {
       for (const [child, childPath] of Node.children(editor, path)) {
+        // 如果li或者ol里面是有文字
         if (!SlateElement.isElement(child) || editor.isInline(child)) {
           Transforms.wrapNodes(
             editor,
@@ -100,6 +102,12 @@ export const withElementList = (editor: SlatePadEditor) => {
           );
           return;
         }
+        // 如果ul或者ol里面的元素不是li,条件比较苛刻,比如
+        /* 
+        - 123
+        - 光标在这删除,产生一个空行
+        - 33
+        */
       }
     }
     normalizeNode([node, path]);
@@ -260,72 +268,18 @@ export const withElementList = (editor: SlatePadEditor) => {
     }
     if (e.key === "Tab" && !e.metaKey && e.shiftKey) {
       e.preventDefault();
-      // console.log(1)
-      console.log(editor.children)
-      const [block,path] = getCurrentBlock(editor,SlatePadElementEnum.BULLED_LIST) || []
-
-      // Transforms.moveNodes(editor,{
-      //   at:[0,1,0,1],
-      //   to:[0,1,1],
-      //   mode:'lowest'
-      // })
-      // Transforms.unwrapNodes(editor, {
-      //   match: (n) =>
-      //     SlateElement.isElement(n) && ( n.type === SlatePadElementEnum.LIST_ITEM ) ,
-      //   split: true,
-      //   // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-      //   at: path,
-      // });
-      // Transforms.unwrapNodes(editor, {
-      //   match: (n) =>
-      //     SlateElement.isElement(n) && ( n.type === SlatePadElementEnum.BULLED_LIST ) ,
-      //   split: true,
-      //   // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-      //   at: Path.parent(path!),
-      // });
- 
       Transforms.unwrapNodes(editor,{
         match: (n) => {
-          return SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM && n.children[0].type !== SlatePadElementEnum.PARAGRAPH
+          return SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM
         },
-        at:[0]
+        split:true
       })
-           Transforms.liftNodes(editor,{
-        match: (n) => SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM && Node.string(n).length < 2,
-      })
-      // Transforms.liftNodes(editor,{
-      //   match: (n) => SlateElement.isElement(n) && n.type === SlatePadElementEnum.PARAGRAPH && Node.string(n).length < 2,
-      // })
-      // Transforms.wrapNodes(editor,{
-      //   type:SlatePadElementEnum.BULLED_LIST,
-      //   children:[]
-      // }, {
-      //   match: (n) =>
-      //     SlateElement.isElement(n) &&  n.type === SlatePadElementEnum.LIST_ITEM ,
-      //   split: true,
-      //   // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-      //   at: path,
-      // });
-      Editor.above(editor, {
-        match: (n,p) => {
-          console.log(n,p)
-          return SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM && Node.string(n).length < 3
+      Transforms.unwrapNodes(editor,{
+        match: (n) => {
+          return SlateElement.isElement(n) && (n.type === SlatePadElementEnum.BULLED_LIST)
         },
-          // (n.type === SlatePadElementEnum.BULLED_LIST ||
-          //   n.type === SlatePadElementEnum.NUMBER_LIST),
-        // split: true,
-        // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-        at: path,
-      });
-      // 把当前的list抬升
-      // Transforms.liftNodes(editor,{
-      //   match: (n) => SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM,
-      // })
-      // Transforms.splitNodes(editor,{
-      //   match: (n) => SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM,
-      //   at:path
-      // })
-      return;
+        split:true
+      })
     }
     onKeyDown(e);
   };
