@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Transforms, Node, Editor } from "slate";
+import { Transforms, Node, Editor ,Range} from "slate";
 import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { format } from "prettier/standalone";
 import BabelPlugin from "prettier/parser-babel";
@@ -14,7 +14,7 @@ import { Options } from "prettier";
 import { LANGUAGES } from "../components/SetNodeToDecorations";
 
 export const withElementCodeBlock = (editor: SlatePadEditor) => {
-  const { renderElement } = editor;
+  const { renderElement,insertText } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.CODE_LINE) {
@@ -35,6 +35,14 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
+  editor.insertText = (text) => {
+    const { selection } = editor;
+    if (text.endsWith(" ") && selection && Range.isCollapsed(selection)) {
+      editor.withoutNormalizing(()=>{
+        
+      })
+    }
+  }
   return editor;
 };
 

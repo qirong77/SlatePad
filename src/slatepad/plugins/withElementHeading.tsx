@@ -34,52 +34,52 @@ function Heading({ props }: { props: RenderElementProps }) {
     collapseHead();
   };
   useEffect(() => {
-    const { selection } = editor;
-    if (!selection || !Range.isCollapsed(selection)) return;
-    const path = ReactEditor.findPath(editor, element);
-    // 文本开始的path
-    const start = Editor.start(editor, path);
-    const currentHead = Number(/\d/.exec(element.type)?.[0] || "1");
-    const [, tags] = /^(#+)\s/.exec(Node.string(element)) || [];
-    if (selected) {
-      if (!tags) {
-        // 某些更改不存入记录,否则会导致重做循环
-        if (isEdit.current) {
-          HistoryEditor.withoutSaving(editor, () => {
-            Transforms.setNodes(
-              editor,
-              { type: SlatePadElementEnum.PARAGRAPH },
-              { at: path }
-            );
-          });
-        } else
-          HistoryEditor.withoutSaving(editor, () => {
-            Transforms.insertText(editor, "#".repeat(currentHead) + " ", {
-              at: start,
-            });
-          });
-      } else {
-        if (tags.length === currentHead) return;
-        Transforms.setNodes(
-          editor,
-          {
-            type: `heading${tags.length}` as any,
-          },
-          {
-            at: path,
-          }
-        );
-      }
-    } else {
-      if (!tags) return;
-      const prePath = JSON.parse(JSON.stringify(selection.anchor));
-      Transforms.select(editor, {
-        path: start.path,
-        offset: currentHead + 1,
-      });
-      editor.deleteBackward("line");
-      Transforms.select(editor, prePath);
-    }
+    // const { selection } = editor;
+    // if (!selection || !Range.isCollapsed(selection)) return;
+    // const path = ReactEditor.findPath(editor, element);
+    // // 文本开始的path
+    // const start = Editor.start(editor, path);
+    // const currentHead = Number(/\d/.exec(element.type)?.[0] || "1");
+    // const [, tags] = /^(#+)\s/.exec(Node.string(element)) || [];
+    // if (selected) {
+    //   if (!tags) {
+    //     // 某些更改不存入记录,否则会导致重做循环
+    //     if (isEdit.current) {
+    //       HistoryEditor.withoutSaving(editor, () => {
+    //         Transforms.setNodes(
+    //           editor,
+    //           { type: SlatePadElementEnum.PARAGRAPH },
+    //           { at: path }
+    //         );
+    //       });
+    //     } else
+    //       HistoryEditor.withoutSaving(editor, () => {
+    //         Transforms.insertText(editor, "#".repeat(currentHead) + " ", {
+    //           at: start,
+    //         });
+    //       });
+    //   } else {
+    //     if (tags.length === currentHead) return;
+    //     Transforms.setNodes(
+    //       editor,
+    //       {
+    //         type: `heading${tags.length}` as any,
+    //       },
+    //       {
+    //         at: path,
+    //       }
+    //     );
+    //   }
+    // } else {
+    //   if (!tags) return;
+    //   const prePath = JSON.parse(JSON.stringify(selection.anchor));
+    //   Transforms.select(editor, {
+    //     path: start.path,
+    //     offset: currentHead + 1,
+    //   });
+    //   editor.deleteBackward("line");
+    //   Transforms.select(editor, prePath);
+    // }
   });
   useEffect(() => {
     isEdit.current = selected;

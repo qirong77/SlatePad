@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { SlatePad } from './slate/SlatePad'
-import { createSlatepad } from './slate/plugins/editor'
+import { SlatePad } from './slatepad/SlatePad'
+import { createSlatepad } from './slatepad/plugins/editor'
 import { initialValue } from './common/const'
 import { GitHubIcon } from './assets/svg/icon'
 import 'prism-themes/themes/prism-one-light.css'

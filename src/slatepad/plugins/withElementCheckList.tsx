@@ -56,6 +56,7 @@ export const withElementChecklist = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
+  
   return editor;
 };
 
