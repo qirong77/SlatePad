@@ -6,11 +6,11 @@ import {
 } from "slate-react";
 import { DeleteIcon, GridIcon } from "../../assets/svg/icon";
 import { useEffect, useRef, useState } from "react";
-import { Transforms } from "slate";
-import { SlatePadEditor, SlatePadElementEnum } from "../types";
+import { Transforms,Range,Editor,Element,Point, NodeEntry, } from "slate";
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 
 export const withElementTable = (editor: SlatePadEditor) => {
-  const { renderElement } = editor;
+  const { renderElement,deleteBackward } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.TABLE) {
@@ -32,6 +32,25 @@ export const withElementTable = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
+  editor.deleteBackward = unit => {
+    const { selection } = editor
+    if (selection && Range.isCollapsed(selection)) {
+      const [cell] = Editor.nodes(editor, {
+        match: n => Element.isElement(n) && n.type === SlatePadElementEnum.TABLE_CELL
+      })
+      if (cell) {
+        const [cellNode, cellPath] = cell as NodeEntry<SlatePadElement>
+        const start = Editor.start(editor, cellPath)
+        if (
+          Point.equals(selection.anchor, start) &&
+          (cellNode.children[0] as any)?.type === SlatePadElementEnum.PARAGRAPH
+        ) {
+          return
+        }
+      }
+    }
+    deleteBackward(unit)
+  }
   return editor;
 };
 
