@@ -13,6 +13,7 @@ import { withElementList } from "./withElementList";
 import { withElementTable } from "./withElementTable";
 import { withShortCuts } from "./withShortcuts";
 import { withKeyDown } from "./withKeyDown";
+import { withNormalizing } from "./withNormalizing";
 
 export const createSlatepad = () => {
   const editor = createEditor();
@@ -29,6 +30,7 @@ export const createSlatepad = () => {
     .use(withHistory)
     .use(withKeyDown)
     .use(withShortCuts)
+    .use(withNormalizing)
     .use(withElementTable)
     .use(withElementChecklist)
     .use(withElementCodeBlock)

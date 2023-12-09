@@ -12,7 +12,13 @@ import {
 import { getCurrentBlock, wrapTextNode } from "../utils/BlockUtils";
 
 export const withElementList = (editor: SlatePadEditor) => {
-  const { renderElement, onShortCuts, onKeyDown, normalizeNode } = editor;
+  const {
+    renderElement,
+    onShortCuts,
+    onKeyDown,
+    normalizeNode,
+    deleteBackward,
+  } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.LIST_ITEM) {
@@ -75,6 +81,26 @@ export const withElementList = (editor: SlatePadEditor) => {
       const isOperation = wrapTextNode(editor, path);
       if (isOperation) return;
     }
+    if (SlateElement.isElement(node) && (node.type === SlatePadElementEnum.BULLED_LIST || node.type ===SlatePadElementEnum.NUMBER_LIST)) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (!SlateElement.isElement(child) || editor.isInline(child)) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: SlatePadElementEnum.LIST_ITEM,
+              children: [],
+            },
+            {
+              match: (n) =>
+                !SlateElement.isElement(n),
+              at: path,
+              split: true,
+            }
+          );
+          return;
+        }
+      }
+    }
     normalizeNode([node, path]);
   };
   editor.onShortCuts = (type, beforeText) => {
@@ -109,6 +135,7 @@ export const withElementList = (editor: SlatePadEditor) => {
     onShortCuts(type, beforeText);
   };
   editor.onKeyDown = (e) => {
+    // 处理在列表中按下enter的情况
     if (e.key === "Enter" && !e.metaKey && !e.shiftKey) {
       const { selection } = editor;
       if (!selection) return;
@@ -119,70 +146,167 @@ export const withElementList = (editor: SlatePadEditor) => {
         path
       ) as NodeEntry<SlateElement>;
       if (
-        block.type !== SlatePadElementEnum.PARAGRAPH ||
-        parent.type !== SlatePadElementEnum.LIST_ITEM
-      )
-        return;
+        block.type === SlatePadElementEnum.PARAGRAPH &&
+        parent.type === SlatePadElementEnum.LIST_ITEM
+      ) {
+        /* case: 1. 删除最后一个li 2.在ul平级新建一个普通段落 3. 更新选区
+        <editor>
+            <ul>
+                li <p>1</p>
+                li <p>2</p>
+                li <p>光标</p>
+            </ul>
+        </editor>
+        */
+
+        /* case1补充: 可能出现以下情况,所以isLastLi需要做额外判断
+        <editor>
+            <li>
+                 <ul></ul>
+                 <p>光标</p>
+            </li>
+        </editor>
+        */
+        const isLastLi =
+          !Editor.hasPath(editor, Path.next(parentPath)) &&
+          parent.children.length === 1;
+        if (!Node.string(parent) && isLastLi) {
+          e.preventDefault();
+          const ulNextPath = Path.next(Path.parent(parentPath));
+          Transforms.insertNodes(
+            editor,
+            {
+              type: SlatePadElementEnum.PARAGRAPH,
+              children: [{ text: "" }],
+            },
+            { at: ulNextPath }
+          );
+          Transforms.select(editor, Editor.start(editor, ulNextPath));
+          Transforms.removeNodes(editor, {
+            match(node) {
+              return SlateElement.isElement(node) && node.type === "list-item";
+            },
+            at: path,
+          });
+          return;
+        }
+        /* case2: 需要拆分上下的li,直接调用删除方法即可
+        <editor>
+            <ul>
+                li <p>1</p>
+                li <p>光标</p>
+                li <p>2</p>
+            </ul>
+        </editor>
+        */
+        if (!Node.string(parent) && !isLastLi) {
+          e.preventDefault();
+          editor.deleteBackward("character");
+          return;
+        }
+        /* case3: 
+        <editor>
+            <li>
+                <ul>
+                    li <p>1</p>
+                    li <p>2</p>
+                    li <p>123光标4</p> 或者<p>123光标</p> 
+                </ul>
+            </li>
+        </editor>
+        */
+        const prePath = {
+          anchor: selection.anchor,
+          focus: Editor.start(editor, path),
+        };
+        const preText = Editor.string(editor, prePath);
+        // parent.children.length === 1保证他不是一个段落[参考case1]
+        if (preText && parent.children.length === 1) {
+          const remainPath = {
+            anchor: selection.anchor,
+            focus: Editor.end(editor, path),
+          };
+          const remainText = Editor.string(editor, remainPath);
+          e.preventDefault();
+          Transforms.insertNodes(
+            editor,
+            {
+              type: SlatePadElementEnum.LIST_ITEM,
+              children: [{ text: remainText }],
+            },
+            { at: Path.next(parentPath) }
+          );
+          Transforms.select(
+            editor,
+            Editor.start(editor, Path.next(parentPath))
+          );
+          remainText &&
+            editor.delete({
+              at: remainPath,
+            });
+          return;
+        }
+      }
+    }
+    if (e.key === "Tab" && !e.metaKey && !e.shiftKey) {
       e.preventDefault();
-      /* case: 1. 删除最后一个li 2.在ul平级新建一个普通段落 3. 更新选区
-      <editor>
-          <ul>
-              li <p>1</p>
-              li <p>2</p>
-              li <p>光标</p>
-          </ul>
-      </editor>
-      */
-      if (!Node.string(parent)) {
-        const ulNextPath = Path.next(Path.parent(parentPath));
-        Transforms.insertNodes(
-          editor,
-          {
-            type: SlatePadElementEnum.PARAGRAPH,
-            children: [{ text: "" }],
-          },
-          { at: ulNextPath }
-        );
-        Transforms.select(editor, Editor.end(editor, ulNextPath));
-        Transforms.removeNodes(editor, {
-          match(node) {
-            return SlateElement.isElement(node) && node.type === "list-item";
-          },
-          at: path,
-        });
-        return;
-      }
-      /* case2: 
-      <editor>
-          <li>
-              <ul>
-                  li <p>1</p>
-                  li <p>2</p>
-                  li <p>123光标4</p> 或者<p>123光标</p> 
-              </ul>
-          </li>
-      </editor>
-      */
-      const remainPath = {
-        anchor: selection.anchor,
-        focus: Editor.end(editor,path),
-      }
-      const remainText = Editor.string(editor,remainPath);
-      Transforms.insertNodes(
-        editor,
-        {
-          type: SlatePadElementEnum.LIST_ITEM,
-          children: [{ text: remainText }],
-        },
-        { at: Path.next(parentPath) }
-      );
-      Transforms.select(editor, Editor.end(editor, Path.next(parentPath)));
-      remainText && editor.delete({
-        at:remainPath
-      })
-      return
+      Transforms.setNodes(editor, { type: SlatePadElementEnum.BULLED_LIST });
+      return;
+    }
+    if (e.key === "Tab" && !e.metaKey && e.shiftKey) {
+      e.preventDefault();
+      console.log(1)
+      const [block,path] = getCurrentBlock(editor,SlatePadElementEnum.BULLED_LIST) || []
+      Transforms.setNodes(editor, { type: SlatePadElementEnum.BULLED_LIST });
+
+      Transforms.unwrapNodes(editor, {
+        match: (n) =>
+          SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM,
+          // (n.type === SlatePadElementEnum.BULLED_LIST ||
+          //   n.type === SlatePadElementEnum.NUMBER_LIST),
+        split: true,
+        // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
+        at: Path.parent(path!),
+      });
+      return;
     }
     onKeyDown(e);
+  };
+  editor.deleteBackward = (unit) => {
+    const { selection } = editor;
+    if (!selection) return;
+    const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>;
+    const start = Editor.start(editor, path);
+    if (!Point.equals(selection.anchor, start)) {
+      deleteBackward(unit);
+      return;
+    }
+    const newProperties: Partial<SlatePadElement> = {
+      type: SlatePadElementEnum.PARAGRAPH,
+    };
+
+    // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
+    const [parentBlock, parentPath] = Editor.parent(
+      editor,
+      path
+    ) as NodeEntry<SlateElement>;
+    const isListParagraph =
+      parentBlock.type === SlatePadElementEnum.LIST_ITEM &&
+      parentBlock.children.length === 1;
+    if (block.type === SlatePadElementEnum.PARAGRAPH && isListParagraph) {
+      Transforms.setNodes(editor, newProperties, { at: parentPath });
+      Transforms.unwrapNodes(editor, {
+        match: (n) =>
+          SlateElement.isElement(n) &&
+          (n.type === SlatePadElementEnum.BULLED_LIST ||
+            n.type === SlatePadElementEnum.NUMBER_LIST),
+        split: true,
+        // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
+        at: parentPath,
+      });
+      return;
+    }
+    deleteBackward(unit);
   };
   return editor;
 };

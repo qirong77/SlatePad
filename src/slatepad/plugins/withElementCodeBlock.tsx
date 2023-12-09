@@ -174,9 +174,9 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
             type: SlatePadElementEnum.CODE_BLOCK,
             children: codeLines,
           });
-          return;
         }
       }
+      return;
     }
     normalizeNode([node, path]);
   };
