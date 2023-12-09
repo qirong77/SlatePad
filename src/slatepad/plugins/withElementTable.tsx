@@ -25,9 +25,9 @@ export const withElementTable = (editor: SlatePadEditor) => {
     }
     if (props.element.type === SlatePadElementEnum.TABLE_CELL) {
       return (
-        <tr {...attributes} className="h-[30px]">
+        <td {...attributes} className="h-[30px] border-gray-300 border-[1.8px]">
           {children}
-        </tr>
+        </td>
       );
     }
     return renderElement(props);
@@ -187,7 +187,7 @@ function Table({ props }: { props: RenderElementProps }) {
           </div>
         )}
       </div>
-      <table {...attributes} className="w-full table-fixed">
+      <table {...attributes} className="w-full">
         <tbody>{children}</tbody>
       </table>
     </div>
