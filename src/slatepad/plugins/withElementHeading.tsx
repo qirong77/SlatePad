@@ -17,7 +17,6 @@ import { Arrow } from "../../assets/svg/icon";
 import {
   getCurrentBlock,
   getNextBlock,
-  isHeadBlock,
 } from "../utils/BlockUtils";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 
@@ -153,7 +152,7 @@ function Heading({ props }: { props: RenderElementProps }) {
     }
     setCollapse(!collapse);
     function canCollapse(type: SlatePadElementEnum) {
-      if (!isHeadBlock(type)) return true;
+      if (!type.includes('heading')) return true;
       const headLevel = Number(type.at(-1));
       const currentLevel = Number(element.type.at(-1));
       return currentLevel < headLevel;

@@ -2,7 +2,7 @@ import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms }
 import {
   SlatePadEditor, SlatePadElementEnum,
 } from '../types'
-import { getCurrentBlock, isHeadBlock } from './BlockUtils'
+import { getCurrentBlock } from './BlockUtils'
 import { wrapLink } from '../plugins/withElementLink'
 
 const toggleBlock = (editor: SlatePadEditor, format: SlatePadElementEnum) => {
@@ -155,7 +155,7 @@ const collapseHeads = (editor: SlatePadEditor) => {
     Editor.nodes(editor, {
       at: [],
       mode: 'highest',
-      match: node => Element.isElement(node) && isHeadBlock(node.type)
+      match: node => Element.isElement(node) && node.type.includes('heading')
     })
   ) as NodeEntry<HeadingElement>[]
   headEntries.forEach(([, path]) => {

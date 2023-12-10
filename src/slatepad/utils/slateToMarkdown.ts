@@ -2,7 +2,6 @@ import { Editor, Element } from 'slate'
 import { SlatePadEditor, SlateElement } from '../types'
 
 import { Node } from 'slate'
-import { isHeadBlock } from './BlockUtils'
 export function slateToMarkdown(editor: SlatePadEditor, elements: SlateElement[]): string {
   return elements.map(el => parseBlock(el)).join('\n')
   function parseLeafs(element: any): string {
@@ -24,7 +23,7 @@ export function slateToMarkdown(editor: SlatePadEditor, elements: SlateElement[]
       const codeLines = element.children.map(line => Node.string(line)).join('\n')
       return '```' + (element.language || '') + '\n' + codeLines + '\n```'
     }
-    if (isHeadBlock(element.type)) {
+    if (element.type.includes('heading')) {
       const level = Number(element.type.at(-1))
       return '#'.repeat(level) + ' ' + parseLeafs(element)
     }
