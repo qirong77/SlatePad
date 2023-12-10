@@ -46,6 +46,7 @@ export const withElementHeading = (editor: SlatePadEditor) => {
               SlateElement.isElement(n) && Editor.isBlock(editor, n),
           }
         );
+        editor.deleteBackward('line')
       });
       return;
     }

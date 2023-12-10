@@ -3,7 +3,6 @@ import { Editor, NodeEntry, Range, Transforms } from "slate";
 import { getCurrentBlock } from "../utils/BlockUtils";
 export const withShortCuts = (editor: SlatePadEditor) => {
   editor.onShortCuts = () => {}
-  editor.shoutCutsMap = new Map()
   const { insertText } = editor;
   editor.insertText = (text) => {
     const { selection } = editor;
@@ -20,11 +19,7 @@ export const withShortCuts = (editor: SlatePadEditor) => {
       const start = Editor.start(editor, path);
       const range = { anchor, focus: start };
       const beforeText = Editor.string(editor, range) + text.slice(0, -1);
-      Transforms.select(editor, range);
-      if (!Range.isCollapsed(range)) {
-        Transforms.delete(editor);
-      }
-      beforeText.endsWith(' ') && editor.onShortCuts(beforeText)
+      editor.onShortCuts(beforeText)
     }
     insertText(text)
   };

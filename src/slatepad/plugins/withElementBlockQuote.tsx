@@ -8,6 +8,7 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
       Transforms.setNodes<SlatePadElement>(editor, {
         type: SlatePadElementEnum.BLOCK_QUOTE,
       });
+      editor.deleteBackward('line')
       return;
     }
     onShortCuts(beforeText);

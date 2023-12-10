@@ -116,7 +116,7 @@ export const withElementList = (editor: SlatePadEditor) => {
       editor.withoutNormalizing(() => {
         Transforms.setNodes<SlateElement>(
           editor,
-          { type:SlatePadElementEnum.LIST_ITEM },
+          { type:SlatePadElementEnum.LIST_ITEM,children:[] },
           {
             match: (n) =>
               SlateElement.isElement(n) && Editor.isBlock(editor, n),
@@ -137,6 +137,7 @@ export const withElementList = (editor: SlatePadEditor) => {
               n.type === SlatePadElementEnum.LIST_ITEM,
           }
         );
+        editor.deleteBackward('line')
       });
       return;
     }
