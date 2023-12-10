@@ -20,16 +20,11 @@ export const withShortCuts = (editor: SlatePadEditor) => {
       const start = Editor.start(editor, path);
       const range = { anchor, focus: start };
       const beforeText = Editor.string(editor, range) + text.slice(0, -1);
-      let type = editor.shoutCutsMap.get(beforeText)
-      if(/^\d\./.test(beforeText)) type = SlatePadElementEnum.LIST_ITEM
-      if(type) {
-        Transforms.select(editor, range);
-        if (!Range.isCollapsed(range)) {
-          Transforms.delete(editor);
-        }
-        editor.onShortCuts(type,beforeText)
-        return
+      Transforms.select(editor, range);
+      if (!Range.isCollapsed(range)) {
+        Transforms.delete(editor);
       }
+      beforeText.endsWith(' ') && editor.onShortCuts(beforeText)
     }
     insertText(text)
   };

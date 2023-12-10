@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Editor, Transforms, Element as SlateElement, Path,Range, NodeEntry } from "slate";
+import {
+  Editor,
+  Transforms,
+  Element as SlateElement,
+  Path,
+  Range,
+  NodeEntry,
+} from "slate";
 import {
   ReactEditor,
   RenderElementProps,
@@ -7,54 +14,65 @@ import {
   useSlateStatic,
 } from "slate-react";
 import { Arrow } from "../../assets/svg/icon";
-import { getCurrentBlock, getNextBlock, isHeadBlock } from "../utils/BlockUtils";
+import {
+  getCurrentBlock,
+  getNextBlock,
+  isHeadBlock,
+} from "../utils/BlockUtils";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 
 export const withElementHeading = (editor: SlatePadEditor) => {
-  const { renderElement,onShortCuts,onKeyDown } = editor;
+  const { renderElement, onShortCuts, onKeyDown } = editor;
   editor.renderElement = (props) => {
     if (props.element.type.includes("heading")) {
       return <Heading props={props} />;
     }
     return renderElement(props);
   };
-  editor.shoutCutsMap.set('#',SlatePadElementEnum.HEADING_ONE)
-  editor.shoutCutsMap.set('##',SlatePadElementEnum.HEADING_TWO)
-  editor.shoutCutsMap.set('###',SlatePadElementEnum.HEADING_THREE)
-  editor.shoutCutsMap.set('####',SlatePadElementEnum.HEADING_FOUR)
-  editor.shoutCutsMap.set('#####',SlatePadElementEnum.HEADING_FIVE)
-  editor.onShortCuts = (type,beforeText) => {
-    if(type.includes("heading")) {
-      editor.withoutNormalizing(()=>{
-        Transforms.setNodes<SlateElement>(editor, {type}, {
-          match: (n) =>
-            SlateElement.isElement(n) && Editor.isBlock(editor, n),
-        });
-      })
-      return
+  editor.onShortCuts = (beforeText) => {
+    if (/^\#+/.test(beforeText)) {
+      const type = SlatePadElementEnum.HEADING_ONE.replace(
+        /\d/,
+        beforeText.length.toString()
+      ) as SlatePadElementEnum;
+      editor.withoutNormalizing(() => {
+        Transforms.setNodes<SlateElement>(
+          editor,
+          {
+            type,
+          },
+          {
+            match: (n) =>
+              SlateElement.isElement(n) && Editor.isBlock(editor, n),
+          }
+        );
+      });
+      return;
     }
-    onShortCuts(type,beforeText)
-  }
+    onShortCuts(beforeText);
+  };
   // 当前是标题,换行之后不保留保留标题样式
   editor.onKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.metaKey && !e.shiftKey) {
-      const { selection } = editor
-      if (!selection) return
-      if (e.nativeEvent.isComposing || !Range.isCollapsed(selection)) return
-      const [block, path] = getCurrentBlock(editor) as NodeEntry<SlatePadElement>
-      if(block.type.includes('heading')) {
-        e.preventDefault()
+    if (e.key === "Enter" && !e.metaKey && !e.shiftKey) {
+      const { selection } = editor;
+      if (!selection) return;
+      if (e.nativeEvent.isComposing || !Range.isCollapsed(selection)) return;
+      const [block, path] = getCurrentBlock(
+        editor
+      ) as NodeEntry<SlatePadElement>;
+      if (block.type.includes("heading")) {
+        e.preventDefault();
         Transforms.insertNodes(editor, {
           type: SlatePadElementEnum.PARAGRAPH,
-          children: [{ text: '' }]
-        })
-        Transforms.select(editor, Path.next(path))
-        return
+          children: [{ text: "" }],
+        });
+        Transforms.select(editor, Path.next(path));
+        return;
       }
     }
-    onKeyDown(e)
-  }
-  return editor
+    onKeyDown(e);
+  };
+  return editor;
 };
 
 function Heading({ props }: { props: RenderElementProps }) {

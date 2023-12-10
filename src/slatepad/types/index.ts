@@ -18,7 +18,7 @@ export enum SlatePadElementEnum {
   TABLE = 'table',
   TABLE_ROW = 'table-row',
   TABLE_CELL = 'table-cell',
-  BLOCK_QUOTA = 'block-quota',
+  BLOCK_QUOTE = 'block-quote',
   BULLED_LIST = 'bulleted-list',
   LIST_ITEM = 'list-item',
   NUMBER_LIST = 'number-list',
@@ -49,9 +49,8 @@ interface CustomEditor {
   onInsertImage?: (url: string) => string | Promise<string>;
   use: (Plugin: (editor: SlatePadEditor) => SlatePadEditor) => SlatePadEditor;
   renderElement: (props: RenderElementProps) => JSX.Element;
-  onShortCuts:(type:SlatePadElementEnum,beforeText:string) => void
+  onShortCuts:(beforeText:string) => void
   onKeyDown:(e:React.KeyboardEvent<HTMLDivElement>) => void
-  shoutCutsMap:Map<string,SlatePadElementEnum>
 }
 
 export type SlatePadEditor = BaseEditor &

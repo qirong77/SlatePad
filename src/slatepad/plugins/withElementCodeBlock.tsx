@@ -42,9 +42,8 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
-  editor.shoutCutsMap.set("```", SlatePadElementEnum.CODE_LINE);
-  editor.onShortCuts = (type, beforeText) => {
-    if (type === SlatePadElementEnum.CODE_LINE && /^```/.test(beforeText)) {
+  editor.onShortCuts = (beforeText) => {
+    if (/^```/.test(beforeText)) {
       editor.withoutNormalizing(() => {
         Transforms.setNodes<SlateElement>(
           editor,
@@ -71,7 +70,7 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
       });
       return;
     }
-    onShortCuts(type, beforeText);
+    onShortCuts(beforeText);
   };
   editor.onKeyDown = (e) => {
     if (e.code === "ArrowUp") {

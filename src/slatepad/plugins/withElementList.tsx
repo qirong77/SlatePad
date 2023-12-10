@@ -47,7 +47,6 @@ export const withElementList = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
-  editor.shoutCutsMap.set("-", SlatePadElementEnum.LIST_ITEM);
   editor.normalizeNode = ([node, path]) => {
     // 检测li是否被ul或者ol包围
     if (
@@ -112,12 +111,12 @@ export const withElementList = (editor: SlatePadEditor) => {
     }
     normalizeNode([node, path]);
   };
-  editor.onShortCuts = (type, beforeText) => {
-    if (type === SlatePadElementEnum.LIST_ITEM) {
+  editor.onShortCuts = (beforeText) => {
+    if (/^-/.test(beforeText)) {
       editor.withoutNormalizing(() => {
         Transforms.setNodes<SlateElement>(
           editor,
-          { type },
+          { type:SlatePadElementEnum.LIST_ITEM },
           {
             match: (n) =>
               SlateElement.isElement(n) && Editor.isBlock(editor, n),
@@ -141,7 +140,7 @@ export const withElementList = (editor: SlatePadEditor) => {
       });
       return;
     }
-    onShortCuts(type, beforeText);
+    onShortCuts(beforeText);
   };
   editor.onKeyDown = (e) => {
     // 处理在列表中按下enter的情况
