@@ -1,6 +1,6 @@
-import { Editor, Transforms, Node, NodeEntry } from "slate";
-import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
-import { getCurrentBlock,  } from "../utils/BlockUtils";
+import { Editor, Transforms,  } from "slate";
+import { SlatePadEditor, SlatePadElementEnum } from "../types";
+import { getCurrentBlock,isCodeBlock  } from "../utils/BlockUtils";
 
 export const withKeyDown = (editor: SlatePadEditor) => {
   editor.onKeyDown = (e) => {
@@ -38,6 +38,3 @@ export const withKeyDown = (editor: SlatePadEditor) => {
   return editor;
 };
 
-function isCodeBlock() {
-
-}
