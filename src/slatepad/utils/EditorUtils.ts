@@ -1,6 +1,5 @@
 import { SlatePadEditor, SlatePadElementEnum } from '../types'
 import { Transforms, Node } from 'slate'
-import { slateToMarkdown } from './slateToMarkdown'
 import { deserialize } from '../plugins/withPastHtml'
 import { marked } from 'marked'
 function clearAll(editor: SlatePadEditor) {
@@ -31,6 +30,5 @@ export const EditorUtils = {
   clearAll,
   clearHistory,
   replaceAll,
-  slateToMarkdown,
   insertMarkdown
 }

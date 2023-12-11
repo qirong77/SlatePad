@@ -1,11 +1,9 @@
-import { createEditor,Range  } from "slate";
+import { createEditor } from "slate";
 import { withPastHtml } from "../plugins/withPastHtml";
 import { withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { withForceLayout } from "../plugins/withForceLayout";
 import { withElementChecklist } from "../plugins/withElementCheckList";
 import { withElementCodeBlock } from "../plugins/withElementCodeBlock";
-import { withElementFixSelect } from "../plugins/withElementFixSelect";
 import { withElementHeading } from "../plugins/withElementHeading";
 import { withElementImage } from "../plugins/withElementImages";
 import { withElementLink } from "../plugins/withElementLink";
@@ -34,7 +32,6 @@ export const createSlatepad = () => {
     .use(withElementTable)
     .use(withElementChecklist)
     .use(withElementCodeBlock)
-    .use(withElementFixSelect)
     .use(withElementHeading)
     .use(withElementImage)
     .use(withElementLink)
