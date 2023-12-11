@@ -1,6 +1,5 @@
 import isUrl from 'is-url'
-import { SlatePadEditor, SlatePadElementEnum } from '../types'
-import { insertImage } from '../utils/RichUtils'
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from '../types'
 import { ReactEditor, RenderElementProps, useSelected, useSlateStatic } from 'slate-react'
 import { useEffect, useState } from 'react'
 import { Transforms } from 'slate'
@@ -42,6 +41,10 @@ export const withElementImage = (editor: SlatePadEditor) => {
     return renderElement(props);
   };
   return editor
+}
+export function insertImage(editor:SlatePadEditor,url:string) {
+  const image = { type: SlatePadElementEnum.IMAGE, url, children: [{ text: '' }] } as SlatePadElement
+  Transforms.insertNodes(editor, image)
 }
 const isImageUrl = (url = '') => {
   if (!url) return false

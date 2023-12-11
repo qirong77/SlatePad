@@ -24,7 +24,7 @@ export const withNormalizing = (editor: SlatePadEditor) => {
   const { normalizeNode } = editor;
   editor.normalizeNode = (entry) => {
     const [node, path] = entry as [SlatePadElement, Path];
-    // 段落或者引用无法嵌套
+    // 段落无法嵌套其他块元素
     if (Element.isElement(node) && node.type === SlatePadElementEnum.PARAGRAPH) {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {

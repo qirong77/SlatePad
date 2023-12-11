@@ -1,6 +1,6 @@
 import { Editor, Transforms, Node, NodeEntry } from "slate";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
-import { getCurrentBlock, isCodeBlock } from "../utils/BlockUtils";
+import { getCurrentBlock,  } from "../utils/BlockUtils";
 
 export const withKeyDown = (editor: SlatePadEditor) => {
   editor.onKeyDown = (e) => {
@@ -14,15 +14,14 @@ export const withKeyDown = (editor: SlatePadEditor) => {
     }
     if (e.code === "KeyA" && e.metaKey) {
       e.preventDefault();
-      const match = getCurrentBlock(
+      const [block,path] = getCurrentBlock(
         editor,
-        "bulleted-list",
-        "code-block",
-        "number-list",
-        "table-cell"
+        SlatePadElementEnum.BULLED_LIST,
+        SlatePadElementEnum.CODE_BLOCK,
+        SlatePadElementEnum.NUMBER_LIST,
+        SlatePadElementEnum.TABLE_CELL
       );
-      if (match) {
-        const [, path] = match;
+      if (block) {
         Transforms.select(editor, path);
       } else {
         Transforms.select(editor, []);
@@ -38,3 +37,7 @@ export const withKeyDown = (editor: SlatePadEditor) => {
   };
   return editor;
 };
+
+function isCodeBlock() {
+
+}

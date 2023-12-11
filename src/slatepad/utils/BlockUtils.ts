@@ -1,4 +1,4 @@
-import { Editor, Element, Path, Node, NodeEntry, Transforms ,Text} from 'slate'
+import { Editor, Element, Path, Node,  Transforms ,Text} from 'slate'
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from '../types'
 import { getNextPath } from './PathUtils'
 
@@ -29,7 +29,7 @@ export const getNextBlock = (editor: SlatePadEditor, path: Path) => {
 }
 
 export const isCodeBlock = (type: SlatePadElementEnum) => {
-  return type === 'code-block' || type === 'code-line'
+  return type === SlatePadElementEnum.CODE_BLOCK|| type === SlatePadElementEnum.CODE_LINE
 }
 
 // 选择下一个平级块

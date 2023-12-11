@@ -144,6 +144,7 @@ export const withElementList = (editor: SlatePadEditor) => {
     onShortCuts(beforeText);
   };
   editor.onKeyDown = (e) => {
+    // TODO,enter可以使用editor.insertBreak事件来处理
     // 处理在列表中按下enter的情况
     if (e.key === "Enter" && !e.metaKey && !e.shiftKey) {
       const { selection } = editor;

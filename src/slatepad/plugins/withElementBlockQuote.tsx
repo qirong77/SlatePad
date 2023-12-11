@@ -4,7 +4,6 @@ import { getCurrentBlock } from "../utils/BlockUtils";
 
 export const withElementBlockQuote = (editor: SlatePadEditor) => {
   const {
-    deleteBackward,
     onShortCuts,
     renderElement,
     insertBreak,

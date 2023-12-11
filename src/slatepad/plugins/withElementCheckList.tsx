@@ -5,21 +5,17 @@ import {
   Point,
   Transforms,
   NodeEntry,
-  Node
+  Node,
 } from "slate";
-import {
-  SlatePadEditor,
-  SlatePadElement,
-  SlatePadElementEnum,
-} from "../types";
+import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 import { ReactEditor, RenderElementProps, useSlateStatic } from "slate-react";
 import { useState } from "react";
 import { getCurrentBlock } from "../utils/BlockUtils";
-interface CheckListElement extends SlatePadElement {
+type CheckListElement = SlatePadElement<{
   checked: boolean;
-}
+}>;
 export const withElementChecklist = (editor: SlatePadEditor) => {
-  const { deleteBackward ,onKeyDown,renderElement} = editor;
+  const { deleteBackward, onKeyDown, renderElement } = editor;
   editor.deleteBackward = (...args) => {
     const { selection } = editor;
 
@@ -58,7 +54,7 @@ export const withElementChecklist = (editor: SlatePadEditor) => {
     }
     return renderElement(props);
   };
-  editor.onKeyDown = (e) =>{
+  editor.onKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey && !e.metaKey) {
       const [block] = getCurrentBlock(editor) as NodeEntry<SlatePadElement>;
       // 如果当前的块是个空内容,就变成普通段落
@@ -72,15 +68,17 @@ export const withElementChecklist = (editor: SlatePadEditor) => {
         return;
       }
     }
-    onKeyDown(e)
-  }
+    onKeyDown(e);
+  };
   return editor;
 };
 
 function CheckList({ props }: { props: RenderElementProps }) {
   const { attributes, children, element } = props;
   const editor = useSlateStatic();
-  const [checked, setChecked] = useState(element.checked || false);
+  const [checked, setChecked] = useState(
+    (element as CheckListElement).checked || false
+  );
   return (
     <div
       {...attributes}

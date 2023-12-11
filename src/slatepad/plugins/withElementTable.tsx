@@ -260,7 +260,7 @@ function handleTable(
   direction: "ArrowUp" | "ArrowDown"
 ) {
   const isArrowDown = direction === "ArrowDown";
-  const [, cellPath] = getCurrentBlock(editor, "table-cell") || [];
+  const [, cellPath] = getCurrentBlock(editor, SlatePadElementEnum.TABLE_CELL) || [];
   const [block, blockPath] = getCurrentBlock(editor) || [];
   if (!cellPath || !editor.selection || !blockPath || !block) return;
   const hasNext = isArrowDown

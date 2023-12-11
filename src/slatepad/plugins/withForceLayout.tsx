@@ -30,7 +30,7 @@ function forceLayout(editor: SlatePadEditor) {
   }) as NodeEntry<SlatePadElement>
   if (block) {
     const [lastBlock, lastPath] = block
-    if (lastBlock.type === 'paragraph' && !Node.string(lastBlock).length) {
+    if (lastBlock.type === SlatePadElementEnum.PARAGRAPH && !Node.string(lastBlock).length) {
       return
     }
     Transforms.insertNodes(

@@ -67,7 +67,7 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
               n.type === SlatePadElementEnum.CODE_LINE,
           }
         );
-        editor.deleteBackward('line')
+        editor.deleteBackward("line");
       });
       return;
     }
@@ -93,13 +93,14 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     }
     if (e.code === "ArrowDown") {
       // 处理离开代码块的逻辑
-      const codeLine = getCurrentBlock(editor, "code-line");
+      const codeLine = getCurrentBlock(editor, SlatePadElementEnum.CODE_LINE);
       if (codeLine) {
         const [, path] = codeLine;
         const nextCodeLine = getNextBlock(editor, path);
         if (!nextCodeLine) {
           e.preventDefault();
-          const [codeBlock] = getCurrentBlock(editor, "code-block") || [];
+          const [codeBlock] =
+            getCurrentBlock(editor, SlatePadElementEnum.CODE_BLOCK) || [];
           codeBlock &&
             ReactEditor.toDOMNode(editor, codeBlock)
               .querySelector("input")
@@ -109,7 +110,8 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
       }
     }
     if (e.code === "Tab") {
-      const [block, path] = getCurrentBlock(editor, "code-block") || [];
+      const [block, path] =
+        getCurrentBlock(editor, SlatePadElementEnum.CODE_BLOCK) || [];
       if (!editor.selection || !block || !path) return;
       e.preventDefault();
       const codeLines: [SlatePadElement, Path][] = [];
@@ -185,7 +187,10 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
 };
 
 function CodeBlock({ props }: { props: RenderElementProps }) {
-  const { attributes, children, element } = props;
+  const { attributes, children } = props;
+  const element = props.element as SlatePadElement<{
+    language: string;
+  }>;
   const editor = useSlateStatic();
   const [collapse, setCollapse] = useState(false);
   const [isIptFocus, setIptFocus] = useState(false);
@@ -213,7 +218,6 @@ function CodeBlock({ props }: { props: RenderElementProps }) {
       )
     );
   };
-  // 将所有的keydown逻辑放在一起不是很nice,后续可以拆分放到plugin中
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "ArrowUp") {
       e.preventDefault();

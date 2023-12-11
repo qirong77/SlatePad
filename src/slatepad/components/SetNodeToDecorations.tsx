@@ -1,6 +1,5 @@
 import { Editor, Element, NodeEntry, Node } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { CodeBlockElement } from '../types'
 import { normalizeTokens } from '../lib/normalize-tokens'
 import Prism from 'prismjs'
 // 需要引入相应的语法库!
@@ -16,6 +15,7 @@ import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-bash'
 import 'prismjs/components/prism-php'
 import 'prismjs/components/prism-python'
+import { SlatePadElement } from '../types'
 const NOT_FORMATTERS = ['Shell', 'Python', 'Sql']
 // 默认支持html,css解析,不用导入
 export const LANGUAGES = [
@@ -38,15 +38,15 @@ export const SetNodeToDecorations = () => {
       mode: 'highest',
       match: n => Element.isElement(n) && n.type === 'code-block'
     })
-  ) as NodeEntry<CodeBlockElement>[]
+  ) as NodeEntry<SlatePadElement>[]
   const nodeToDecorations = mergeMaps(...blockEntries.map(getChildNodeToDecorations))
 
   editor.nodeToDecorations = nodeToDecorations
   return <></>
-  function getChildNodeToDecorations([block, blockPath]: NodeEntry<CodeBlockElement>) {
+  function getChildNodeToDecorations([block, blockPath]: NodeEntry<SlatePadElement>) {
     const nodeToDecorations = new Map<string, Range[]>()
 
-    const text = block.children.map(line => Node.string(line)).join('\n')
+    const text = block.children.map((line:any) => Node.string(line)).join('\n')
     let tokens
     try {
       tokens = Prism.tokenize(text, Prism.languages[block.language.toLowerCase() || ''])

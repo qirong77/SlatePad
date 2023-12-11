@@ -30,10 +30,13 @@ export enum SlatePadElementEnum {
   HEADING_FIVE = 'heading5',
 }
 
-export interface SlatePadElement {
+interface BaseElement {
   type: SlatePadElementEnum;
   children: Descendant[];
+  [key:string]:any
 }
+export type SlatePadElement<T={}> = BaseElement & T
+
 export type CustomText = {
   bold?: boolean;
   italic?: boolean;
@@ -68,4 +71,3 @@ declare module "slate" {
     };
   }
 }
-
