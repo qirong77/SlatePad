@@ -9,7 +9,7 @@ import {
   Node,
   Point,
 } from "slate";
-import { getCurrentBlock, wrapTextNode } from "../utils/BlockUtils";
+import { BlockUtils, getCurrentBlock, wrapTextNode } from "../utils/BlockUtils";
 
 export const withElementList = (editor: SlatePadEditor) => {
   const {
@@ -289,7 +289,7 @@ export const withElementList = (editor: SlatePadEditor) => {
     if (!selection) return;
     const [block, path] = getCurrentBlock(editor) as NodeEntry<SlateElement>;
     const start = Editor.start(editor, path);
-    if (!Point.equals(selection.anchor, start)) {
+    if (!BlockUtils.isInElement(editor,SlatePadElementEnum.LIST_ITEM)|| !Point.equals(selection.anchor, start)) {
       deleteBackward(unit);
       return;
     }

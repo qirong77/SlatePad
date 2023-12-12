@@ -19,7 +19,7 @@ export const withShortCuts = (editor: SlatePadEditor) => {
       const start = Editor.start(editor, path);
       const range = { anchor, focus: start };
       const beforeText = Editor.string(editor, range) + text.slice(0, -1);
-      editor.deleteBackward('character')
+      // editor.deleteBackward('character')
       editor.onShortCuts(beforeText)
     }
     insertText(text)

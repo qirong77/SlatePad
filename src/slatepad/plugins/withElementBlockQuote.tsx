@@ -1,6 +1,6 @@
-import { Transforms, Element, Node, Path } from "slate";
+import { Transforms, Element, Node, Path, Editor } from "slate";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
-import { getCurrentBlock } from "../utils/BlockUtils";
+import { BlockUtils, getCurrentBlock } from "../utils/BlockUtils";
 
 export const withElementBlockQuote = (editor: SlatePadEditor) => {
   const {
@@ -8,16 +8,55 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
     renderElement,
     insertBreak,
     normalizeNode,
+    deleteBackward,
   } = editor;
   editor.onShortCuts = (beforeText) => {
     if (/^\>/.test(beforeText)) {
-      Transforms.setNodes<SlatePadElement>(editor, {
-        type: SlatePadElementEnum.BLOCK_QUOTE,
+      editor.withoutNormalizing(() => {
+
+        Transforms.setNodes<SlatePadElement>(
+          editor,
+          {
+            type: SlatePadElementEnum.BLOCK_QUOTE,
+            children: [
+              { type: SlatePadElementEnum.PARAGRAPH, children: [{ text: "1" }] },
+            ],
+          },
+          {
+            match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+          }
+        );
+        Transforms.removeNodes(editor,{
+          match(node, path) {
+              return !Element.isElement(node)
+          }
+        })
+        // editor.deleteBackward("character");
       });
-      editor.deleteBackward("line");
       return;
     }
     onShortCuts(beforeText);
+  };
+  editor.deleteBackward = (unit) => {
+    const isQuote = BlockUtils.isInElement(
+      editor,
+      SlatePadElementEnum.BLOCK_QUOTE
+    );
+    if (isQuote) {
+      const [block, path] = getCurrentBlock(
+        editor,
+        SlatePadElementEnum.BLOCK_QUOTE
+      );
+      if (!Node.string(block)) {
+        Transforms.setNodes(
+          editor,
+          { type: SlatePadElementEnum.PARAGRAPH },
+          { at: path }
+        );
+        return;
+      }
+    }
+    deleteBackward(unit);
   };
   editor.renderElement = (props) => {
     const { attributes, children } = props;
@@ -66,7 +105,8 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
       SlatePadElementEnum.BLOCK_QUOTE
     );
     if (
-      block && parent &&
+      block &&
+      parent &&
       parent.type === SlatePadElementEnum.BLOCK_QUOTE &&
       block.type === SlatePadElementEnum.PARAGRAPH
     ) {
@@ -79,8 +119,8 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
               node.type === SlatePadElementEnum.BLOCK_QUOTE
             );
           },
-          split:true
-        })
+          split: true,
+        });
       } else {
         Transforms.insertNodes(
           editor,

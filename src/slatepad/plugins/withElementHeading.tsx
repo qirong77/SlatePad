@@ -3,8 +3,9 @@ import {
   Editor,
   Transforms,
   Element as SlateElement,
+  Element,
   Path,
-  Range,
+  Node,
   NodeEntry,
 } from "slate";
 import {
@@ -14,14 +15,12 @@ import {
   useSlateStatic,
 } from "slate-react";
 import { Arrow } from "../../assets/svg/icon";
-import {
-  getCurrentBlock,
-  getNextBlock,
-} from "../utils/BlockUtils";
+import { BlockUtils, getCurrentBlock, getNextBlock } from "../utils/BlockUtils";
 import { SlatePadEditor, SlatePadElement, SlatePadElementEnum } from "../types";
 
 export const withElementHeading = (editor: SlatePadEditor) => {
-  const { renderElement, onShortCuts, onKeyDown } = editor;
+  const { renderElement, onShortCuts, normalizeNode, deleteBackward, insertBreak } =
+    editor;
   editor.renderElement = (props) => {
     if (props.element.type.includes("heading")) {
       return <Heading props={props} />;
@@ -35,42 +34,84 @@ export const withElementHeading = (editor: SlatePadEditor) => {
         beforeText.length.toString()
       ) as SlatePadElementEnum;
       editor.withoutNormalizing(() => {
+        editor.deleteBackward("character");
         Transforms.setNodes<SlateElement>(
           editor,
           {
             type,
+            children:[{type:SlatePadElementEnum.PARAGRAPH,children:[{text:''}]}]
           },
           {
             match: (n) =>
               SlateElement.isElement(n) && Editor.isBlock(editor, n),
           }
         );
-        editor.deleteBackward('line')
       });
       return;
     }
     onShortCuts(beforeText);
   };
-  // 当前是标题,换行之后不保留保留标题样式
-  editor.onKeyDown = (e) => {
-    if (e.key === "Enter" && !e.metaKey && !e.shiftKey) {
-      const { selection } = editor;
-      if (!selection) return;
-      if (e.nativeEvent.isComposing || !Range.isCollapsed(selection)) return;
+  editor.insertBreak = () => {
+    const [block, path] = getCurrentBlock(editor) as NodeEntry<SlatePadElement>;
+    if (block.type.includes("heading")) {
+      Transforms.insertNodes(editor, {
+        type: SlatePadElementEnum.PARAGRAPH,
+        children: [{ text: "" }],
+      });
+      Transforms.select(editor, Path.next(path));
+      return;
+    }
+    insertBreak();
+  };
+  editor.deleteBackward = (unit) => {
+    const isHead = BlockUtils.isInElement(
+      editor,
+      SlatePadElementEnum.HEADING_ONE
+    );
+    if (isHead) {
       const [block, path] = getCurrentBlock(
-        editor
-      ) as NodeEntry<SlatePadElement>;
-      if (block.type.includes("heading")) {
-        e.preventDefault();
-        Transforms.insertNodes(editor, {
-          type: SlatePadElementEnum.PARAGRAPH,
-          children: [{ text: "" }],
-        });
-        Transforms.select(editor, Path.next(path));
+        editor,
+        SlatePadElementEnum.HEADING_ONE,
+        SlatePadElementEnum.HEADING_TWO,
+        SlatePadElementEnum.HEADING_THREE,
+        SlatePadElementEnum.HEADING_FOUR,
+        SlatePadElementEnum.HEADING_FIVE
+      );
+      if (!Node.string(block)) {
+        Transforms.setNodes(editor, { type: SlatePadElementEnum.PARAGRAPH },{at:path});
         return;
       }
     }
-    onKeyDown(e);
+    deleteBackward(unit);
+  };
+  editor.normalizeNode = ([node, path]) => {
+    if (
+      Element.isElement(node) &&
+      node.type.includes('heading')
+    ) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        // 如果li或者ol里面是有文字
+        if (!Element.isElement(child) || editor.isInline(child)) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: SlatePadElementEnum.PARAGRAPH,
+              children: [],
+            },
+            {
+              match: (n) => !Element.isElement(n),
+              at: path,
+              split: true,
+            }
+          );
+          return;
+        }
+      }
+    }
+    normalizeNode([node, path]);
+  };
+  editor.deleteForward = () => {
+    console.log(111);
   };
   return editor;
 };
@@ -152,7 +193,7 @@ function Heading({ props }: { props: RenderElementProps }) {
     }
     setCollapse(!collapse);
     function canCollapse(type: SlatePadElementEnum) {
-      if (!type.includes('heading')) return true;
+      if (!type.includes("heading")) return true;
       const headLevel = Number(type.at(-1));
       const currentLevel = Number(element.type.at(-1));
       return currentLevel < headLevel;
