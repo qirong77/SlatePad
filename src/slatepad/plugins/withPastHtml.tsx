@@ -1,33 +1,29 @@
-import { Transforms, Node, Element } from 'slate'
+import { Transforms  } from 'slate'
 import {
-  CheckListItemElement,
-  CodeBlockElement,
-  CodeLineElement,
-  SlatePadEditor,
-  CustomElementType
+  SlatePadEditor, SlatePadElementEnum,
 } from '../types'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
 const ELEMENT_TAGS: {
-  [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
+  [key: string]: (el?: HTMLElement) => { type: SlatePadElementEnum; url?: string }
 } = {
-  A: el => ({ type: 'link', url: el.getAttribute('href') }),
-  BLOCKQUOTE: () => ({ type: 'block-quote' }),
-  H1: () => ({ type: 'heading1' }),
-  H2: () => ({ type: 'heading2' }),
-  H3: () => ({ type: 'heading3' }),
-  H4: () => ({ type: 'heading4' }),
-  H5: () => ({ type: 'heading5' }),
-  IMG: el => ({ type: 'image', url: el.getAttribute('src') }),
-  LI: () => ({ type: 'list-item' }),
-  OL: () => ({ type: 'number-list' }),
-  P: () => ({ type: 'paragraph' }),
-  PRE: () => ({ type: 'code-block' }),
-  UL: () => ({ type: 'bulleted-list' }),
-  HR: () => ({ type: 'divider' }),
-  TABLE: () => ({ type: 'table' }),
-  TR: () => ({ type: 'table-row' }),
-  TD: () => ({ type: 'table-cell' })
+  A: el => ({ type: SlatePadElementEnum.LINK, url: el.getAttribute('href') }),
+  BLOCKQUOTE: () => ({ type: SlatePadElementEnum.BLOCK_QUOTE }),
+  H1: () => ({ type: SlatePadElementEnum.HEADING_ONE }),
+  H2: () => ({ type: SlatePadElementEnum.HEADING_TWO }),
+  H3: () => ({ type: SlatePadElementEnum.HEADING_THREE }),
+  H4: () => ({ type: SlatePadElementEnum.HEADING_FOUR }),
+  H5: () => ({ type: SlatePadElementEnum.HEADING_FIVE }),
+  IMG: el => ({ type: SlatePadElementEnum.IMAGE, url: el.getAttribute('src') }),
+  LI: () => ({ type: SlatePadElementEnum.LIST_ITEM }),
+  OL: () => ({ type: SlatePadElementEnum.NUMBER_LIST }),
+  P: () => ({ type: SlatePadElementEnum.PARAGRAPH }),
+  PRE: () => ({ type: SlatePadElementEnum.CODE_BLOCK }),
+  UL: () => ({ type: SlatePadElementEnum.BULLED_LIST }),
+  HR: () => ({ type: SlatePadElementEnum.PARAGRAPH }),
+  TABLE: () => ({ type: SlatePadElementEnum.TABLE }),
+  TR: () => ({ type: SlatePadElementEnum.TABLE_ROW }),
+  TD: () => ({ type: SlatePadElementEnum.TABLE_CELL })
 }
 
 // COMPAT: `B` is omitted here because Google Docs uses `<b>` in weird ways.
@@ -52,9 +48,9 @@ export const withPastHtml = (editor: SlatePadEditor) => {
       const codelines = text.split('\n').map(
         line =>
           ({
-            type: 'code-line',
+            type: SlatePadElementEnum.CODE_LINE,
             children: [{ text: line }]
-          } as CodeLineElement)
+          })
       )
       Transforms.insertFragment(editor, codelines)
       return
@@ -94,19 +90,19 @@ export const deserialize = el => {
       })
       .map(codeLine => {
         return {
-          type: 'code-line',
+          type: SlatePadElementEnum.CODE_LINE,
           children: [
             {
               text: codeLine.textContent
             }
           ]
-        } as CodeLineElement
+        } 
       })
     return {
-      type: 'code-block',
+      type:SlatePadElementEnum.CODE_BLOCK,
       children: codeLines,
       language: 'typescript'
-    } as CodeBlockElement
+    } 
   }
   if (nodeName === 'DIV' && el.classList.contains('slatepad-checklist')) {
     return {
@@ -128,17 +124,17 @@ export const deserialize = el => {
   if (ELEMENT_TAGS[nodeName]) {
     const attrs = ELEMENT_TAGS[nodeName](el)
     const fragment = jsx('element', attrs, children)
-    if (fragment.type === 'code-block' && fragment.children?.[0].text) {
+    if (fragment.type ===SlatePadElementEnum.CODE_BLOCK && fragment.children?.[0].text) {
       fragment.children = fragment.children[0]?.text.split('\n').map(line => {
         return {
-          type: 'code-line',
+          type: SlatePadElementEnum.CODE_LINE,
           children: [{ text: line }]
-        } as CodeLineElement
+        }
       })
       fragment.language = 'typescript'
     }
-    if (fragment.type === 'table') {
-      fragment.children = fragment.children.filter(child => child?.type === 'table-row')
+    if (fragment.type === SlatePadElementEnum.TABLE) {
+      fragment.children = fragment.children.filter(child => child?.type === SlatePadElementEnum.TABLE_ROW)
     }
     return fragment
   }

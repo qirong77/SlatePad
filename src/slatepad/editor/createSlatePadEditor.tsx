@@ -37,7 +37,8 @@ export const createSlatepad = () => {
     .use(withElementLink)
     .use(withElementList)
     .use(withElementTable)
-    .use(withElementBlockQuote);
+    .use(withElementBlockQuote)
+    .use(withPastHtml)
 
   return editor;
 };
