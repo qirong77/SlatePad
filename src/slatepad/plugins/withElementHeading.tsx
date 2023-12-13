@@ -33,20 +33,16 @@ export const withElementHeading = (editor: SlatePadEditor) => {
         /\d/,
         beforeText.length.toString()
       ) as SlatePadElementEnum;
-      editor.withoutNormalizing(() => {
-        editor.deleteBackward("character");
+      // editor.delete({at:range})
+      editor.withoutNormalizing(()=>{
         Transforms.setNodes<SlateElement>(
           editor,
           {
             type,
-            children:[{type:SlatePadElementEnum.PARAGRAPH,children:[{text:''}]}]
           },
-          {
-            match: (n) =>
-              SlateElement.isElement(n) && Editor.isBlock(editor, n),
-          }
         );
-      });
+        editor.deleteBackward('line')
+      })
       return;
     }
     onShortCuts(beforeText);

@@ -13,7 +13,6 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
   editor.onShortCuts = (beforeText) => {
     if (/^\>/.test(beforeText)) {
       editor.withoutNormalizing(() => {
-
         Transforms.setNodes<SlatePadElement>(
           editor,
           {
@@ -26,12 +25,7 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
             match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
           }
         );
-        Transforms.removeNodes(editor,{
-          match(node, path) {
-              return !Element.isElement(node)
-          }
-        })
-        // editor.deleteBackward("character");
+        editor.deleteBackward('line')
       });
       return;
     }
