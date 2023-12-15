@@ -105,10 +105,6 @@ export const withElementTable = (editor: SlatePadEditor) => {
         }
       }
     }
-    if (Element.isElement(node) && node.type === "table-cell") {
-      const isOperation = wrapTextNode(editor, path);
-      if (isOperation) return;
-    }
     normalizeNode([node,path])
   };
   return editor;
