@@ -52,7 +52,7 @@ interface CustomEditor {
   onInsertImage?: (url: string) => string | Promise<string>;
   use: (Plugin: (editor: SlatePadEditor) => SlatePadEditor) => SlatePadEditor;
   renderElement: (props: RenderElementProps) => JSX.Element;
-  onShortCuts:(beforeText:string) => void
+  onShortCuts:(beforeText:string) => Boolean | undefined
   onKeyDown:(e:React.KeyboardEvent<HTMLDivElement>) => void
 }
 

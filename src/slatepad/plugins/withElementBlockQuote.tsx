@@ -18,7 +18,7 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
           {
             type: SlatePadElementEnum.BLOCK_QUOTE,
             children: [
-              { type: SlatePadElementEnum.PARAGRAPH, children: [{ text: "1" }] },
+              { type: SlatePadElementEnum.PARAGRAPH, children: [{ text: "" }] },
             ],
           },
           {
@@ -27,7 +27,7 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
         );
         editor.deleteBackward('line')
       });
-      return;
+      return true;
     }
     onShortCuts(beforeText);
   };

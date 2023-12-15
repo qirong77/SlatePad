@@ -67,8 +67,9 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
               n.type === SlatePadElementEnum.CODE_LINE,
           }
         );
+        editor.deleteBackward('line')
       });
-      return;
+      return true;
     }
     onShortCuts(beforeText);
   };
