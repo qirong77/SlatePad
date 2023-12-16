@@ -29,7 +29,7 @@ export const withElementBlockQuote = (editor: SlatePadEditor) => {
       });
       return true;
     }
-    onShortCuts(beforeText);
+    return onShortCuts(beforeText);
   };
   editor.deleteBackward = (unit) => {
     const isQuote = BlockUtils.isInElement(

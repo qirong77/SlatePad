@@ -22,7 +22,6 @@ export const withElementHeading = (editor: SlatePadEditor) => {
   const {
     renderElement,
     onShortCuts,
-    normalizeNode,
     deleteBackward,
     insertBreak,
   } = editor;
@@ -38,57 +37,44 @@ export const withElementHeading = (editor: SlatePadEditor) => {
         /\d/,
         beforeText.length.toString()
       ) as SlatePadElementEnum;
-      // editor.delete({at:range})
-      console.log(1)
       editor.withoutNormalizing(() => {
-        console.log(2)
-        editor.deleteBackward("line");
         Transforms.setNodes<SlateElement>(
           editor,
           {
             type,
-            children: [
-              { type: SlatePadElementEnum.PARAGRAPH, children: [{ text: "" }] },
-            ],
+            children: [],
           },
           {
             match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
           }
         );
-     
+        editor.deleteBackward("line");
       });
       return true;
     }
-    onShortCuts(beforeText);
+    return onShortCuts(beforeText);
   };
   editor.insertBreak = () => {
-    console.log(2);
-    const isHead = BlockUtils.isInElement(
-      editor,
-      SlatePadElementEnum.HEADING_ONE
-    );
-    const [block, path] = getCurrentBlock(editor) as NodeEntry<SlatePadElement>;
-    if (isHead && block) {
+    const [block,path] = getCurrentBlock(editor)
+    const isHead = block && block.type.includes('heading')
+    if (isHead) {
       editor.withoutNormalizing(() => {
-        // Transforms.select(editor, Editor.end(editor, Path.next(path)));
-        // editor.deleteBackward("character");
-        // editor.deleteBackward('character')
-        // editor.insertBreak()
+        Transforms.insertNodes(
+          editor,
+          {
+            type: SlatePadElementEnum.PARAGRAPH,
+            children: [{ text: "" }],
+          },
+        );
+        Transforms.select(editor, Path.next(path));
       });
-      Transforms.insertNodes(editor, {
-        type: SlatePadElementEnum.PARAGRAPH,
-        children: [{ text: "" }],
-      });
-      Transforms.select(editor, Path.next(path));
       return;
     }
     insertBreak();
   };
   editor.deleteBackward = (unit) => {
-    const isHead = BlockUtils.isInElement(
-      editor,
-      SlatePadElementEnum.HEADING_ONE
-    );
+    const [block] = getCurrentBlock(editor)
+    const isHead = block && block.type.includes('heading')
     if (isHead) {
       const [block, path] = getCurrentBlock(
         editor,
@@ -99,38 +85,17 @@ export const withElementHeading = (editor: SlatePadEditor) => {
         SlatePadElementEnum.HEADING_FIVE
       );
       if (!Node.string(block)) {
-        Transforms.setNodes(
-          editor,
-          { type: SlatePadElementEnum.PARAGRAPH },
-          { at: path }
-        );
+        editor.withoutNormalizing(() => {
+          Transforms.setNodes(
+            editor,
+            { type: SlatePadElementEnum.PARAGRAPH },
+          );
+          deleteBackward("line");
+        });
         return;
       }
     }
-    deleteBackward(unit);
-  };
-  editor.normalizeNode = ([node, path]) => {
-    if (Element.isElement(node) && node.type.includes("heading")) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        // 如果li或者ol里面是有文字
-        if (!Element.isElement(child) || editor.isInline(child)) {
-          Transforms.wrapNodes(
-            editor,
-            {
-              type: SlatePadElementEnum.PARAGRAPH,
-              children: [],
-            },
-            {
-              match: (n) => !Element.isElement(n),
-              at: path,
-              split: true,
-            }
-          );
-          return;
-        }
-      }
-    }
-    normalizeNode([node, path]);
+    deleteBackward(unit)
   };
   editor.deleteForward = () => {
     console.log(111);

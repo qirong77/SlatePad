@@ -85,7 +85,6 @@ const isInElement = (editor: SlatePadEditor, type: SlatePadElementEnum) => {
   const [block] = editor.parent(path) as NodeEntry<SlatePadElement>;
   // 获得的block有可能是Editor
   if (!block || !Element.isElement(block)) return false;
-  if (type.includes("heading")) return block.type.includes("heading");
   return block.type === type;
 };
 export const BlockUtils = {

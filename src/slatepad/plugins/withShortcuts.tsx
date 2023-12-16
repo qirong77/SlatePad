@@ -20,6 +20,7 @@ export const withShortCuts = (editor: SlatePadEditor) => {
       const range = { anchor, focus: start };
       const beforeText = Editor.string(editor, range) + text.slice(0, -1);
       const isHanlde = editor.onShortCuts(beforeText)
+      console.log(isHanlde)
       if(isHanlde) return
     }
     insertText(text)

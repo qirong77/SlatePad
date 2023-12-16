@@ -78,6 +78,8 @@ export const withElementList = (editor: SlatePadEditor) => {
         );
         return;
       }
+      // const isOperation = wrapTextNode(editor, path);
+      // if (isOperation) return;
     }
     // 校验ul和ol
     if (SlateElement.isElement(node) && (node.type === SlatePadElementEnum.BULLED_LIST || node.type === SlatePadElementEnum.NUMBER_LIST)) {
@@ -99,6 +101,12 @@ export const withElementList = (editor: SlatePadEditor) => {
           );
           return;
         }
+        // 如果ul或者ol里面的元素不是li,条件比较苛刻,比如
+        /* 
+        - 123
+        - 光标在这删除,产生一个空行
+        - 33
+        */
       }
     }
     normalizeNode([node, path]);

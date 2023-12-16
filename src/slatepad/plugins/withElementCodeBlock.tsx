@@ -21,7 +21,7 @@ import { Options } from "prettier";
 import { LANGUAGES } from "../components/SetNodeToDecorations";
 
 export const withElementCodeBlock = (editor: SlatePadEditor) => {
-  const { renderElement, onShortCuts, onKeyDown, normalizeNode } = editor;
+  const { renderElement, onShortCuts, onKeyDown, normalizeNode,deleteBackward } = editor;
   editor.renderElement = (props) => {
     const { attributes, children } = props;
     if (props.element.type === SlatePadElementEnum.CODE_LINE) {
@@ -71,9 +71,14 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
       });
       return true;
     }
-    onShortCuts(beforeText);
+    return onShortCuts(beforeText);
   };
   editor.onKeyDown = (e) => {
+    const [block] = getCurrentBlock(editor,SlatePadElementEnum.CODE_BLOCK)
+    if(!block) {
+      onKeyDown(e)
+      return
+    }
     if (e.code === "ArrowUp") {
       // 处理进入到代码块的逻辑
       const [, path] = getCurrentBlock(editor) || [];
@@ -182,6 +187,14 @@ export const withElementCodeBlock = (editor: SlatePadEditor) => {
     }
     normalizeNode([node, path]);
   };
+  editor.deleteBackward = (unit) => {
+    const [block,path] = getCurrentBlock(editor,SlatePadElementEnum.CODE_LINE)
+    const [codeBlock] = getCurrentBlock(editor,SlatePadElementEnum.CODE_BLOCK)
+    if(block  && !Node.string(block).length && codeBlock && codeBlock.children.length === 1) {
+      return
+    }
+    deleteBackward(unit)
+  }
   return editor;
 };
 
