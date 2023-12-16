@@ -8,8 +8,9 @@ import {
   NodeEntry,
   Node,
   Point,
+  Text
 } from "slate";
-import { BlockUtils, getCurrentBlock, wrapTextNode } from "../utils/BlockUtils";
+import { BlockUtils, getCurrentBlock } from "../utils/BlockUtils";
 
 export const withElementList = (editor: SlatePadEditor) => {
   const {
@@ -78,8 +79,22 @@ export const withElementList = (editor: SlatePadEditor) => {
         );
         return;
       }
-      // const isOperation = wrapTextNode(editor, path);
-      // if (isOperation) return;
+      for (const child of node.children) {
+        // 如果list里面有子节点是text,就把这些节点都放在一个段落里面(保证list里面直接子元素都是块)
+        // 必须用Node.string判断值只包括有长度的,否则会死循环
+        const isText = Text.isText(node) || (SlateElement.isElement(child) && editor.isInline(child))
+        if (isText && Node.string(child)) {
+          Transforms.wrapNodes(
+            editor,
+            { type: SlatePadElementEnum.PARAGRAPH, children: [] },
+            {
+              at: path,
+              match: (node) => Text.isText(node),
+            }
+          );
+          return true;
+        }
+      }
     }
     // 校验ul和ol
     if (SlateElement.isElement(node) && (node.type === SlatePadElementEnum.BULLED_LIST || node.type === SlatePadElementEnum.NUMBER_LIST)) {
@@ -269,18 +284,18 @@ export const withElementList = (editor: SlatePadEditor) => {
     }
     if (e.key === "Tab" && !e.metaKey && e.shiftKey) {
       e.preventDefault();
-      Transforms.unwrapNodes(editor,{
-        match: (n) => {
-          return SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM
-        },
-        split:true
-      })
-      Transforms.unwrapNodes(editor,{
-        match: (n) => {
-          return SlateElement.isElement(n) && (n.type === SlatePadElementEnum.BULLED_LIST)
-        },
-        split:true
-      })
+        Transforms.unwrapNodes(editor,{
+          match: (n) => {
+            return SlateElement.isElement(n) && n.type === SlatePadElementEnum.LIST_ITEM
+          },
+          split:true
+        })
+        Transforms.unwrapNodes(editor,{
+          match: (n) => {
+            return SlateElement.isElement(n) && (n.type === SlatePadElementEnum.BULLED_LIST)
+          },
+          split:true
+        })
     }
     onKeyDown(e);
   };
@@ -306,16 +321,16 @@ export const withElementList = (editor: SlatePadEditor) => {
       parentBlock.type === SlatePadElementEnum.LIST_ITEM &&
       parentBlock.children.length === 1;
     if (block.type === SlatePadElementEnum.PARAGRAPH && isListParagraph) {
-      Transforms.setNodes(editor, newProperties, { at: parentPath });
-      Transforms.unwrapNodes(editor, {
-        match: (n) =>
-          SlateElement.isElement(n) &&
-          (n.type === SlatePadElementEnum.BULLED_LIST ||
-            n.type === SlatePadElementEnum.NUMBER_LIST),
-        split: true,
-        // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-        at: parentPath,
-      });
+        Transforms.setNodes(editor, newProperties, { at: parentPath });
+        Transforms.unwrapNodes(editor, {
+          match: (n) =>
+            SlateElement.isElement(n) &&
+            (n.type === SlatePadElementEnum.BULLED_LIST ||
+              n.type === SlatePadElementEnum.NUMBER_LIST),
+          split: true,
+          // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
+          at: parentPath,
+        });
       return;
     }
     deleteBackward(unit);
