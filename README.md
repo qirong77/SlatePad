@@ -8,4 +8,4 @@ SlatePad 是一个使用 React 和 Slate.js 构建的所见即所得文本编辑
 
 [click here to Playground](https://qirong77.github.io/SlatePad/)
 
-![Playground](./src/assets/2023-06-30-20.03.57.png)
+![Playground](./2023-06-30-20.03.57.png)
