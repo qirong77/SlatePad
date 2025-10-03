@@ -31,7 +31,7 @@ export const getNextBlock = (editor: SlatePadEditor, path: Path) => {
 export const isCodeBlock = (type: CustomElementType) => {
   return type === 'code-block' || type === 'code-line'
 }
-document.querySelector('p')?.nextSibling
+
 // 选择下一个平级块
 export const selectNextSibling = (editor: SlatePadEditor) => {
   const [block, path] = getCurrentBlock(editor) || []
