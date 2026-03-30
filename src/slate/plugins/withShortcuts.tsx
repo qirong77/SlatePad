@@ -4,12 +4,12 @@ import {
   getCurrentBlock,
   isCodeBlock,
   isListParagraph,
-  selectNextSibling
+  selectNextSibling,
 } from '../utils/BlockUtils'
 import { getNextPath, getPrePath } from '../utils/PathUtils'
 export const withShortcuts = (editor: SlatePadEditor) => {
   const { deleteBackward, insertText } = editor
-  editor.insertText = text => {
+  editor.insertText = (text) => {
     const { selection } = editor
     if (text.endsWith(' ') && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection
@@ -29,23 +29,23 @@ export const withShortcuts = (editor: SlatePadEditor) => {
           Transforms.delete(editor)
         }
         const newProperties: Partial<SlateElement> = {
-          type
+          type,
         }
         // 使用withoutNormaling来避免触发norme导致Transformer错乱
         editor.withoutNormalizing(() => {
           Transforms.setNodes<SlateElement>(editor, newProperties, {
-            match: n => SlateElement.isElement(n) && Editor.isBlock(editor, n)
+            match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n),
           })
           if (type === 'list-item') {
             Transforms.wrapNodes(
               editor,
               {
                 type: /\d\./.test(beforeText) ? 'number-list' : 'bulleted-list',
-                children: []
+                children: [],
               },
               {
-                match: n =>
-                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'list-item'
+                match: (n) =>
+                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'list-item',
               }
             )
           }
@@ -55,11 +55,11 @@ export const withShortcuts = (editor: SlatePadEditor) => {
               {
                 type: 'code-block',
                 language: beforeText?.replace('```', '') || '',
-                children: []
+                children: [],
               },
               {
-                match: n =>
-                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line'
+                match: (n) =>
+                  !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'code-line',
               }
             )
           }
@@ -88,18 +88,18 @@ export const withShortcuts = (editor: SlatePadEditor) => {
         return
       }
       const newProperties: Partial<SlateElement> = {
-        type: 'paragraph'
+        type: 'paragraph',
       }
       // 当前的光标在某个list-item里面,因为withNormaliz插件,list里面的元素会默认是个段落,
       if (block.type === 'paragraph' && isListParagraph(editor, path)) {
         const [list, listPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
         Transforms.setNodes(editor, newProperties, { at: listPath })
         Transforms.unwrapNodes(editor, {
-          match: n =>
+          match: (n) =>
             SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
           split: true,
           // 由于嵌套list的结构,所有的unwrap都必须指明路径,否则会将整个路径上的嵌套结构都结构铺平
-          at: listPath
+          at: listPath,
         })
         return
       }
@@ -110,12 +110,12 @@ export const withShortcuts = (editor: SlatePadEditor) => {
         const isOne = !getPrePath(editor, path) && !getNextPath(editor, path)
         if (isOne) {
           Transforms.unwrapNodes(editor, {
-            match: n => SlateElement.isElement(n) && n.type === 'code-block',
-            at: blockPath
+            match: (n) => SlateElement.isElement(n) && n.type === 'code-block',
+            at: blockPath,
           })
           Transforms.setNodes(editor, {
             type: 'paragraph',
-            children: [{ text: '' }]
+            children: [{ text: '' }],
           })
           return
         }
@@ -144,7 +144,7 @@ function getType(str: string): CustomElementType | false {
     '####': 'heading4',
     '#####': 'heading5',
     '---': 'divider',
-    '***': 'divider'
+    '***': 'divider',
   }
   if (/\d\./.test(str)) return 'list-item'
   if (/^```/.test(str)) return 'code-line'

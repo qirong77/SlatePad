@@ -35,7 +35,7 @@ export function Heading({ props, type }: { props: RenderElementProps; type: stri
         } else
           HistoryEditor.withoutSaving(editor, () => {
             Transforms.insertText(editor, '#'.repeat(currentHead) + ' ', {
-              at: start
+              at: start,
             })
           })
       } else {
@@ -43,10 +43,10 @@ export function Heading({ props, type }: { props: RenderElementProps; type: stri
         Transforms.setNodes(
           editor,
           {
-            type: `heading${tags.length}` as any
+            type: `heading${tags.length}` as any,
           },
           {
-            at: path
+            at: path,
           }
         )
       }
@@ -55,7 +55,7 @@ export function Heading({ props, type }: { props: RenderElementProps; type: stri
       const prePath = JSON.parse(JSON.stringify(selection.anchor))
       Transforms.select(editor, {
         path: start.path,
-        offset: currentHead + 1
+        offset: currentHead + 1,
       })
       editor.deleteBackward('line')
       Transforms.select(editor, prePath)
@@ -70,7 +70,8 @@ export function Heading({ props, type }: { props: RenderElementProps; type: stri
       {...attributes}
       className={'slatepad-heading font-bold relative my-[20px]'}
       suppressContentEditableWarning
-      contentEditable={collapse ? false : true}>
+      contentEditable={collapse ? false : true}
+    >
       <Arrow
         contentEditable={false}
         onClick={handleClick}
@@ -82,9 +83,10 @@ export function Heading({ props, type }: { props: RenderElementProps; type: stri
       {collapse && (
         <div
           style={{
-            boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 3%)'
+            boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 3%)',
           }}
-          className="wrapper cursor-pointer translate-x-[-5px] scale-y-125 absolute top-0 w-full h-full border-[1px] rounded"></div>
+          className="wrapper cursor-pointer translate-x-[-5px] scale-y-125 absolute top-0 w-full h-full border-[1px] rounded"
+        ></div>
       )}
     </div>
   )

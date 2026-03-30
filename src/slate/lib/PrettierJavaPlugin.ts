@@ -40,7 +40,7 @@ export var PrettierPluginJava = (function (oc) {
                 enumerable: !0,
                 get: function () {
                   return e[r]
-                }
+                },
               }
         )
       }),
@@ -320,7 +320,7 @@ export var PrettierPluginJava = (function (oc) {
       },
       set exports(e) {
         cn = e
-      }
+      },
     }
   ;(function (e) {
     ;(function (t, n) {
@@ -344,7 +344,7 @@ export var PrettierPluginJava = (function (oc) {
               ignoreCase: !1,
               multiLine: !1,
               unicode: !1,
-              sticky: !1
+              sticky: !1,
             };
             this.isRegExpFlag();
 
@@ -486,8 +486,8 @@ export var PrettierPluginJava = (function (oc) {
 `),
                 a('\r'),
                 a('\u2028'),
-                a('\u2029')
-              ]
+                a('\u2029'),
+              ],
             }
           )
         }),
@@ -917,7 +917,7 @@ export var PrettierPluginJava = (function (oc) {
         a(' '),
         a(' '),
         a('　'),
-        a('\uFEFF')
+        a('\uFEFF'),
       ]
       function A() {}
       return (
@@ -1263,11 +1263,11 @@ export var PrettierPluginJava = (function (oc) {
       lineTerminatorCharacters: [
         '\r',
         `
-`
+`,
       ],
       tracer: function (R, U) {
         return U()
-      }
+      },
     })
     var n = t.tracer
     n('initCharCodeToOptimizedIndexMap', function () {
@@ -1373,7 +1373,7 @@ export var PrettierPluginJava = (function (oc) {
             push: c[U],
             pop: p[U],
             tokenTypeIdx: o[U],
-            tokenType: r[U]
+            tokenType: r[U],
           }
         }))
     })
@@ -1444,7 +1444,7 @@ export var PrettierPluginJava = (function (oc) {
         patternIdxToConfig: l,
         charCodeToPatternIdxToConfig: E,
         hasCustom: i,
-        canBeOptimized: T
+        canBeOptimized: T,
       }
     )
   }
@@ -1485,7 +1485,7 @@ export var PrettierPluginJava = (function (oc) {
         return {
           message: 'Token Type: ->' + i.name + "<- missing static 'PATTERN' property",
           type: ge.MISSING_PATTERN,
-          tokenTypes: [i]
+          tokenTypes: [i],
         }
       }),
       r = hr(e, t)
@@ -1503,7 +1503,7 @@ export var PrettierPluginJava = (function (oc) {
             i.name +
             "<- static 'PATTERN' can only be a RegExp, a Function matching the {CustomPatternMatcherFunc} type or an Object matching the {ICustomPattern} interface.",
           type: ge.INVALID_PATTERN,
-          tokenTypes: [i]
+          tokenTypes: [i],
         }
       }),
       r = hr(e, t)
@@ -1543,7 +1543,7 @@ export var PrettierPluginJava = (function (oc) {
             `<- static 'PATTERN' cannot contain end of input anchor '$'
 	See sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#ANCHORS	for details.`,
           type: ge.EOI_ANCHOR_FOUND,
-          tokenTypes: [i]
+          tokenTypes: [i],
         }
       })
     return r
@@ -1557,7 +1557,7 @@ export var PrettierPluginJava = (function (oc) {
         return {
           message: 'Token Type: ->' + r.name + "<- static 'PATTERN' must not match an empty string",
           type: ge.EMPTY_MATCH_PATTERN,
-          tokenTypes: [r]
+          tokenTypes: [r],
         }
       })
     return n
@@ -1596,7 +1596,7 @@ export var PrettierPluginJava = (function (oc) {
             `<- static 'PATTERN' cannot contain start of input anchor '^'
 	See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#ANCHORS	for details.`,
           type: ge.SOI_ANCHOR_FOUND,
-          tokenTypes: [i]
+          tokenTypes: [i],
         }
       })
     return r
@@ -1613,7 +1613,7 @@ export var PrettierPluginJava = (function (oc) {
             r.name +
             "<- static 'PATTERN' may NOT contain global('g') or multiline('m')",
           type: ge.UNSUPPORTED_FLAGS_FOUND,
-          tokenTypes: [r]
+          tokenTypes: [r],
         }
       })
     return n
@@ -1651,7 +1651,7 @@ export var PrettierPluginJava = (function (oc) {
             '<-' +
             ('has been used in all of the following Token Types: ' + o.join(', ') + ' <-'),
           type: ge.DUPLICATE_PATTERNS_FOUND,
-          tokenTypes: a
+          tokenTypes: a,
         }
       })
     return i
@@ -1669,7 +1669,7 @@ export var PrettierPluginJava = (function (oc) {
             r.name +
             "<- static 'GROUP' can only be Lexer.SKIPPED/Lexer.NA/A String",
           type: ge.INVALID_GROUP_TYPE_FOUND,
-          tokenTypes: [r]
+          tokenTypes: [r],
         }
       })
     return n
@@ -1764,7 +1764,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
             ln +
             `> property in its definition
 `,
-          type: ge.MULTI_MODE_LEXER_WITHOUT_DEFAULT_MODE
+          type: ge.MULTI_MODE_LEXER_WITHOUT_DEFAULT_MODE,
         }),
       G(e, Ar) ||
         r.push({
@@ -1773,7 +1773,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
             Ar +
             `> property in its definition
 `,
-          type: ge.MULTI_MODE_LEXER_WITHOUT_MODES_PROPERTY
+          type: ge.MULTI_MODE_LEXER_WITHOUT_MODES_PROPERTY,
         }),
       G(e, Ar) &&
         G(e, ln) &&
@@ -1786,7 +1786,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
             e.defaultMode +
             `>which does not exist
 `,
-          type: ge.MULTI_MODE_LEXER_DEFAULT_MODE_VALUE_DOES_NOT_EXIST
+          type: ge.MULTI_MODE_LEXER_DEFAULT_MODE_VALUE_DOES_NOT_EXIST,
         }),
       G(e, Ar) &&
         V(e.modes, function (i, a) {
@@ -1801,7 +1801,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
                     s +
                     `>
 `),
-                type: ge.LEXER_DEFINITION_CANNOT_CONTAIN_UNDEFINED
+                type: ge.LEXER_DEFINITION_CANNOT_CONTAIN_UNDEFINED,
               })
           })
         }),
@@ -1840,7 +1840,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
 	But none of the Token Types can be identified as matching a line terminator.
 	See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#LINE_BREAKS 
 	for details.`,
-          type: ge.NO_LINE_BREAKS_FLAGS
+          type: ge.NO_LINE_BREAKS_FLAGS,
         }),
       r
     )
@@ -1880,7 +1880,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
       }
       return !1
     },
-    lastIndex: 0
+    lastIndex: 0,
   }
   function qa(e, t) {
     if (G(e, 'LINE_BREAKS')) return !1
@@ -2039,7 +2039,7 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
           ',' +
           (' skipped ' + n + ' characters.')
         )
-      }
+      },
     },
     ge
   ;(function (e) {
@@ -2071,13 +2071,13 @@ See https://sap.github.io/chevrotain/docs/guide/resolving_lexer_errors.html#UNRE
     lineTerminatorCharacters: [
       `
 `,
-      '\r'
+      '\r',
     ],
     ensureOptimizations: !1,
     safeMode: !1,
     errorMessageProvider: $a,
     traceInitPerf: !1,
-    skipValidations: !1
+    skipValidations: !1,
   }
   Object.freeze(Xn)
   var Rt = (function () {
@@ -2161,7 +2161,7 @@ a boolean 2nd argument is no longer supported`)
                       positionTracking: n.positionTracking,
                       ensureOptimizations: n.ensureOptimizations,
                       safeMode: n.safeMode,
-                      tracer: r.TRACE_INIT.bind(r)
+                      tracer: r.TRACE_INIT.bind(r),
                     })
                   }),
                     (r.patternIdxToConfig[f] = m.patternIdxToConfig),
@@ -2305,7 +2305,7 @@ a boolean 2nd argument is no longer supported`)
               line: S.startLine !== void 0 ? S.startLine : void 0,
               column: S.startColumn !== void 0 ? S.startColumn : void 0,
               length: S.image.length,
-              message: F
+              message: F,
             })
           } else {
             Qt.pop()
@@ -2451,7 +2451,7 @@ a boolean 2nd argument is no longer supported`)
           startLine: a,
           startColumn: o,
           tokenTypeIdx: r,
-          tokenType: i
+          tokenType: i,
         }
       }),
       (e.prototype.createFullToken = function (t, n, r, i, a, o, s) {
@@ -2464,7 +2464,7 @@ a boolean 2nd argument is no longer supported`)
           startColumn: o,
           endColumn: o + s - 1,
           tokenTypeIdx: r,
-          tokenType: i
+          tokenType: i,
         }
       }),
       (e.prototype.addToken = function (t, n, r) {
@@ -2567,7 +2567,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
       startColumn: o,
       endColumn: s,
       tokenTypeIdx: e.tokenTypeIdx,
-      tokenType: e
+      tokenType: e,
     }
   }
   function tl(e, t) {
@@ -2634,7 +2634,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
           },
           set: function (n) {},
           enumerable: !0,
-          configurable: !0
+          configurable: !0,
         }),
         (t.prototype.accept = function (n) {
           n.visit(this)
@@ -2815,7 +2815,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
         name: e.name,
         idx: e.idx,
         separator: Zn(new he({ terminalType: e.separator })),
-        definition: t(e.definition)
+        definition: t(e.definition),
       }
     if (e instanceof Xe)
       return {
@@ -2823,7 +2823,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
         name: e.name,
         idx: e.idx,
         separator: Zn(new he({ terminalType: e.separator })),
-        definition: t(e.definition)
+        definition: t(e.definition),
       }
     if (e instanceof Ae)
       return { type: 'Repetition', name: e.name, idx: e.idx, definition: t(e.definition) }
@@ -2834,7 +2834,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
           type: 'Terminal',
           name: e.terminalType.name,
           label: fn(e.terminalType),
-          idx: e.idx
+          idx: e.idx,
         },
         r = e.terminalType.PATTERN
       return e.terminalType.PATTERN && (n.pattern = Wt(r) ? r.source : r), n
@@ -3030,7 +3030,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
             repetition: [],
             repetitionWithSeparator: [],
             repetitionMandatory: [],
-            repetitionMandatoryWithSeparator: []
+            repetitionMandatoryWithSeparator: [],
           }),
           n
         )
@@ -3043,7 +3043,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
             repetition: [],
             repetitionWithSeparator: [],
             repetitionMandatory: [],
-            repetitionMandatoryWithSeparator: []
+            repetitionMandatoryWithSeparator: [],
           }
         }),
         (t.prototype.visitTerminal = function (n) {
@@ -3508,12 +3508,12 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
       } else if (s instanceof ot) {
         var u = [
           new He({ definition: s.definition }),
-          new Ae({ definition: [new he({ terminalType: s.separator })].concat(s.definition) })
+          new Ae({ definition: [new he({ terminalType: s.separator })].concat(s.definition) }),
         ]
         return o(u)
       } else if (s instanceof Xe) {
         var u = s.definition.concat([
-          new Ae({ definition: [new he({ terminalType: s.separator })].concat(s.definition) })
+          new Ae({ definition: [new he({ terminalType: s.separator })].concat(s.definition) }),
         ])
         r = o(u)
       } else if (s instanceof Ae) {
@@ -3571,7 +3571,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
               nextTokenType: E.terminalType,
               nextTokenOccurrence: E.idx,
               ruleStack: l,
-              occurrenceStack: T
+              occurrenceStack: T,
             }),
               (s = !0)
           else throw Error('non exhaustive match')
@@ -4100,7 +4100,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
             type: be.DUPLICATE_PRODUCTIONS,
             ruleName: e.name,
             dslName: p,
-            occurrence: u.idx
+            occurrence: u.idx,
           },
           m = Ro(u)
         return m && (f.parameter = m), f
@@ -4157,7 +4157,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
         n.push({
           message: t.buildInvalidRuleNameError({ topLevelRule: e, expectedPattern: hn }),
           type: be.INVALID_RULE_NAME,
-          ruleName: r
+          ruleName: r,
         }),
       n
     )
@@ -4179,7 +4179,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
       r.match(hn) ||
         n.push({
           message: t.buildTokenNameError({ tokenType: e, expectedPattern: hn }),
-          type: be.INVALID_TOKEN_NAME
+          type: be.INVALID_TOKEN_NAME,
         }),
       n
     )
@@ -4225,7 +4225,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
       i.push({
         message: n.buildLeftRecursionError({ topLevelRule: e, leftRecursionPath: r }),
         type: be.LEFT_RECURSION,
-        ruleName: o
+        ruleName: o,
       })
     var u = hr(a, r.concat([e])),
       c = P(u, function (p) {
@@ -4290,12 +4290,12 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
                     message: t.buildEmptyAlternationError({
                       topLevelRule: e,
                       alternation: o,
-                      emptyChoiceIdx: p
+                      emptyChoiceIdx: p,
                     }),
                     type: be.NONE_LAST_EMPTY_ALT,
                     ruleName: e.name,
                     occurrence: o.idx,
-                    alternative: p + 1
+                    alternative: p + 1,
                   }
                 : null
             })
@@ -4366,7 +4366,7 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
                 message: t.buildTooManyAlternativesError({ topLevelRule: e, alternation: o }),
                 type: be.TOO_MANY_ALTS,
                 ruleName: e.name,
-                occurrence: o.idx
+                occurrence: o.idx,
               }),
             a
           )
@@ -4424,14 +4424,14 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
             topLevelRule: n,
             alternation: t,
             ambiguityIndices: u,
-            prefixPath: s.path
+            prefixPath: s.path,
           })
         return {
           message: c,
           type: be.AMBIGUOUS_ALTS,
           ruleName: n.name,
           occurrence: t.idx,
-          alternatives: [s.alts]
+          alternatives: [s.alts],
         }
       })
     return o
@@ -4464,14 +4464,14 @@ See: https://github.com/SAP/chevrotain/issues/564#issuecomment-349062346 for det
                   topLevelRule: n,
                   alternation: t,
                   ambiguityIndices: C,
-                  prefixPath: m.path
+                  prefixPath: m.path,
                 })
               return {
                 message: l,
                 type: be.AMBIGUOUS_PREFIX_ALTS,
                 ruleName: n.name,
                 occurrence: A,
-                alternatives: C
+                alternatives: C,
               }
             })
           i = i.concat(f)
@@ -4600,7 +4600,7 @@ but found: '` +
   ` +
           ('<' + s.join(' ,') + '>')
       return i + u + o
-    }
+    },
   }
   Object.freeze(Wi)
   var No = {
@@ -4613,7 +4613,7 @@ inside top level rule: ->` +
           e.name +
           '<-'
         return n
-      }
+      },
     },
     Br = {
       buildDuplicateFoundError: function (e, t) {
@@ -4828,7 +4828,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
           e.grammarName +
           '<-'
         return n
-      }
+      },
     },
     Zl =
       (globalThis && globalThis.__extends) ||
@@ -4881,7 +4881,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
             message: i,
             type: be.UNRESOLVED_SUBRULE_REF,
             ruleName: this.currTopLevel.name,
-            unresolvedRefName: n.nonTerminalName
+            unresolvedRefName: n.nonTerminalName,
           })
         }
       }),
@@ -4989,7 +4989,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
                   expected: i,
                   actual: p,
                   previous: C,
-                  ruleName: a.getCurrRuleFullName()
+                  ruleName: a.getCurrRuleFullName(),
                 }),
                 l = new Fr(A, p, a.LA(0))
               ;(l.resyncedTokens = Jn(u)), a.SAVE_ERROR(l)
@@ -5074,7 +5074,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
         return {
           ruleName: this.shortRuleNameToFullName(t),
           idxInCallingRule: n,
-          inRule: this.shortRuleNameToFullName(r)
+          inRule: this.shortRuleNameToFullName(r),
         }
       }),
       (e.prototype.buildFullFollowKeyStack = function () {
@@ -5095,7 +5095,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
               : {
                   ruleName: t.shortRuleNameToFullName(i),
                   idxInCallingRule: r[a],
-                  inRule: t.shortRuleNameToFullName(n[a - 1])
+                  inRule: t.shortRuleNameToFullName(n[a - 1]),
                 }
           })
         )
@@ -5331,7 +5331,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
                   ))
           )
         }
-      }
+      },
     }
     return (n.prototype = r), (n.prototype.constructor = n), (n._RULE_NAMES = t), n
   }
@@ -5364,7 +5364,7 @@ see: https://en.wikipedia.org/wiki/LL_parser#Left_Factoring.`
         return {
           msg: 'Missing visitor method: <' + r + '> on ' + Mr(e.constructor) + ' CST Visitor.',
           type: br.MISSING_METHOD,
-          methodName: r
+          methodName: r,
         }
     })
     return Hn(n)
@@ -5390,7 +5390,7 @@ There is no Grammar Rule corresponding to this method's name.
               hn.source +
               '/.'),
           type: br.REDUNDANT_METHOD,
-          methodName: r
+          methodName: r,
         })
     return n
   }
@@ -5465,7 +5465,7 @@ There is no Grammar Rule corresponding to this method's name.
             startColumn: NaN,
             endOffset: NaN,
             endLine: NaN,
-            endColumn: NaN
+            endColumn: NaN,
           }
         }),
         (e.prototype.setInitialNodeLocationFullRegular = function (t) {
@@ -5476,14 +5476,14 @@ There is no Grammar Rule corresponding to this method's name.
             startColumn: n.startColumn,
             endOffset: NaN,
             endLine: NaN,
-            endColumn: NaN
+            endColumn: NaN,
           }
         }),
         (e.prototype.cstNestedInvocationStateUpdate = function (t, n) {
           var r = {
             name: t,
             fullName: this.shortRuleNameToFull[this.getLastExplicitRuleShortName()] + t,
-            children: {}
+            children: {},
           }
           this.setInitialNodeLocation(r), this.CST_STACK.push(r)
         }),
@@ -5612,7 +5612,7 @@ There is no Grammar Rule corresponding to this method's name.
             this.reset(), (this.tokVector = t), (this.tokVectorLength = t.length)
           },
           enumerable: !0,
-          configurable: !0
+          configurable: !0,
         }),
         (e.prototype.SKIP_TOKEN = function () {
           return this.currIdx <= this.tokVector.length - 2 ? (this.consumeToken(), this.LA(1)) : xr
@@ -5910,7 +5910,7 @@ There is no Grammar Rule corresponding to this method's name.
           if ((r === void 0 && (r = wr), Fe(this.definedRulesNames, t))) {
             var i = Br.buildDuplicateRuleNameError({
                 topLevelRule: t,
-                grammarName: this.className
+                grammarName: this.className,
               }),
               a = { message: i, type: be.DUPLICATE_RULE_NAME, ruleName: t }
             this.definitionErrors.push(a)
@@ -6295,7 +6295,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
             var t = this.LA(1),
               n = this.errorMessageProvider.buildNotAllInputParsedMessage({
                 firstRedundant: t,
-                ruleName: this.getCurrRuleFullName()
+                ruleName: this.getCurrRuleFullName(),
               })
             this.SAVE_ERROR(new qi(n, t))
           }
@@ -6347,7 +6347,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
                   expected: t,
                   actual: n,
                   previous: a,
-                  ruleName: this.getCurrRuleFullName()
+                  ruleName: this.getCurrRuleFullName(),
                 })),
             this.SAVE_ERROR(new Fr(i, n, a)))
           )
@@ -6374,7 +6374,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
             lexerState: this.exportLexerState(),
             RULE_STACK: n,
             CST_STACK: this.CST_STACK,
-            LAST_EXPLICIT_RULE_STACK: this.LAST_EXPLICIT_RULE_STACK
+            LAST_EXPLICIT_RULE_STACK: this.LAST_EXPLICIT_RULE_STACK,
           }
         }),
         (e.prototype.reloadRecogState = function (t) {
@@ -6424,7 +6424,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
             return (
               (t.context = {
                 ruleStack: this.getHumanReadableRuleStack(),
-                ruleOccurrenceStack: it(this.RULE_OCCURRENCE_STACK)
+                ruleOccurrenceStack: it(this.RULE_OCCURRENCE_STACK),
               }),
               this._errors.push(t),
               t
@@ -6439,7 +6439,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
             this._errors = t
           },
           enumerable: !0,
-          configurable: !0
+          configurable: !0,
         }),
         (e.prototype.raiseEarlyExitException = function (t, n, r) {
           for (
@@ -6458,7 +6458,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
             actual: u,
             previous: this.LA(0),
             customUserDescription: r,
-            ruleName: i
+            ruleName: i,
           })
           throw this.SAVE_ERROR(new Hi(p, this.LA(1), this.LA(0)))
         }),
@@ -6479,7 +6479,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
               actual: o,
               previous: u,
               customUserDescription: n,
-              ruleName: this.getCurrRuleFullName()
+              ruleName: this.getCurrRuleFullName(),
             })
           throw this.SAVE_ERROR(new Ji(c, this.LA(1), u))
         }),
@@ -6526,7 +6526,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
   var Cf = {
       name: `This CSTNode indicates the Parser is in Recording Phase
 	See: https://sap.github.io/chevrotain/docs/guide/internals.html#grammar-recording for details`,
-      children: {}
+      children: {},
     },
     Af = (function () {
       function e() {}
@@ -6837,7 +6837,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
       errorMessageProvider: Wi,
       nodeLocationTracking: 'none',
       traceInitPerf: !1,
-      skipValidations: !1
+      skipValidations: !1,
     }),
     wr = Object.freeze({ recoveryValueFunc: function () {}, resyncEnabled: !0 }),
     be
@@ -6932,7 +6932,7 @@ Make sure that all grammar rule definitions are done before 'performSelfAnalysis
                   tokenTypes: qe(t.tokensMap),
                   ignoredIssues: t.ignoredIssues,
                   errMsgProvider: Br,
-                  grammarName: r
+                  grammarName: r,
                 })
                 t.definitionErrors.push.apply(t.definitionErrors, a)
               }
@@ -7276,7 +7276,7 @@ function ` +
           tokenLabel: fn,
           tokenMatcher: tl,
           tokenName: Qc,
-          validateGrammar: Io
+          validateGrammar: Io,
         },
         Symbol.toStringTag,
         { value: 'Module' }
@@ -7654,7 +7654,7 @@ function ` +
       Œ: 'Oe',
       œ: 'oe',
       ŉ: "'n",
-      ſ: 's'
+      ſ: 's',
     },
     yd = Dd(Ed),
     Cd = yd,
@@ -7730,7 +7730,7 @@ function ` +
         nh,
         th,
         ys,
-        ih
+        ih,
       ].join('|'),
       'g'
     )
@@ -7863,7 +7863,7 @@ function ` +
         42860, 42862, 42873, 42875, 42880, 42882, 42884, 42886, 42891, 42893, 42896, 42898, 42902,
         42904, 42906, 42908, 42910, 42912, 42914, 42916, 42918, 42920, 42934, 42936, 42938, 42940,
         42942, 42946, 119964, 119970, 120134, 120778, 12295, 66369, 66378, 36, 1423, 1547, 2555,
-        2801, 3065, 3647, 6107, 43064, 65020, 65129, 65284, 123647, 126128, 95, 8276, 65343
+        2801, 3065, 3647, 6107, 43064, 65020, 65129, 65284, 123647, 126128, 95, 8276, 65343,
       ])
     e(t, [
       [97, 122],
@@ -8483,7 +8483,7 @@ function ` +
       [73693, 73696],
       [8255, 8256],
       [65075, 65076],
-      [65101, 65103]
+      [65101, 65103],
     ])
     const r = new Set([
       1471, 1479, 1648, 1809, 2045, 2362, 2364, 2381, 2433, 2492, 2509, 2558, 2620, 2641, 2677,
@@ -8494,7 +8494,7 @@ function ` +
       43766, 44005, 44008, 44013, 64286, 66045, 66272, 68159, 69633, 70003, 70196, 70206, 70367,
       70464, 70726, 70750, 70842, 71229, 71339, 71341, 71351, 72160, 72263, 72767, 73018, 73031,
       73109, 73111, 94031, 121461, 121476, 173, 1564, 1757, 1807, 2274, 6158, 65279, 69821, 69837,
-      917505
+      917505,
     ])
     e(r, [
       [768, 879],
@@ -8720,7 +8720,7 @@ function ` +
       [78896, 78904],
       [113824, 113827],
       [119155, 119162],
-      [917536, 917631]
+      [917536, 917631],
     ]),
       e(r, [
         [0, 8],
@@ -8731,7 +8731,7 @@ function ` +
         [7616, 7679],
         [8400, 8447],
         [65056, 65071],
-        [48, 57]
+        [48, 57],
       ])
     const o = new Set(
       (function* () {
@@ -8754,7 +8754,7 @@ function ` +
   function Is(e) {
     let t = e
     return (
-      Object.keys(Qi).forEach(n => {
+      Object.keys(Qi).forEach((n) => {
         const r = Qi[n],
           i = new RegExp(`{{${n}}}`, 'g')
         t = t.replace(i, r)
@@ -8799,7 +8799,7 @@ function ` +
       name: 'Identifier',
       pattern: { exec: Uh },
       line_breaks: !1,
-      start_chars_hint: Array.from(Wr.firstIdentChar, e => String.fromCharCode(e))
+      start_chars_hint: Array.from(Wr.firstIdentChar, (e) => String.fromCharCode(e)),
     }),
     $i = [],
     ea = {}
@@ -8830,20 +8830,20 @@ function ` +
       name: 'FloatLiteral',
       pattern: Ln(
         '{{Digits}}\\.({{Digits}})?({{ExponentPart}})?({{FloatTypeSuffix}})?|\\.{{Digits}}({{ExponentPart}})?({{FloatTypeSuffix}})?|{{Digits}}{{ExponentPart}}({{FloatTypeSuffix}})?|{{Digits}}({{ExponentPart}})?{{FloatTypeSuffix}}'
-      )
+      ),
     }),
     k({ name: 'OctalLiteral', pattern: /0_*[0-7]([0-7_]*[0-7])?[lL]?/ }),
     k({
       name: 'HexFloatLiteral',
       pattern: Ln(
         '0[xX]({{HexDigits}}\\.?|({{HexDigits}})?\\.{{HexDigits}})[pP][+-]?{{Digits}}[fFdD]?'
-      )
+      ),
     }),
     k({ name: 'HexLiteral', pattern: /0[xX][0-9a-fA-F]([0-9a-fA-F_]*[0-9a-fA-F])?[lL]?/ }),
     k({ name: 'DecimalLiteral', pattern: Ln('(0|[1-9](_+{{Digits}}|({{Digits}})?))[lL]?') }),
     k({
       name: 'CharLiteral',
-      pattern: Ln("'(?:[^\\\\']|(?:(?:{{EscapeSequence}})|{{UnicodeInputCharacter}}))'")
+      pattern: Ln("'(?:[^\\\\']|(?:(?:{{EscapeSequence}})|{{UnicodeInputCharacter}}))'"),
     }),
     k({ name: 'TextBlock', pattern: /"""\s*\n(\\"|\s|.)*?"""/ }),
     k({ name: 'StringLiteral', pattern: Ln('"(?:[^\\\\"]|{{StringCharacter}})*"') }),
@@ -8860,8 +8860,8 @@ function ` +
       'with',
       'sealed',
       'non-sealed',
-      'permits'
-    ]).forEach(e => {
+      'permits',
+    ]).forEach((e) => {
       Yt({ name: e[0].toUpperCase() + Rh(e.substr(1)), pattern: e, categories: [mn, Oh] })
     }),
     Ms([
@@ -8914,8 +8914,8 @@ function ` +
       'native',
       'super',
       'while',
-      ['_', 'underscore']
-    ]).forEach(e => {
+      ['_', 'underscore'],
+    ]).forEach((e) => {
       const t = Array.isArray(e),
         n = t ? e[1] : e,
         r = t ? e[0] : e,
@@ -9003,7 +9003,7 @@ function ` +
         { ALT: () => e.CONSUME(t.CharLiteral) },
         { ALT: () => e.CONSUME(t.TextBlock) },
         { ALT: () => e.CONSUME(t.StringLiteral) },
-        { ALT: () => e.CONSUME(t.Null) }
+        { ALT: () => e.CONSUME(t.Null) },
       ])
     }),
       e.RULE('integerLiteral', () => {
@@ -9011,13 +9011,13 @@ function ` +
           { ALT: () => e.CONSUME(t.DecimalLiteral) },
           { ALT: () => e.CONSUME(t.HexLiteral) },
           { ALT: () => e.CONSUME(t.OctalLiteral) },
-          { ALT: () => e.CONSUME(t.BinaryLiteral) }
+          { ALT: () => e.CONSUME(t.BinaryLiteral) },
         ])
       }),
       e.RULE('floatingPointLiteral', () => {
         e.OR([
           { ALT: () => e.CONSUME(t.FloatLiteral) },
-          { ALT: () => e.CONSUME(t.HexFloatLiteral) }
+          { ALT: () => e.CONSUME(t.HexFloatLiteral) },
         ])
       }),
       e.RULE('booleanLiteral', () => {
@@ -9036,7 +9036,7 @@ function ` +
       e.RULE('numericType', () => {
         e.OR([
           { ALT: () => e.SUBRULE(e.integralType) },
-          { ALT: () => e.SUBRULE(e.floatingPointType) }
+          { ALT: () => e.SUBRULE(e.floatingPointType) },
         ])
       }),
       e.RULE('integralType', () => {
@@ -9045,7 +9045,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Short) },
           { ALT: () => e.CONSUME(t.Int) },
           { ALT: () => e.CONSUME(t.Long) },
-          { ALT: () => e.CONSUME(t.Char) }
+          { ALT: () => e.CONSUME(t.Char) },
         ])
       }),
       e.RULE('floatingPointType', () => {
@@ -9060,7 +9060,7 @@ function ` +
               {
                 ALT: () => {
                   e.SUBRULE(e.primitiveType), e.SUBRULE(e.dims)
-                }
+                },
               },
               {
                 ALT: () => {
@@ -9068,10 +9068,10 @@ function ` +
                     e.OPTION(() => {
                       e.SUBRULE2(e.dims)
                     })
-                }
-              }
+                },
+              },
             ],
-            IGNORE_AMBIGUITIES: !0
+            IGNORE_AMBIGUITIES: !0,
           })
       }),
       e.RULE('classOrInterfaceType', () => {
@@ -9095,7 +9095,7 @@ function ` +
                 GATE: () => kh(e.LA(2).tokenType, t.Greater) === !1,
                 DEF: () => {
                   e.SUBRULE2(e.typeArguments)
-                }
+                },
               })
           })
       }),
@@ -9122,7 +9122,7 @@ function ` +
               }),
                 e.CONSUME2(t.LSquare),
                 e.CONSUME2(t.RSquare)
-            }
+            },
           })
       }),
       e.RULE('typeParameter', () => {
@@ -9159,7 +9159,7 @@ function ` +
       e.RULE('typeArgument', () => {
         e.OR([
           { GATE: e.BACKTRACK(e.referenceType), ALT: () => e.SUBRULE(e.referenceType) },
-          { ALT: () => e.SUBRULE(e.wildcard) }
+          { ALT: () => e.SUBRULE(e.wildcard) },
         ])
       }),
       e.RULE('wildcard', () => {
@@ -9203,7 +9203,7 @@ function ` +
             GATE: () => ks(this.LA(2).tokenType, t.Identifier),
             DEF: () => {
               e.CONSUME(t.Dot), e.CONSUME2(t.Identifier)
-            }
+            },
           })
       }),
       e.RULE('methodName', () => {
@@ -9215,7 +9215,7 @@ function ` +
             GATE: () => ks(this.LA(2).tokenType, t.Star) === !1,
             DEF: () => {
               e.CONSUME(t.Dot), e.CONSUME2(t.Identifier)
-            }
+            },
           })
       }),
       e.RULE('ambiguousName', () => {
@@ -9232,7 +9232,7 @@ function ` +
       const n = e.BACKTRACK_LOOKAHEAD(e.isModuleCompilationUnit)
       e.OR([
         { GATE: () => n === !1, ALT: () => e.SUBRULE(e.ordinaryCompilationUnit) },
-        { ALT: () => e.SUBRULE(e.modularCompilationUnit) }
+        { ALT: () => e.SUBRULE(e.modularCompilationUnit) },
       ]),
         e.CONSUME(Kh)
     }),
@@ -9241,7 +9241,7 @@ function ` +
           GATE: e.BACKTRACK(e.packageDeclaration),
           DEF: () => {
             e.SUBRULE(e.packageDeclaration)
-          }
+          },
         }),
           e.MANY(() => {
             e.SUBRULE3(e.importDeclaration)
@@ -9283,9 +9283,9 @@ function ` +
                   e.CONSUME(t.Dot), e.CONSUME(t.Star)
                 }),
                 e.CONSUME(t.Semicolon)
-            }
+            },
           },
-          { ALT: () => e.SUBRULE(e.emptyStatement) }
+          { ALT: () => e.SUBRULE(e.emptyStatement) },
         ])
       }),
       e.RULE('typeDeclaration', () => {
@@ -9293,7 +9293,7 @@ function ` +
         e.OR([
           { GATE: () => n, ALT: () => e.SUBRULE(e.classDeclaration) },
           { ALT: () => e.SUBRULE(e.interfaceDeclaration) },
-          { ALT: () => e.CONSUME(t.Semicolon) }
+          { ALT: () => e.CONSUME(t.Semicolon) },
         ])
       }),
       e.RULE('moduleDeclaration', () => {
@@ -9320,7 +9320,7 @@ function ` +
           { ALT: () => e.SUBRULE(e.exportsModuleDirective) },
           { ALT: () => e.SUBRULE(e.opensModuleDirective) },
           { ALT: () => e.SUBRULE(e.usesModuleDirective) },
-          { ALT: () => e.SUBRULE(e.providesModuleDirective) }
+          { ALT: () => e.SUBRULE(e.providesModuleDirective) },
         ])
       }),
       e.RULE('requiresModuleDirective', () => {
@@ -9330,7 +9330,7 @@ function ` +
               (Un(e.LA(1).tokenType, t.Transitive) && Un(e.LA(2).tokenType, t.Separators)) === !1,
             DEF: () => {
               e.SUBRULE(e.requiresModifier)
-            }
+            },
           }),
           e.SUBRULE(e.moduleName),
           e.CONSUME(t.Semicolon)
@@ -9386,7 +9386,7 @@ function ` +
                 (Un(e.LA(1).tokenType, t.At) && Un(e.LA(2).tokenType, t.Interface)) === !1,
               DEF: () => {
                 e.SUBRULE(e.annotation)
-              }
+              },
             })
         } catch (r) {
           throw Gh(r)
@@ -9407,7 +9407,7 @@ function ` +
         e.OR([
           { ALT: () => e.SUBRULE(e.normalClassDeclaration) },
           { ALT: () => e.SUBRULE(e.enumDeclaration) },
-          { ALT: () => e.SUBRULE(e.recordDeclaration) }
+          { ALT: () => e.SUBRULE(e.recordDeclaration) },
         ])
     }),
       e.RULE('normalClassDeclaration', () => {
@@ -9438,7 +9438,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Final) },
           { ALT: () => e.CONSUME(t.Sealed) },
           { ALT: () => e.CONSUME(t.NonSealed) },
-          { ALT: () => e.CONSUME(t.Strictfp) }
+          { ALT: () => e.CONSUME(t.Strictfp) },
         ])
       }),
       e.RULE('typeParameters', () => {
@@ -9485,33 +9485,33 @@ function ` +
       semiColon: 5,
       instanceInitializer: 6,
       staticInitializer: 7,
-      constructorDeclaration: 8
+      constructorDeclaration: 8,
     }
     e.RULE('classBodyDeclaration', () => {
       const r = e.BACKTRACK_LOOKAHEAD(e.identifyClassBodyDeclarationType)
       e.OR([
         {
           GATE: () => r >= n.fieldDeclaration && r <= n.semiColon,
-          ALT: () => e.SUBRULE(e.classMemberDeclaration, { ARGS: [r] })
+          ALT: () => e.SUBRULE(e.classMemberDeclaration, { ARGS: [r] }),
         },
         { ALT: () => e.SUBRULE(e.instanceInitializer) },
         { ALT: () => e.SUBRULE(e.staticInitializer) },
         {
           GATE: () => ue(r, n.constructorDeclaration),
-          ALT: () => e.SUBRULE(e.constructorDeclaration)
-        }
+          ALT: () => e.SUBRULE(e.constructorDeclaration),
+        },
       ])
     }),
-      e.RULE('classMemberDeclaration', r => {
+      e.RULE('classMemberDeclaration', (r) => {
         e.OR([
           { GATE: () => r === n.fieldDeclaration, ALT: () => e.SUBRULE(e.fieldDeclaration) },
           { GATE: () => r === n.methodDeclaration, ALT: () => e.SUBRULE(e.methodDeclaration) },
           { GATE: () => r === n.classDeclaration, ALT: () => e.SUBRULE(e.classDeclaration) },
           {
             GATE: () => r === n.interfaceDeclaration,
-            ALT: () => e.SUBRULE(e.interfaceDeclaration)
+            ALT: () => e.SUBRULE(e.interfaceDeclaration),
           },
-          { ALT: () => e.CONSUME(t.Semicolon) }
+          { ALT: () => e.CONSUME(t.Semicolon) },
         ])
       }),
       e.RULE('fieldDeclaration', () => {
@@ -9531,7 +9531,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Static) },
           { ALT: () => e.CONSUME(t.Final) },
           { ALT: () => e.CONSUME(t.Transient) },
-          { ALT: () => e.CONSUME(t.Volatile) }
+          { ALT: () => e.CONSUME(t.Volatile) },
         ])
       }),
       e.RULE('variableDeclaratorList', () => {
@@ -9558,14 +9558,14 @@ function ` +
       e.RULE('unannType', () => {
         e.OR([
           { ALT: () => e.SUBRULE(e.unannPrimitiveTypeWithOptionalDimsSuffix) },
-          { ALT: () => e.SUBRULE(e.unannReferenceType) }
+          { ALT: () => e.SUBRULE(e.unannReferenceType) },
         ])
       }),
       e.RULE('unannPrimitiveTypeWithOptionalDimsSuffix', () => {
         e.SUBRULE(e.unannPrimitiveType),
           e.OPTION({
             GATE: () => this.BACKTRACK_LOOKAHEAD(e.isDims),
-            DEF: () => e.SUBRULE2(e.dims)
+            DEF: () => e.SUBRULE2(e.dims),
           })
       }),
       e.RULE('unannPrimitiveType', () => {
@@ -9575,7 +9575,7 @@ function ` +
         e.SUBRULE(e.unannClassOrInterfaceType),
           e.OPTION({
             GATE: () => this.BACKTRACK_LOOKAHEAD(e.isDims),
-            DEF: () => e.SUBRULE2(e.dims)
+            DEF: () => e.SUBRULE2(e.dims),
           })
       }),
       e.RULE('unannClassOrInterfaceType', () => {
@@ -9621,7 +9621,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Final) },
           { ALT: () => e.CONSUME(t.Synchronized) },
           { ALT: () => e.CONSUME(t.Native) },
-          { ALT: () => e.CONSUME(t.Strictfp) }
+          { ALT: () => e.CONSUME(t.Strictfp) },
         ])
       }),
       e.RULE('methodHeader', () => {
@@ -9671,9 +9671,9 @@ function ` +
         e.OR([
           {
             GATE: e.BACKTRACK(e.variableParaRegularParameter),
-            ALT: () => e.SUBRULE(e.variableParaRegularParameter)
+            ALT: () => e.SUBRULE(e.variableParaRegularParameter),
           },
-          { ALT: () => e.SUBRULE(e.variableArityParameter) }
+          { ALT: () => e.SUBRULE(e.variableArityParameter) },
         ])
       }),
       e.RULE('variableParaRegularParameter', () => {
@@ -9733,7 +9733,7 @@ function ` +
           { ALT: () => e.SUBRULE(e.annotation) },
           { ALT: () => e.CONSUME(t.Public) },
           { ALT: () => e.CONSUME(t.Protected) },
-          { ALT: () => e.CONSUME(t.Private) }
+          { ALT: () => e.CONSUME(t.Private) },
         ])
       }),
       e.RULE('constructorDeclarator', () => {
@@ -9746,7 +9746,7 @@ function ` +
             GATE: e.BACKTRACK(e.receiverParameter),
             DEF: () => {
               e.SUBRULE(e.receiverParameter), e.CONSUME(t.Comma)
-            }
+            },
           }),
           e.OPTION3(() => {
             e.SUBRULE(e.formalParameterList)
@@ -9762,7 +9762,7 @@ function ` +
             GATE: e.BACKTRACK(e.explicitConstructorInvocation),
             DEF: () => {
               e.SUBRULE(e.explicitConstructorInvocation)
-            }
+            },
           }),
           e.OPTION2(() => {
             e.SUBRULE(e.blockStatements)
@@ -9772,7 +9772,7 @@ function ` +
       e.RULE('explicitConstructorInvocation', () => {
         e.OR([
           { ALT: () => e.SUBRULE(e.unqualifiedExplicitConstructorInvocation) },
-          { ALT: () => e.SUBRULE(e.qualifiedExplicitConstructorInvocation) }
+          { ALT: () => e.SUBRULE(e.qualifiedExplicitConstructorInvocation) },
         ])
       }),
       e.RULE('unqualifiedExplicitConstructorInvocation', () => {
@@ -9834,7 +9834,7 @@ function ` +
             },
             DEF: () => {
               e.CONSUME(t.Comma), e.SUBRULE2(e.enumConstant)
-            }
+            },
           })
       }),
       e.RULE('enumConstant', () => {
@@ -9894,7 +9894,7 @@ function ` +
           e.SUBRULE(e.unannType),
           e.OR([
             { ALT: () => e.CONSUME(t.Identifier) },
-            { ALT: () => e.SUBRULE(e.variableArityRecordComponent) }
+            { ALT: () => e.SUBRULE(e.variableArityRecordComponent) },
           ])
       }),
       e.RULE('variableArityRecordComponent', () => {
@@ -9918,9 +9918,9 @@ function ` +
         e.OR([
           {
             GATE: () => this.BACKTRACK_LOOKAHEAD(e.isCompactConstructorDeclaration),
-            ALT: () => e.SUBRULE(e.compactConstructorDeclaration)
+            ALT: () => e.SUBRULE(e.compactConstructorDeclaration),
           },
-          { ALT: () => e.SUBRULE(e.classBodyDeclaration) }
+          { ALT: () => e.SUBRULE(e.classBodyDeclaration) },
         ])
       }),
       e.RULE('compactConstructorDeclaration', () => {
@@ -9940,7 +9940,7 @@ function ` +
             GATE: () => (ue(e.LA(1).tokenType, t.At) && ue(e.LA(2).tokenType, t.Interface)) === !1,
             DEF: () => {
               e.SUBRULE(e.classModifier)
-            }
+            },
           })
         } catch (a) {
           throw qh(a)
@@ -9979,7 +9979,7 @@ function ` +
                   {
                     GATE: () =>
                       (ue(e.LA(1).tokenType, t.At) && ue(e.LA(2).tokenType, t.Interface)) === !1,
-                    ALT: () => e.SUBRULE(e.annotation)
+                    ALT: () => e.SUBRULE(e.annotation),
                   },
                   { ALT: () => e.CONSUME(t.Public) },
                   { ALT: () => e.CONSUME(t.Protected) },
@@ -9993,9 +9993,9 @@ function ` +
                   { ALT: () => e.CONSUME(t.Native) },
                   { ALT: () => e.CONSUME(t.Sealed) },
                   { ALT: () => e.CONSUME(t.NonSealed) },
-                  { ALT: () => e.CONSUME(t.Strictfp) }
+                  { ALT: () => e.CONSUME(t.Strictfp) },
                 ])
-              }
+              },
             }),
             (r = this.LA(1).tokenType),
             (i = this.LA(2).tokenType),
@@ -10046,11 +10046,11 @@ function ` +
         DEF: () => {
           e.SUBRULE(e.interfaceModifier)
         },
-        MAX_LOOKAHEAD: 2
+        MAX_LOOKAHEAD: 2,
       }),
         e.OR([
           { ALT: () => e.SUBRULE(e.normalInterfaceDeclaration) },
-          { ALT: () => e.SUBRULE(e.annotationTypeDeclaration) }
+          { ALT: () => e.SUBRULE(e.annotationTypeDeclaration) },
         ])
     }),
       e.RULE('normalInterfaceDeclaration', () => {
@@ -10077,7 +10077,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Static) },
           { ALT: () => e.CONSUME(t.Sealed) },
           { ALT: () => e.CONSUME(t.NonSealed) },
-          { ALT: () => e.CONSUME(t.Strictfp) }
+          { ALT: () => e.CONSUME(t.Strictfp) },
         ])
       }),
       e.RULE('extendsInterfaces', () => {
@@ -10103,7 +10103,7 @@ function ` +
       interfaceMethodDeclaration: 2,
       classDeclaration: 3,
       interfaceDeclaration: 4,
-      semiColon: 5
+      semiColon: 5,
     }
     e.RULE('interfaceMemberDeclaration', () => {
       const i = this.BACKTRACK_LOOKAHEAD(e.identifyInterfaceBodyDeclarationType)
@@ -10111,11 +10111,11 @@ function ` +
         { GATE: () => i === n.constantDeclaration, ALT: () => e.SUBRULE(e.constantDeclaration) },
         {
           GATE: () => i === n.interfaceMethodDeclaration,
-          ALT: () => e.SUBRULE(e.interfaceMethodDeclaration)
+          ALT: () => e.SUBRULE(e.interfaceMethodDeclaration),
         },
         { GATE: () => i === n.classDeclaration, ALT: () => e.SUBRULE(e.classDeclaration) },
         { GATE: () => i === n.interfaceDeclaration, ALT: () => e.SUBRULE(e.interfaceDeclaration) },
-        { ALT: () => e.CONSUME(t.Semicolon) }
+        { ALT: () => e.CONSUME(t.Semicolon) },
       ])
     }),
       e.RULE('constantDeclaration', () => {
@@ -10131,7 +10131,7 @@ function ` +
           { ALT: () => e.SUBRULE(e.annotation) },
           { ALT: () => e.CONSUME(t.Public) },
           { ALT: () => e.CONSUME(t.Static) },
-          { ALT: () => e.CONSUME(t.Final) }
+          { ALT: () => e.CONSUME(t.Final) },
         ])
       }),
       e.RULE('interfaceMethodDeclaration', () => {
@@ -10149,7 +10149,7 @@ function ` +
           { ALT: () => e.CONSUME(t.Abstract) },
           { ALT: () => e.CONSUME(t.Default) },
           { ALT: () => e.CONSUME(t.Static) },
-          { ALT: () => e.CONSUME(t.Strictfp) }
+          { ALT: () => e.CONSUME(t.Strictfp) },
         ])
       }),
       e.RULE('annotationTypeDeclaration', () => {
@@ -10171,19 +10171,19 @@ function ` +
       constantDeclaration: 1,
       classDeclaration: 3,
       interfaceDeclaration: 4,
-      semiColon: 5
+      semiColon: 5,
     }
     e.RULE('annotationTypeMemberDeclaration', () => {
       const i = this.BACKTRACK_LOOKAHEAD(e.identifyAnnotationBodyDeclarationType)
       e.OR([
         {
           GATE: () => i === r.annotationTypeElementDeclaration,
-          ALT: () => e.SUBRULE(e.annotationTypeElementDeclaration)
+          ALT: () => e.SUBRULE(e.annotationTypeElementDeclaration),
         },
         { GATE: () => i === r.constantDeclaration, ALT: () => e.SUBRULE(e.constantDeclaration) },
         { GATE: () => i === r.classDeclaration, ALT: () => e.SUBRULE(e.classDeclaration) },
         { GATE: () => i === r.interfaceDeclaration, ALT: () => e.SUBRULE(e.interfaceDeclaration) },
-        { ALT: () => e.CONSUME(t.Semicolon) }
+        { ALT: () => e.CONSUME(t.Semicolon) },
       ])
     }),
       e.RULE('annotationTypeElementDeclaration', () => {
@@ -10206,7 +10206,7 @@ function ` +
         e.OR([
           { ALT: () => e.SUBRULE(e.annotation) },
           { ALT: () => e.CONSUME(t.Public) },
-          { ALT: () => e.CONSUME(t.Abstract) }
+          { ALT: () => e.CONSUME(t.Abstract) },
         ])
       }),
       e.RULE('defaultValue', () => {
@@ -10221,10 +10221,10 @@ function ` +
                 DEF: [
                   { ALT: () => e.SUBRULE(e.elementValuePairList) },
                   { ALT: () => e.SUBRULE(e.elementValue) },
-                  { ALT: () => {} }
+                  { ALT: () => {} },
                 ],
                 IGNORE_AMBIGUITIES: !0,
-                MAX_LOOKAHEAD: 2
+                MAX_LOOKAHEAD: 2,
               }),
               e.CONSUME(t.RBrace)
           })
@@ -10243,7 +10243,7 @@ function ` +
         e.OR([
           { GATE: () => i === !1, ALT: () => e.SUBRULE(e.expression) },
           { ALT: () => e.SUBRULE(e.elementValueArrayInitializer) },
-          { GATE: () => i === !0, ALT: () => e.SUBRULE(e.annotation) }
+          { GATE: () => i === !0, ALT: () => e.SUBRULE(e.annotation) },
         ])
       }),
       e.RULE('elementValueArrayInitializer', () => {
@@ -10262,7 +10262,7 @@ function ` +
             GATE: () => ye(e.LA(2).tokenType, t.RCurly) === !1,
             DEF: () => {
               e.CONSUME(t.Comma), e.SUBRULE2(e.elementValue)
-            }
+            },
           })
       }),
       e.RULE('identifyInterfaceBodyDeclarationType', () => {
@@ -10283,9 +10283,9 @@ function ` +
                 { ALT: () => e.CONSUME(t.NonSealed) },
                 { ALT: () => e.CONSUME(t.Strictfp) },
                 { ALT: () => e.CONSUME(t.Final) },
-                { ALT: () => e.CONSUME(t.Default) }
+                { ALT: () => e.CONSUME(t.Default) },
               ])
-            }
+            },
           }),
           (i = this.LA(1).tokenType),
           ye(i, t.Class) || ye(i, t.Enum) || ye(i, t.Record))
@@ -10317,9 +10317,9 @@ function ` +
                 { ALT: () => e.CONSUME(t.Abstract) },
                 { ALT: () => e.CONSUME(t.Static) },
                 { ALT: () => e.CONSUME(t.Final) },
-                { ALT: () => e.CONSUME(t.Strictfp) }
+                { ALT: () => e.CONSUME(t.Strictfp) },
               ])
-            }
+            },
           }),
           (i = this.LA(1).tokenType),
           ye(i, t.Class) || ye(i, t.Enum))
@@ -10365,7 +10365,7 @@ function ` +
             GATE: () => Zh(this.LA(2).tokenType, t.RCurly) === !1,
             DEF: () => {
               e.CONSUME(t.Comma), e.SUBRULE2(e.variableInitializer)
-            }
+            },
           })
       })
   }
@@ -10393,9 +10393,9 @@ function ` +
             { GATE: () => n, ALT: () => e.SUBRULE(e.localVariableDeclarationStatement) },
             { GATE: () => r, ALT: () => e.SUBRULE(e.classDeclaration) },
             { ALT: () => e.SUBRULE(e.interfaceDeclaration) },
-            { ALT: () => e.SUBRULE(e.statement) }
+            { ALT: () => e.SUBRULE(e.statement) },
           ],
-          IGNORE_AMBIGUITIES: !0
+          IGNORE_AMBIGUITIES: !0,
         })
       }),
       e.RULE('localVariableDeclarationStatement', () => {
@@ -10411,7 +10411,7 @@ function ` +
       e.RULE('localVariableType', () => {
         e.OR({
           DEF: [{ ALT: () => e.SUBRULE(e.unannType) }, { ALT: () => e.CONSUME(t.Var) }],
-          IGNORE_AMBIGUITIES: !0
+          IGNORE_AMBIGUITIES: !0,
         })
       }),
       e.RULE('statement', () => {
@@ -10421,9 +10421,9 @@ function ` +
             { ALT: () => e.SUBRULE(e.labeledStatement) },
             { ALT: () => e.SUBRULE(e.ifStatement) },
             { ALT: () => e.SUBRULE(e.whileStatement) },
-            { ALT: () => e.SUBRULE(e.forStatement) }
+            { ALT: () => e.SUBRULE(e.forStatement) },
           ],
-          MAX_LOOKAHEAD: 2
+          MAX_LOOKAHEAD: 2,
         })
       }),
       e.RULE('statementWithoutTrailingSubstatement', () => {
@@ -10432,12 +10432,12 @@ function ` +
             { ALT: () => e.SUBRULE(e.block) },
             {
               GATE: () => this.BACKTRACK_LOOKAHEAD(e.yieldStatement),
-              ALT: () => e.SUBRULE(e.yieldStatement)
+              ALT: () => e.SUBRULE(e.yieldStatement),
             },
             { ALT: () => e.SUBRULE(e.emptyStatement) },
             {
               GATE: () => !On(this.LA(1).tokenType, t.Switch),
-              ALT: () => e.SUBRULE(e.expressionStatement)
+              ALT: () => e.SUBRULE(e.expressionStatement),
             },
             { ALT: () => e.SUBRULE(e.assertStatement) },
             { ALT: () => e.SUBRULE(e.switchStatement) },
@@ -10447,9 +10447,9 @@ function ` +
             { ALT: () => e.SUBRULE(e.returnStatement) },
             { ALT: () => e.SUBRULE(e.synchronizedStatement) },
             { ALT: () => e.SUBRULE(e.throwStatement) },
-            { ALT: () => e.SUBRULE(e.tryStatement) }
+            { ALT: () => e.SUBRULE(e.tryStatement) },
           ],
-          IGNORE_AMBIGUITIES: !0
+          IGNORE_AMBIGUITIES: !0,
         })
       }),
       e.RULE('emptyStatement', () => {
@@ -10494,9 +10494,9 @@ function ` +
           e.OR([
             {
               GATE: () => this.BACKTRACK_LOOKAHEAD(e.isClassicSwitchLabel),
-              ALT: () => e.MANY(() => e.SUBRULE(e.switchBlockStatementGroup))
+              ALT: () => e.MANY(() => e.SUBRULE(e.switchBlockStatementGroup)),
             },
-            { ALT: () => e.MANY2(() => e.SUBRULE(e.switchRule)) }
+            { ALT: () => e.MANY2(() => e.SUBRULE(e.switchRule)) },
           ]),
           e.CONSUME(t.RCurly)
       }),
@@ -10515,7 +10515,7 @@ function ` +
               (On(e.LA(2).tokenType, t.Case) || On(e.LA(2).tokenType, t.Default)),
             DEF: () => {
               e.CONSUME(t.Colon), e.SUBRULE2(e.caseOrDefaultLabel)
-            }
+            },
           })
       }),
       e.RULE('caseOrDefaultLabel', () => {
@@ -10527,9 +10527,9 @@ function ` +
                 e.MANY(() => {
                   e.CONSUME(t.Comma), e.SUBRULE2(e.caseLabelElement)
                 })
-            }
+            },
           },
-          { ALT: () => e.CONSUME(t.Default) }
+          { ALT: () => e.CONSUME(t.Default) },
         ])
       }),
       e.RULE('caseLabelElement', () => {
@@ -10537,7 +10537,10 @@ function ` +
           { ALT: () => e.CONSUME(t.Null) },
           { ALT: () => e.CONSUME(t.Default) },
           { GATE: () => this.BACKTRACK_LOOKAHEAD(e.pattern), ALT: () => e.SUBRULE(e.pattern) },
-          { GATE: () => On(e.LA(1).tokenType, t.Null) === !1, ALT: () => e.SUBRULE(e.caseConstant) }
+          {
+            GATE: () => On(e.LA(1).tokenType, t.Null) === !1,
+            ALT: () => e.SUBRULE(e.caseConstant),
+          },
         ])
       }),
       e.RULE('switchRule', () => {
@@ -10549,8 +10552,8 @@ function ` +
             {
               ALT: () => {
                 e.SUBRULE(e.expression), e.CONSUME(t.Semicolon)
-              }
-            }
+              },
+            },
           ])
       }),
       e.RULE('caseConstant', () => {
@@ -10576,9 +10579,9 @@ function ` +
         e.OR([
           {
             GATE: () => this.BACKTRACK_LOOKAHEAD(e.isBasicForStatement),
-            ALT: () => e.SUBRULE(e.basicForStatement)
+            ALT: () => e.SUBRULE(e.basicForStatement),
           },
-          { ALT: () => e.SUBRULE(e.enhancedForStatement) }
+          { ALT: () => e.SUBRULE(e.enhancedForStatement) },
         ])
       }),
       e.RULE('basicForStatement', () => {
@@ -10602,9 +10605,9 @@ function ` +
         e.OR([
           {
             GATE: () => e.BACKTRACK_LOOKAHEAD(e.isLocalVariableDeclaration),
-            ALT: () => e.SUBRULE(e.localVariableDeclaration)
+            ALT: () => e.SUBRULE(e.localVariableDeclaration),
           },
-          { ALT: () => e.SUBRULE(e.statementExpressionList) }
+          { ALT: () => e.SUBRULE(e.statementExpressionList) },
         ])
       }),
       e.RULE('forUpdate', () => {
@@ -10674,15 +10677,15 @@ function ` +
                           e.OPTION(() => {
                             e.SUBRULE(e.finally)
                           })
-                      }
+                      },
                     },
-                    { ALT: () => e.SUBRULE2(e.finally) }
+                    { ALT: () => e.SUBRULE2(e.finally) },
                   ])
-              }
+              },
             },
-            { ALT: () => e.SUBRULE(e.tryWithResourcesStatement) }
+            { ALT: () => e.SUBRULE(e.tryWithResourcesStatement) },
           ],
-          MAX_LOOKAHEAD: 2
+          MAX_LOOKAHEAD: 2,
         })
       }),
       e.RULE('catches', () => {
@@ -10739,13 +10742,13 @@ function ` +
             GATE: () => On(e.LA(2).tokenType, t.RBrace) === !1,
             DEF: () => {
               e.CONSUME(t.Semicolon), e.SUBRULE2(e.resource)
-            }
+            },
           })
       }),
       e.RULE('resource', () => {
         e.OR([
           { GATE: e.BACKTRACK(e.resourceInit), ALT: () => e.SUBRULE(e.resourceInit) },
-          { ALT: () => e.SUBRULE(e.variableAccess) }
+          { ALT: () => e.SUBRULE(e.variableAccess) },
         ])
       }),
       e.RULE('resourceInit', () => {
@@ -10803,9 +10806,9 @@ function ` +
       e.OR([
         {
           GATE: () => this.BACKTRACK_LOOKAHEAD(e.isLambdaExpression),
-          ALT: () => e.SUBRULE(e.lambdaExpression)
+          ALT: () => e.SUBRULE(e.lambdaExpression),
         },
-        { ALT: () => e.SUBRULE(e.ternaryExpression) }
+        { ALT: () => e.SUBRULE(e.ternaryExpression) },
       ])
     }),
       e.RULE('lambdaExpression', () => {
@@ -10814,7 +10817,7 @@ function ` +
       e.RULE('lambdaParameters', () => {
         e.OR([
           { ALT: () => e.SUBRULE(e.lambdaParametersWithBraces) },
-          { ALT: () => e.CONSUME(t.Identifier) }
+          { ALT: () => e.CONSUME(t.Identifier) },
         ])
       }),
       e.RULE('lambdaParametersWithBraces', () => {
@@ -10832,9 +10835,9 @@ function ` +
                 i = this.LA(2).tokenType
               return Le(r, t.Identifier) && (Le(i, t.RBrace) || Le(i, t.Comma))
             },
-            ALT: () => e.SUBRULE(e.inferredLambdaParameterList)
+            ALT: () => e.SUBRULE(e.inferredLambdaParameterList),
           },
-          { ALT: () => e.SUBRULE(e.explicitLambdaParameterList) }
+          { ALT: () => e.SUBRULE(e.explicitLambdaParameterList) },
         ])
       }),
       e.RULE('inferredLambdaParameterList', () => {
@@ -10853,9 +10856,9 @@ function ` +
         e.OR([
           {
             GATE: e.BACKTRACK(e.regularLambdaParameter),
-            ALT: () => e.SUBRULE(e.regularLambdaParameter)
+            ALT: () => e.SUBRULE(e.regularLambdaParameter),
           },
-          { ALT: () => e.SUBRULE(e.variableArityParameter) }
+          { ALT: () => e.SUBRULE(e.variableArityParameter) },
         ])
       }),
       e.RULE('regularLambdaParameter', () => {
@@ -10868,7 +10871,7 @@ function ` +
       e.RULE('lambdaParameterType', () => {
         e.OR({
           DEF: [{ ALT: () => e.SUBRULE(e.unannType) }, { ALT: () => e.CONSUME(t.Var) }],
-          IGNORE_AMBIGUITIES: !0
+          IGNORE_AMBIGUITIES: !0,
         })
       }),
       e.RULE('lambdaBody', () => {
@@ -10894,16 +10897,16 @@ function ` +
                       e.OR1([
                         {
                           GATE: () => this.BACKTRACK_LOOKAHEAD(e.pattern),
-                          ALT: () => e.SUBRULE(e.pattern)
+                          ALT: () => e.SUBRULE(e.pattern),
                         },
-                        { ALT: () => e.SUBRULE(e.referenceType) }
+                        { ALT: () => e.SUBRULE(e.referenceType) },
                       ])
-                  }
+                  },
                 },
                 {
                   ALT: () => {
                     e.CONSUME(t.AssignmentOperator), e.SUBRULE2(e.expression)
-                  }
+                  },
                 },
                 {
                   GATE: () => Le(e.LA(2).tokenType, t.Less) || Le(e.LA(2).tokenType, t.Greater),
@@ -10913,7 +10916,7 @@ function ` +
                         GATE: () => e.LA(1).startOffset + 1 === e.LA(2).startOffset,
                         ALT: () => {
                           e.CONSUME(t.Less), e.CONSUME2(t.Less)
-                        }
+                        },
                       },
                       {
                         GATE: () => e.LA(1).startOffset + 1 === e.LA(2).startOffset,
@@ -10922,21 +10925,21 @@ function ` +
                             e.CONSUME2(t.Greater),
                             e.OPTION({
                               GATE: () => e.LA(0).startOffset + 1 === e.LA(1).startOffset,
-                              DEF: () => e.CONSUME3(t.Greater)
+                              DEF: () => e.CONSUME3(t.Greater),
                             })
-                        }
-                      }
+                        },
+                      },
                     ]),
                       e.SUBRULE2(e.unaryExpression)
-                  }
+                  },
                 },
                 {
                   ALT: () => {
                     e.CONSUME(t.BinaryOperator), e.SUBRULE3(e.unaryExpression)
-                  }
-                }
+                  },
+                },
               ],
-              IGNORE_AMBIGUITIES: !0
+              IGNORE_AMBIGUITIES: !0,
             })
           })
       }),
@@ -10976,7 +10979,7 @@ function ` +
             { GATE: () => r, ALT: () => e.SUBRULE(e.castExpression) },
             { ALT: () => e.SUBRULE(e.parenthesisExpression) },
             { ALT: () => e.SUBRULE(e.newExpression) },
-            { ALT: () => e.SUBRULE(e.switchStatement) }
+            { ALT: () => e.SUBRULE(e.switchStatement) },
           ])
       }),
       e.RULE('primarySuffix', () => {
@@ -10994,17 +10997,17 @@ function ` +
                           e.SUBRULE(e.typeArguments)
                         }),
                           e.CONSUME(t.Identifier)
-                      }
-                    }
+                      },
+                    },
                   ])
-              }
+              },
             },
             { ALT: () => e.SUBRULE(e.methodInvocationSuffix) },
             { ALT: () => e.SUBRULE(e.classLiteralSuffix) },
             { ALT: () => e.SUBRULE(e.arrayAccessSuffix) },
-            { ALT: () => e.SUBRULE(e.methodReferenceSuffix) }
+            { ALT: () => e.SUBRULE(e.methodReferenceSuffix) },
           ],
-          MAX_LOOKAHEAD: 2
+          MAX_LOOKAHEAD: 2,
         })
       }),
       e.RULE('fqnOrRefType', () => {
@@ -11016,13 +11019,13 @@ function ` +
               Le(this.LA(2).tokenType, t.New) === !1,
             DEF: () => {
               e.CONSUME(t.Dot), e.SUBRULE2(e.fqnOrRefTypePartRest)
-            }
+            },
           }),
           e.OPTION({
             GATE: () => Le(e.LA(1).tokenType, t.At) || Le(e.LA(2).tokenType, t.RSquare),
             DEF: () => {
               e.SUBRULE(e.dims)
-            }
+            },
           })
       }),
       e.RULE('fqnOrRefTypePartRest', () => {
@@ -11040,7 +11043,7 @@ function ` +
             GATE: () => r,
             DEF: () => {
               e.SUBRULE3(e.typeArguments)
-            }
+            },
           })
       }),
       e.RULE('fqnOrRefTypePartFirst', () => {
@@ -11056,9 +11059,9 @@ function ` +
         e.OR([
           {
             GATE: () => this.BACKTRACK_LOOKAHEAD(e.isPrimitiveCastExpression),
-            ALT: () => e.SUBRULE(e.primitiveCastExpression)
+            ALT: () => e.SUBRULE(e.primitiveCastExpression),
           },
-          { ALT: () => e.SUBRULE(e.referenceTypeCastExpression) }
+          { ALT: () => e.SUBRULE(e.referenceTypeCastExpression) },
         ])
       }),
       e.RULE('primitiveCastExpression', () => {
@@ -11077,9 +11080,9 @@ function ` +
           e.OR([
             {
               GATE: () => this.BACKTRACK_LOOKAHEAD(e.isLambdaExpression),
-              ALT: () => e.SUBRULE(e.lambdaExpression)
+              ALT: () => e.SUBRULE(e.lambdaExpression),
             },
-            { ALT: () => e.SUBRULE(e.unaryExpressionNotPlusMinus) }
+            { ALT: () => e.SUBRULE(e.unaryExpressionNotPlusMinus) },
           ])
       })
     const n = { arrayCreationExpression: 1, unqualifiedClassInstanceCreationExpression: 2 }
@@ -11088,12 +11091,12 @@ function ` +
       e.OR([
         {
           GATE: () => r === n.arrayCreationExpression,
-          ALT: () => e.SUBRULE(e.arrayCreationExpression)
+          ALT: () => e.SUBRULE(e.arrayCreationExpression),
         },
         {
           GATE: () => r === n.unqualifiedClassInstanceCreationExpression,
-          ALT: () => e.SUBRULE(e.unqualifiedClassInstanceCreationExpression)
-        }
+          ALT: () => e.SUBRULE(e.unqualifiedClassInstanceCreationExpression),
+        },
       ])
     }),
       e.RULE('unqualifiedClassInstanceCreationExpression', () => {
@@ -11130,7 +11133,7 @@ function ` +
       e.RULE('typeArgumentsOrDiamond', () => {
         e.OR({
           DEF: [{ ALT: () => e.SUBRULE(e.diamond) }, { ALT: () => e.SUBRULE(e.typeArguments) }],
-          MAX_LOOKAHEAD: 2
+          MAX_LOOKAHEAD: 2,
         })
       }),
       e.RULE('diamond', () => {
@@ -11153,14 +11156,14 @@ function ` +
         e.CONSUME(t.New),
           e.OR([
             { GATE: e.BACKTRACK(e.primitiveType), ALT: () => e.SUBRULE(e.primitiveType) },
-            { ALT: () => e.SUBRULE(e.classOrInterfaceType) }
+            { ALT: () => e.SUBRULE(e.classOrInterfaceType) },
           ]),
           e.OR2([
             {
               GATE: e.BACKTRACK(e.arrayCreationDefaultInitSuffix),
-              ALT: () => e.SUBRULE(e.arrayCreationDefaultInitSuffix)
+              ALT: () => e.SUBRULE(e.arrayCreationDefaultInitSuffix),
             },
-            { ALT: () => e.SUBRULE(e.arrayCreationExplicitInitSuffix) }
+            { ALT: () => e.SUBRULE(e.arrayCreationExplicitInitSuffix) },
           ])
       }),
       e.RULE('arrayCreationDefaultInitSuffix', () => {
@@ -11176,7 +11179,7 @@ function ` +
         e.SUBRULE(e.dimExpr),
           e.MANY({
             GATE: () => Le(e.LA(2).tokenType, t.RSquare) === !1,
-            DEF: () => e.SUBRULE2(e.dimExpr)
+            DEF: () => e.SUBRULE2(e.dimExpr),
           })
       }),
       e.RULE('dimExpr', () => {
@@ -11215,9 +11218,9 @@ function ` +
           {
             ALT: () => {
               e.CONSUME(t.LBrace), e.SUBRULE(e.pattern), e.CONSUME(t.RBrace)
-            }
+            },
           },
-          { ALT: () => e.SUBRULE(e.typePattern) }
+          { ALT: () => e.SUBRULE(e.typePattern) },
         ])
       }),
       e.RULE('typePattern', () => {
@@ -11263,7 +11266,7 @@ function ` +
           }),
           e.CONSUME(t.RBrace)
         const r = this.LA(1).tokenType
-        return this.firstForUnaryExpressionNotPlusMinus.find(i => Le(r, i)) !== void 0
+        return this.firstForUnaryExpressionNotPlusMinus.find((i) => Le(r, i)) !== void 0
       }),
       e.RULE('isRefTypeInMethodRef', () => {
         let r
@@ -11286,7 +11289,7 @@ function ` +
   }
   function rm() {
     return this.computeContentAssist('unaryExpressionNotPlusMinus', [])
-      .map(n => n.nextTokenType)
+      .map((n) => n.nextTokenType)
       .filter((n, r, i) => i.indexOf(n) === r)
   }
   var im = { defineRules: nm, computeFirstForUnaryExpressionNotPlusMinus: rm }
@@ -11828,7 +11831,7 @@ function ` +
       },
       set exports(e) {
         ur = e
-      }
+      },
     }
   function XE() {
     return !1
@@ -11922,7 +11925,7 @@ function ` +
       },
       set exports(e) {
         Qr = e
-      }
+      },
     }
   ;(function (e, t) {
     var n = zo,
@@ -12527,14 +12530,14 @@ function ` +
     )
   }
   function R2(e, t, n) {
-    e.forEach(r => {
+    e.forEach((r) => {
       t[r.startOffset] === void 0 && (t[r.startOffset] = r),
         n[r.endOffset] === void 0 && (n[r.endOffset] = r)
     })
   }
   function U2(e, t) {
     let n
-    e.forEach(r => {
+    e.forEach((r) => {
       n = g2(t, r)
       const i = n - 1 < 0 ? r.startOffset : t[n - 1].endOffset,
         a = n == t.length ? r.endOffset : t[n].startOffset
@@ -12545,7 +12548,7 @@ function ` +
     const t = {},
       n = {}
     return (
-      e.forEach(r => {
+      e.forEach((r) => {
         const i = r.extendedOffset.startOffset,
           a = r.extendedOffset.endOffset
         t[a] === void 0 ? (t[a] = [r]) : t[a].push(r), n[i] === void 0 ? (n[i] = [r]) : n[i].push(r)
@@ -12570,18 +12573,18 @@ function ` +
     R2(e, n, r), U2(t, e)
     const { commentsByExtendedStartOffset: i, commentsByExtendedEndOffset: a } = O2(t),
       o = new Set(t)
-    Object.keys(r).forEach(s => {
+    Object.keys(r).forEach((s) => {
       if (i[s] !== void 0) {
-        const u = i[s].filter(c => N2(c, r[s], n) && o.has(c))
+        const u = i[s].filter((c) => N2(c, r[s], n) && o.has(c))
         u.length > 0 && (r[s].trailingComments = u),
-          u.forEach(c => {
+          u.forEach((c) => {
             o.delete(c)
           })
       }
     }),
-      Object.keys(n).forEach(s => {
+      Object.keys(n).forEach((s) => {
         if (a[s] !== void 0) {
-          const u = a[s].filter(c => o.has(c))
+          const u = a[s].filter((c) => o.has(c))
           u.length > 0 && (n[s].leadingComments = u)
           for (let c = 0; c < u.length; c++)
             if (Nu(u[c])) {
@@ -12592,13 +12595,13 @@ function ` +
       })
   }
   function I2(e) {
-    const t = e.filter(o => L2(o))
+    const t = e.filter((o) => L2(o))
     let n = !1,
       r = !0
     const i = []
     let a = {}
     return (
-      t.forEach(o => {
+      t.forEach((o) => {
         ;(r = o.image.slice(-3) === 'off'),
           n ? r || ((a.on = o), i.push(a), (a = {})) : r && (a.off = o),
           (n = r)
@@ -12608,7 +12611,7 @@ function ` +
     )
   }
   function B2(e, t) {
-    const n = T2(t, r => r.off.endOffset < e.location.startOffset)
+    const n = T2(t, (r) => r.off.endOffset < e.location.startOffset)
     n !== void 0 && (n.on === void 0 || n.on.startOffset > e.location.endOffset) && (e.ignore = !0)
   }
   var _u = { matchFormatterOffOnPairs: I2, shouldNotFormat: B2, attachComments: _2 }
@@ -12741,7 +12744,7 @@ function ` +
       },
       set exports(e) {
         yt = e
-      }
+      },
     }
   ;(function (e, t) {
     ;(function (n) {
@@ -12783,7 +12786,7 @@ function ` +
                 (q = N != null ? s(f(N)) : {}),
                 T(X || !N || !N.__esModule ? u(q, 'default', { value: N, enumerable: !0 }) : q, N)
               ),
-              R = N => T(u({}, '__esModule', { value: !0 }), N),
+              R = (N) => T(u({}, '__esModule', { value: !0 }), N),
               U = C({ '<define:process>'() {} }),
               j = A({
                 'src/document/doc-builders.js'(N, X) {
@@ -12804,7 +12807,7 @@ function ` +
                       id: h.id,
                       contents: Z,
                       break: !!h.shouldBreak,
-                      expandedStates: h.expandedStates
+                      expandedStates: h.expandedStates,
                     }
                   }
                   function J(Z) {
@@ -12828,7 +12831,7 @@ function ` +
                       type: 'if-break',
                       breakContents: Z,
                       flatContents: h,
-                      groupId: y.groupId
+                      groupId: y.groupId,
                     }
                   }
                   function fe(Z, h) {
@@ -12836,7 +12839,7 @@ function ` +
                       type: 'indent-if-break',
                       contents: Z,
                       groupId: h.groupId,
-                      negate: h.negate
+                      negate: h.negate,
                     }
                   }
                   function De(Z) {
@@ -12893,9 +12896,9 @@ function ` +
                     dedent: de,
                     hardlineWithoutBreakParent: g,
                     literallineWithoutBreakParent: S,
-                    label: oe
+                    label: oe,
                   }
-                }
+                },
               }),
               Ne = A({
                 'src/common/end-of-line.js'(N, X) {
@@ -12953,30 +12956,30 @@ function ` +
                     guessEndOfLine: q,
                     convertEndOfLineToChars: ee,
                     countEndOfLineChars: re,
-                    normalizeEndOfLine: Ce
+                    normalizeEndOfLine: Ce,
                   }
-                }
+                },
               }),
               Je = A({
                 'src/utils/get-last.js'(N, X) {
                   U()
-                  var q = ee => ee[ee.length - 1]
+                  var q = (ee) => ee[ee.length - 1]
                   X.exports = q
-                }
+                },
               })
             function Te() {
               let { onlyFirst: N = !1 } =
                 arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {}
               const X = [
                 '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-                '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+                '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))',
               ].join('|')
               return new RegExp(X, N ? void 0 : 'g')
             }
             var Ye = C({
               'node_modules/strip-ansi/node_modules/ansi-regex/index.js'() {
                 U()
-              }
+              },
             })
             function ke(N) {
               if (typeof N != 'string')
@@ -12986,7 +12989,7 @@ function ` +
             var Be = C({
               'node_modules/strip-ansi/index.js'() {
                 U(), Ye()
-              }
+              },
             })
             function Ve(N) {
               return Number.isInteger(N)
@@ -13012,7 +13015,7 @@ function ` +
             var Zt = C({
                 'node_modules/is-fullwidth-code-point/index.js'() {
                   U()
-                }
+                },
               }),
               Bt = A({
                 'node_modules/emoji-regex/index.js'(N, X) {
@@ -13020,7 +13023,7 @@ function ` +
                     (X.exports = function () {
                       return /\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73|\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74|\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67)\uDB40\uDC7F|(?:\uD83E\uDDD1\uD83C\uDFFF\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFF\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFE])|(?:\uD83E\uDDD1\uD83C\uDFFE\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFE\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFD\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFD\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFC\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFC\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|(?:\uD83E\uDDD1\uD83C\uDFFB\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83E\uDDD1|\uD83D\uDC69\uD83C\uDFFB\u200D\uD83E\uDD1D\u200D(?:\uD83D[\uDC68\uDC69]))(?:\uD83C[\uDFFC-\uDFFF])|\uD83D\uDC68(?:\uD83C\uDFFB(?:\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF]))|\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFC-\uDFFF])|[\u2695\u2696\u2708]\uFE0F|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))?|(?:\uD83C[\uDFFC-\uDFFF])\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFF]))|\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D)?\uD83D\uDC68|(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFE])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB-\uDFFD\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFC\uDFFE\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83E\uDD1D\u200D\uD83D\uDC68(?:\uD83C[\uDFFB\uDFFD-\uDFFF])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])\uFE0F|\u200D(?:(?:\uD83D[\uDC68\uDC69])\u200D(?:\uD83D[\uDC66\uDC67])|\uD83D[\uDC66\uDC67])|\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC)?|(?:\uD83D\uDC69(?:\uD83C\uDFFB\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|(?:\uD83C[\uDFFC-\uDFFF])\u200D\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69]))|\uD83E\uDDD1(?:\uD83C[\uDFFB-\uDFFF])\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1)(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67]))|\uD83D\uDC69(?:\u200D(?:\u2764\uFE0F\u200D(?:\uD83D\uDC8B\u200D(?:\uD83D[\uDC68\uDC69])|\uD83D[\uDC68\uDC69])|\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83E\uDDD1(?:\u200D(?:\uD83E\uDD1D\u200D\uD83E\uDDD1|\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFF\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFE\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFD\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFC\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD])|\uD83C\uDFFB\u200D(?:\uD83C[\uDF3E\uDF73\uDF7C\uDF84\uDF93\uDFA4\uDFA8\uDFEB\uDFED]|\uD83D[\uDCBB\uDCBC\uDD27\uDD2C\uDE80\uDE92]|\uD83E[\uDDAF-\uDDB3\uDDBC\uDDBD]))|\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66|\uD83D\uDC69\u200D\uD83D\uDC69\u200D(?:\uD83D[\uDC66\uDC67])|\uD83D\uDC69\u200D\uD83D\uDC67\u200D(?:\uD83D[\uDC66\uDC67])|(?:\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8|\uD83E\uDDD1(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|\uD83D\uDC69(?:\uD83C\uDFFF\u200D[\u2695\u2696\u2708]|\uD83C\uDFFE\u200D[\u2695\u2696\u2708]|\uD83C\uDFFD\u200D[\u2695\u2696\u2708]|\uD83C\uDFFC\u200D[\u2695\u2696\u2708]|\uD83C\uDFFB\u200D[\u2695\u2696\u2708]|\u200D[\u2695\u2696\u2708])|\uD83D\uDE36\u200D\uD83C\uDF2B|\uD83C\uDFF3\uFE0F\u200D\u26A7|\uD83D\uDC3B\u200D\u2744|(?:(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF])\u200D[\u2640\u2642]|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])\u200D[\u2640\u2642]|\uD83C\uDFF4\u200D\u2620|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])\u200D[\u2640\u2642]|[\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u2328\u23CF\u23ED-\u23EF\u23F1\u23F2\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB\u25FC\u2600-\u2604\u260E\u2611\u2618\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u2692\u2694-\u2697\u2699\u269B\u269C\u26A0\u26A7\u26B0\u26B1\u26C8\u26CF\u26D1\u26D3\u26E9\u26F0\u26F1\u26F4\u26F7\u26F8\u2702\u2708\u2709\u270F\u2712\u2714\u2716\u271D\u2721\u2733\u2734\u2744\u2747\u2763\u27A1\u2934\u2935\u2B05-\u2B07\u3030\u303D\u3297\u3299]|\uD83C[\uDD70\uDD71\uDD7E\uDD7F\uDE02\uDE37\uDF21\uDF24-\uDF2C\uDF36\uDF7D\uDF96\uDF97\uDF99-\uDF9B\uDF9E\uDF9F\uDFCD\uDFCE\uDFD4-\uDFDF\uDFF5\uDFF7]|\uD83D[\uDC3F\uDCFD\uDD49\uDD4A\uDD6F\uDD70\uDD73\uDD76-\uDD79\uDD87\uDD8A-\uDD8D\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA\uDECB\uDECD-\uDECF\uDEE0-\uDEE5\uDEE9\uDEF0\uDEF3])\uFE0F|\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08|\uD83D\uDC69\u200D\uD83D\uDC67|\uD83D\uDC69\u200D\uD83D\uDC66|\uD83D\uDE35\u200D\uD83D\uDCAB|\uD83D\uDE2E\u200D\uD83D\uDCA8|\uD83D\uDC15\u200D\uD83E\uDDBA|\uD83E\uDDD1(?:\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC|\uD83C\uDFFB)?|\uD83D\uDC69(?:\uD83C\uDFFF|\uD83C\uDFFE|\uD83C\uDFFD|\uD83C\uDFFC|\uD83C\uDFFB)?|\uD83C\uDDFD\uD83C\uDDF0|\uD83C\uDDF6\uD83C\uDDE6|\uD83C\uDDF4\uD83C\uDDF2|\uD83D\uDC08\u200D\u2B1B|\u2764\uFE0F\u200D(?:\uD83D\uDD25|\uD83E\uDE79)|\uD83D\uDC41\uFE0F|\uD83C\uDFF3\uFE0F|\uD83C\uDDFF(?:\uD83C[\uDDE6\uDDF2\uDDFC])|\uD83C\uDDFE(?:\uD83C[\uDDEA\uDDF9])|\uD83C\uDDFC(?:\uD83C[\uDDEB\uDDF8])|\uD83C\uDDFB(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDEE\uDDF3\uDDFA])|\uD83C\uDDFA(?:\uD83C[\uDDE6\uDDEC\uDDF2\uDDF3\uDDF8\uDDFE\uDDFF])|\uD83C\uDDF9(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDED\uDDEF-\uDDF4\uDDF7\uDDF9\uDDFB\uDDFC\uDDFF])|\uD83C\uDDF8(?:\uD83C[\uDDE6-\uDDEA\uDDEC-\uDDF4\uDDF7-\uDDF9\uDDFB\uDDFD-\uDDFF])|\uD83C\uDDF7(?:\uD83C[\uDDEA\uDDF4\uDDF8\uDDFA\uDDFC])|\uD83C\uDDF5(?:\uD83C[\uDDE6\uDDEA-\uDDED\uDDF0-\uDDF3\uDDF7-\uDDF9\uDDFC\uDDFE])|\uD83C\uDDF3(?:\uD83C[\uDDE6\uDDE8\uDDEA-\uDDEC\uDDEE\uDDF1\uDDF4\uDDF5\uDDF7\uDDFA\uDDFF])|\uD83C\uDDF2(?:\uD83C[\uDDE6\uDDE8-\uDDED\uDDF0-\uDDFF])|\uD83C\uDDF1(?:\uD83C[\uDDE6-\uDDE8\uDDEE\uDDF0\uDDF7-\uDDFB\uDDFE])|\uD83C\uDDF0(?:\uD83C[\uDDEA\uDDEC-\uDDEE\uDDF2\uDDF3\uDDF5\uDDF7\uDDFC\uDDFE\uDDFF])|\uD83C\uDDEF(?:\uD83C[\uDDEA\uDDF2\uDDF4\uDDF5])|\uD83C\uDDEE(?:\uD83C[\uDDE8-\uDDEA\uDDF1-\uDDF4\uDDF6-\uDDF9])|\uD83C\uDDED(?:\uD83C[\uDDF0\uDDF2\uDDF3\uDDF7\uDDF9\uDDFA])|\uD83C\uDDEC(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEE\uDDF1-\uDDF3\uDDF5-\uDDFA\uDDFC\uDDFE])|\uD83C\uDDEB(?:\uD83C[\uDDEE-\uDDF0\uDDF2\uDDF4\uDDF7])|\uD83C\uDDEA(?:\uD83C[\uDDE6\uDDE8\uDDEA\uDDEC\uDDED\uDDF7-\uDDFA])|\uD83C\uDDE9(?:\uD83C[\uDDEA\uDDEC\uDDEF\uDDF0\uDDF2\uDDF4\uDDFF])|\uD83C\uDDE8(?:\uD83C[\uDDE6\uDDE8\uDDE9\uDDEB-\uDDEE\uDDF0-\uDDF5\uDDF7\uDDFA-\uDDFF])|\uD83C\uDDE7(?:\uD83C[\uDDE6\uDDE7\uDDE9-\uDDEF\uDDF1-\uDDF4\uDDF6-\uDDF9\uDDFB\uDDFC\uDDFE\uDDFF])|\uD83C\uDDE6(?:\uD83C[\uDDE8-\uDDEC\uDDEE\uDDF1\uDDF2\uDDF4\uDDF6-\uDDFA\uDDFC\uDDFD\uDDFF])|[#\*0-9]\uFE0F\u20E3|\u2764\uFE0F|(?:\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD])(?:\uD83C[\uDFFB-\uDFFF])|(?:\u26F9|\uD83C[\uDFCB\uDFCC]|\uD83D\uDD75)(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])|\uD83C\uDFF4|(?:[\u270A\u270B]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDC8F\uDC91\uDCAA\uDD7A\uDD95\uDD96\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD34\uDD36\uDD77\uDDB5\uDDB6\uDDBB\uDDD2\uDDD3\uDDD5])(?:\uD83C[\uDFFB-\uDFFF])|(?:[\u261D\u270C\u270D]|\uD83D[\uDD74\uDD90])(?:\uFE0F|\uD83C[\uDFFB-\uDFFF])|[\u270A\u270B]|\uD83C[\uDF85\uDFC2\uDFC7]|\uD83D[\uDC08\uDC15\uDC3B\uDC42\uDC43\uDC46-\uDC50\uDC66\uDC67\uDC6B-\uDC6D\uDC72\uDC74-\uDC76\uDC78\uDC7C\uDC83\uDC85\uDC8F\uDC91\uDCAA\uDD7A\uDD95\uDD96\uDE2E\uDE35\uDE36\uDE4C\uDE4F\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1C\uDD1E\uDD1F\uDD30-\uDD34\uDD36\uDD77\uDDB5\uDDB6\uDDBB\uDDD2\uDDD3\uDDD5]|\uD83C[\uDFC3\uDFC4\uDFCA]|\uD83D[\uDC6E\uDC70\uDC71\uDC73\uDC77\uDC81\uDC82\uDC86\uDC87\uDE45-\uDE47\uDE4B\uDE4D\uDE4E\uDEA3\uDEB4-\uDEB6]|\uD83E[\uDD26\uDD35\uDD37-\uDD39\uDD3D\uDD3E\uDDB8\uDDB9\uDDCD-\uDDCF\uDDD4\uDDD6-\uDDDD]|\uD83D\uDC6F|\uD83E[\uDD3C\uDDDE\uDDDF]|[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF84\uDF86-\uDF93\uDFA0-\uDFC1\uDFC5\uDFC6\uDFC8\uDFC9\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC07\uDC09-\uDC14\uDC16-\uDC3A\uDC3C-\uDC3E\uDC40\uDC44\uDC45\uDC51-\uDC65\uDC6A\uDC79-\uDC7B\uDC7D-\uDC80\uDC84\uDC88-\uDC8E\uDC90\uDC92-\uDCA9\uDCAB-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDDA4\uDDFB-\uDE2D\uDE2F-\uDE34\uDE37-\uDE44\uDE48-\uDE4A\uDE80-\uDEA2\uDEA4-\uDEB3\uDEB7-\uDEBF\uDEC1-\uDEC5\uDED0-\uDED2\uDED5-\uDED7\uDEEB\uDEEC\uDEF4-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0D\uDD0E\uDD10-\uDD17\uDD1D\uDD20-\uDD25\uDD27-\uDD2F\uDD3A\uDD3F-\uDD45\uDD47-\uDD76\uDD78\uDD7A-\uDDB4\uDDB7\uDDBA\uDDBC-\uDDCB\uDDD0\uDDE0-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6]|(?:[\u231A\u231B\u23E9-\u23EC\u23F0\u23F3\u25FD\u25FE\u2614\u2615\u2648-\u2653\u267F\u2693\u26A1\u26AA\u26AB\u26BD\u26BE\u26C4\u26C5\u26CE\u26D4\u26EA\u26F2\u26F3\u26F5\u26FA\u26FD\u2705\u270A\u270B\u2728\u274C\u274E\u2753-\u2755\u2757\u2795-\u2797\u27B0\u27BF\u2B1B\u2B1C\u2B50\u2B55]|\uD83C[\uDC04\uDCCF\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE1A\uDE2F\uDE32-\uDE36\uDE38-\uDE3A\uDE50\uDE51\uDF00-\uDF20\uDF2D-\uDF35\uDF37-\uDF7C\uDF7E-\uDF93\uDFA0-\uDFCA\uDFCF-\uDFD3\uDFE0-\uDFF0\uDFF4\uDFF8-\uDFFF]|\uD83D[\uDC00-\uDC3E\uDC40\uDC42-\uDCFC\uDCFF-\uDD3D\uDD4B-\uDD4E\uDD50-\uDD67\uDD7A\uDD95\uDD96\uDDA4\uDDFB-\uDE4F\uDE80-\uDEC5\uDECC\uDED0-\uDED2\uDED5-\uDED7\uDEEB\uDEEC\uDEF4-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0C-\uDD3A\uDD3C-\uDD45\uDD47-\uDD78\uDD7A-\uDDCB\uDDCD-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6])|(?:[#\*0-9\xA9\xAE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26A7\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299]|\uD83C[\uDC04\uDCCF\uDD70\uDD71\uDD7E\uDD7F\uDD8E\uDD91-\uDD9A\uDDE6-\uDDFF\uDE01\uDE02\uDE1A\uDE2F\uDE32-\uDE3A\uDE50\uDE51\uDF00-\uDF21\uDF24-\uDF93\uDF96\uDF97\uDF99-\uDF9B\uDF9E-\uDFF0\uDFF3-\uDFF5\uDFF7-\uDFFF]|\uD83D[\uDC00-\uDCFD\uDCFF-\uDD3D\uDD49-\uDD4E\uDD50-\uDD67\uDD6F\uDD70\uDD73-\uDD7A\uDD87\uDD8A-\uDD8D\uDD90\uDD95\uDD96\uDDA4\uDDA5\uDDA8\uDDB1\uDDB2\uDDBC\uDDC2-\uDDC4\uDDD1-\uDDD3\uDDDC-\uDDDE\uDDE1\uDDE3\uDDE8\uDDEF\uDDF3\uDDFA-\uDE4F\uDE80-\uDEC5\uDECB-\uDED2\uDED5-\uDED7\uDEE0-\uDEE5\uDEE9\uDEEB\uDEEC\uDEF0\uDEF3-\uDEFC\uDFE0-\uDFEB]|\uD83E[\uDD0C-\uDD3A\uDD3C-\uDD45\uDD47-\uDD78\uDD7A-\uDDCB\uDDCD-\uDDFF\uDE70-\uDE74\uDE78-\uDE7A\uDE80-\uDE86\uDE90-\uDEA8\uDEB0-\uDEB6\uDEC0-\uDEC2\uDED0-\uDED6])\uFE0F|(?:[\u261D\u26F9\u270A-\u270D]|\uD83C[\uDF85\uDFC2-\uDFC4\uDFC7\uDFCA-\uDFCC]|\uD83D[\uDC42\uDC43\uDC46-\uDC50\uDC66-\uDC78\uDC7C\uDC81-\uDC83\uDC85-\uDC87\uDC8F\uDC91\uDCAA\uDD74\uDD75\uDD7A\uDD90\uDD95\uDD96\uDE45-\uDE47\uDE4B-\uDE4F\uDEA3\uDEB4-\uDEB6\uDEC0\uDECC]|\uD83E[\uDD0C\uDD0F\uDD18-\uDD1F\uDD26\uDD30-\uDD39\uDD3C-\uDD3E\uDD77\uDDB5\uDDB6\uDDB8\uDDB9\uDDBB\uDDCD-\uDDCF\uDDD1-\uDDDD])/g
                     })
-                }
+                },
               }),
               pt = {}
             l(pt, { default: () => ut })
@@ -13041,7 +13044,7 @@ function ` +
               Qt = C({
                 'node_modules/string-width/index.js'() {
                   U(), Be(), Zt(), (jt = E(Bt()))
-                }
+                },
               }),
               Vn = A({
                 'src/utils/get-string-width.js'(N, X) {
@@ -13052,15 +13055,15 @@ function ` +
                     return Ce ? (ee.test(Ce) ? q(Ce) : Ce.length) : 0
                   }
                   X.exports = re
-                }
+                },
               }),
               St = A({
                 'src/document/doc-utils.js'(N, X) {
                   U()
                   var q = Je(),
                     { literalline: ee, join: re } = j(),
-                    Ce = h => Array.isArray(h) || (h && h.type === 'concat'),
-                    J = h => {
+                    Ce = (h) => Array.isArray(h) || (h && h.type === 'concat'),
+                    J = (h) => {
                       if (Array.isArray(h)) return h
                       if (h.type !== 'concat' && h.type !== 'fill')
                         throw new Error('Expect doc type to be `concat` or `fill`.')
@@ -13229,7 +13232,7 @@ function ` +
                   function L(h) {
                     switch (h.type) {
                       case 'fill':
-                        if (h.parts.every(I => I === '')) return ''
+                        if (h.parts.every((I) => I === '')) return ''
                         break
                       case 'group':
                         if (!h.contents && !h.id && !h.break && !h.expandedStates) return ''
@@ -13270,7 +13273,7 @@ function ` +
                       : Object.assign(Object.assign({}, h), {}, { parts: y })
                   }
                   function w(h) {
-                    return ne(h, y => L(y))
+                    return ne(h, (y) => L(y))
                   }
                   function te(h) {
                     const y = [],
@@ -13292,7 +13295,7 @@ function ` +
                     return y
                   }
                   function Ee(h) {
-                    return ne(h, y =>
+                    return ne(h, (y) =>
                       Array.isArray(y)
                         ? te(y)
                         : y.parts
@@ -13301,7 +13304,7 @@ function ` +
                     )
                   }
                   function Ue(h) {
-                    return ne(h, y =>
+                    return ne(h, (y) =>
                       typeof y == 'string' &&
                       y.includes(`
 `)
@@ -13338,9 +13341,9 @@ function ` +
                     cleanDoc: w,
                     replaceTextEndOfLine: Q,
                     replaceEndOfLine: Ue,
-                    canBreak: Z
+                    canBreak: Z,
                   }
-                }
+                },
               }),
               Gn = A({
                 'src/document/doc-printer.js'(N, X) {
@@ -13654,7 +13657,7 @@ function ` +
                     return { formatted: oe.join('') }
                   }
                   X.exports = { printDocToString: F }
-                }
+                },
               }),
               Kn = A({
                 'src/document/doc-debug.js'(N, X) {
@@ -13684,7 +13687,7 @@ function ` +
                           {},
                           {
                             contents: re(J.contents),
-                            expandedStates: J.expandedStates && J.expandedStates.map(re)
+                            expandedStates: J.expandedStates && J.expandedStates.map(re),
                           }
                         )
                       : J.type === 'fill'
@@ -13758,11 +13761,13 @@ function ` +
                           _.id && ie.push(`id: ${_e(_.id)}`)
                         const d = ie.length > 0 ? `, { ${ie.join(', ')} }` : ''
                         return _.expandedStates
-                          ? `conditionalGroup([${_.expandedStates.map(v => ne(v)).join(',')}]${d})`
+                          ? `conditionalGroup([${_.expandedStates
+                              .map((v) => ne(v))
+                              .join(',')}]${d})`
                           : `group(${ne(_.contents)}${d})`
                       }
                       if (_.type === 'fill')
-                        return `fill([${_.parts.map(ie => ne(ie)).join(', ')}])`
+                        return `fill([${_.parts.map((ie) => ne(ie)).join(', ')}])`
                       if (_.type === 'line-suffix') return 'lineSuffix(' + ne(_.contents) + ')'
                       if (_.type === 'line-suffix-boundary') return 'lineSuffixBoundary'
                       if (_.type === 'label')
@@ -13781,10 +13786,10 @@ function ` +
                     }
                   }
                   X.exports = { printDocToDebug: Ce }
-                }
+                },
               })
             U(), (o.exports = { builders: j(), printer: Gn(), utils: St(), debug: Kn() })
-          }
+          },
         })
       return i()
     })
@@ -14285,7 +14290,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
         m = this.visit(u, { lambdaParametersGroupId: f, isInsideMethodInvocationSuffix: !0 }),
         C = (0, t.isSingleArgumentLambdaExpressionWithBlock)(u)
           ? o((0, r.indent)((0, r.concat)([a, c])), (0, n.printTokenWithComments)(c), {
-              groupId: f
+              groupId: f,
             })
           : (0, r.indent)((0, r.concat)([a, c]))
       return (0, r.dedent)((0, i.putIntoBraces)(m, '', p, C))
@@ -14333,21 +14338,21 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             enumerable: !0,
             get: function () {
               return t(n).default
-            }
+            },
           })
           var r = Ku()
           Object.defineProperty(e, 'printSingleLambdaInvocation', {
             enumerable: !0,
             get: function () {
               return t(r).default
-            }
+            },
           })
           var i = ri
           Object.defineProperty(e, 'isEmptyDoc', {
             enumerable: !0,
             get: function () {
               return t(i).default
-            }
+            },
           })
         })(Ca)),
       Ca
@@ -14476,7 +14481,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
         'Native',
         'Sealed',
         'NonSealed',
-        'Strictfp'
+        'Strictfp',
       ]
     function R(d, v) {
       return U(v || [], d)
@@ -14865,7 +14870,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             extraComma: n.Comma,
             LCurly: n.LCurly[0],
             RCurly: n.RCurly[0],
-            trailingComma: this.prettierOptions.trailingComma
+            trailingComma: this.prettierOptions.trailingComma,
           })
         }),
         (t.prototype.variableInitializerList = function (n) {
@@ -14976,7 +14981,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             s = this.visit(n.variableDeclaratorList)
           return (0, M.rejectAndJoin)(sn, [
             (0, M.rejectAndJoin)(sn, i),
-            (0, M.rejectAndJoin)(' ', [(0, M.rejectAndJoin)(' ', a), o, s])
+            (0, M.rejectAndJoin)(' ', [(0, M.rejectAndJoin)(' ', a), o, s]),
           ])
         }),
         (t.prototype.localVariableType = function (n) {
@@ -15039,10 +15044,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, M.rejectAndConcat)([
             (0, M.rejectAndJoin)(' ', [
               n.If[0],
-              (0, ae.concat)([(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), a])
+              (0, ae.concat)([(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), a]),
             ]),
             i,
-            o
+            o,
           ])
         }),
         (t.prototype.assertStatement = function (n) {
@@ -15051,7 +15056,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, M.rejectAndConcat)([
             (0, ae.concat)([n.Assert[0], ' ']),
             (0, M.rejectAndJoin)((0, ae.concat)([' ', i, ' ']), r),
-            n.Semicolon[0]
+            n.Semicolon[0],
           ])
         }),
         (t.prototype.switchStatement = function (n) {
@@ -15060,7 +15065,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, M.rejectAndJoin)(' ', [
             n.Switch[0],
             (0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]),
-            i
+            i,
           ])
         }),
         (t.prototype.switchBlock = function (n) {
@@ -15096,7 +15101,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               (0, ae.indent)(
                 (0, M.rejectAndConcat)([
                   (0, ae.concat)([n.Case[0], ' ']),
-                  (0, M.rejectAndJoinSeps)(i, r)
+                  (0, M.rejectAndJoinSeps)(i, r),
                 ])
               )
             )
@@ -15127,7 +15132,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             a = (0, M.isStatementEmptyStatement)(i) ? '' : ' '
           return (0, M.rejectAndJoin)(' ', [
             n.While[0],
-            (0, M.rejectAndJoin)(a, [(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), i])
+            (0, M.rejectAndJoin)(a, [(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), i]),
           ])
         }),
         (t.prototype.doStatement = function (n) {
@@ -15139,8 +15144,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             n.While[0],
             (0, M.rejectAndConcat)([
               (0, M.putIntoBraces)(a, zt, n.LBrace[0], n.RBrace[0]),
-              n.Semicolon[0]
-            ])
+              n.Semicolon[0],
+            ]),
           ])
         }),
         (t.prototype.forStatement = function (n) {
@@ -15159,15 +15164,15 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 (0, M.rejectAndConcat)([
                   r,
                   (0, M.rejectAndJoin)(lr, [n.Semicolon[0], i]),
-                  (0, M.rejectAndJoin)(lr, [n.Semicolon[1], a])
+                  (0, M.rejectAndJoin)(lr, [n.Semicolon[1], a]),
                 ]),
                 zt,
                 n.LBrace[0],
                 n.RBrace[0]
-              )
+              ),
             ]),
             s,
-            o
+            o,
           ])
         }),
         (t.prototype.forInit = function (n) {
@@ -15198,7 +15203,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, ae.concat)([' ', n.Colon[0], ' ']),
             o,
             (0, ae.concat)([n.RBrace[0], u]),
-            s
+            s,
           ])
         }),
         (t.prototype.breakStatement = function (n) {
@@ -15232,9 +15237,9 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, M.rejectAndConcat)([
             (0, ae.join)(' ', [
               n.Synchronized[0],
-              (0, ae.concat)([(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), ' '])
+              (0, ae.concat)([(0, M.putIntoBraces)(r, zt, n.LBrace[0], n.RBrace[0]), ' ']),
             ]),
-            i
+            i,
           ])
         }),
         (t.prototype.tryStatement = function (n) {
@@ -15257,10 +15262,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 (0, M.rejectAndJoin)(' ', [n.Catch[0], n.LBrace[0]]),
                 (0, ae.indent)((0, M.rejectAndConcat)([zt, r])),
                 zt,
-                (0, ae.concat)([n.RBrace[0], ' '])
+                (0, ae.concat)([n.RBrace[0], ' ']),
               ])
             ),
-            i
+            i,
           ])
         }),
         (t.prototype.catchFormalParameter = function (n) {
@@ -15418,7 +15423,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           var s = this.visit(o)
           return (0, D.rejectAndJoin)(Re, [
             (0, D.rejectAndJoin)(Re, i),
-            (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), s])
+            (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), s]),
           ])
         }),
         (t.prototype.normalClassDeclaration = function (n) {
@@ -15439,7 +15444,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               (0, B.group)(
                 (0, D.rejectAndConcat)([(0, D.rejectAndJoin)(' ', [n.Class[0], r]), i, c, p, f])
               ),
-              u
+              u,
             ])
           )
         }),
@@ -15469,7 +15474,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, B.group)(
             (0, D.rejectAndConcat)([
               n.Implements[0],
-              (0, B.indent)((0, D.rejectAndConcat)([Se, r]))
+              (0, B.indent)((0, D.rejectAndConcat)([Se, r])),
             ])
           )
         }),
@@ -15485,7 +15490,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               n.Permits[0],
               (0, B.indent)(
                 (0, D.rejectAndConcat)([Se, (0, B.group)((0, D.rejectAndJoinSeps)(i, r))])
-              )
+              ),
             ])
           )
         }),
@@ -15537,8 +15542,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, D.rejectAndJoin)(' ', [
               (0, D.rejectAndJoin)(' ', a),
               o,
-              (0, B.concat)([s, n.Semicolon[0]])
-            ])
+              (0, B.concat)([s, n.Semicolon[0]]),
+            ]),
           ])
         }),
         (t.prototype.fieldModifier = function (n) {
@@ -15581,7 +15586,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 n.Equals[0],
                 (0, B.group)((0, B.indent)(Se), { id: a }),
                 di,
-                (0, B.indentIfBreak)(i, { groupId: a })
+                (0, B.indentIfBreak)(i, { groupId: a }),
               ])
             }
             if (
@@ -15598,7 +15603,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   n.Equals[0],
                   (0, B.group)((0, B.indent)(Se), { id: a }),
                   di,
-                  (0, B.indentIfBreak)(i, { groupId: a })
+                  (0, B.indentIfBreak)(i, { groupId: a }),
                 ])
               }
               if (o.children.primaryPrefix[0].children.newExpression !== void 0) {
@@ -15609,7 +15614,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   n.Equals[0],
                   (0, B.group)((0, B.indent)(Se), { id: a }),
                   di,
-                  (0, B.indentIfBreak)(i, { groupId: a })
+                  (0, B.indentIfBreak)(i, { groupId: a }),
                 ])
               }
               var s =
@@ -15627,7 +15632,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   n.Equals[0],
                   (0, B.group)((0, B.indent)(Se), { id: a }),
                   di,
-                  (0, B.indentIfBreak)(i, { groupId: a })
+                  (0, B.indentIfBreak)(i, { groupId: a }),
                 ])
               }
             }
@@ -15704,8 +15709,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, D.rejectAndJoin)(Re, i),
             (0, D.rejectAndJoin)(' ', [
               (0, D.rejectAndJoin)(' ', a),
-              (0, D.rejectAndJoin)(u, [o, s])
-            ])
+              (0, D.rejectAndJoin)(u, [o, s]),
+            ]),
           ])
         }),
         (t.prototype.methodModifier = function (n) {
@@ -15735,7 +15740,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, D.rejectAndConcat)([
             r,
             (0, D.putIntoBraces)(i, fr, n.LBrace[0], n.RBrace[0]),
-            a
+            a,
           ])
         }),
         (t.prototype.receiverParameter = function (n) {
@@ -15817,10 +15822,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, B.group)(
               (0, D.rejectAndJoin)(Re, [
                 (0, D.rejectAndJoin)(Re, i),
-                (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), o, s])
+                (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), o, s]),
               ])
             ),
-            u
+            u,
           ])
         }),
         (t.prototype.constructorModifier = function (n) {
@@ -15847,8 +15852,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 fr,
                 n.LBrace[0],
                 n.RBrace[0]
-              )
-            ])
+              ),
+            ]),
           ])
         }),
         (t.prototype.simpleTypeName = function (n) {
@@ -15874,7 +15879,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, D.rejectAndConcat)([
             r,
             i,
-            (0, B.group)((0, D.rejectAndConcat)([a, n.Semicolon[0]]))
+            (0, B.group)((0, D.rejectAndConcat)([a, n.Semicolon[0]])),
           ])
         }),
         (t.prototype.qualifiedExplicitConstructorInvocation = function (n) {
@@ -15886,7 +15891,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             n.Dot[0],
             i,
             n.Super[0],
-            (0, B.group)((0, D.rejectAndConcat)([a, n.Semicolon[0]]))
+            (0, B.group)((0, D.rejectAndConcat)([a, n.Semicolon[0]])),
           ])
         }),
         (t.prototype.enumDeclaration = function (n) {
@@ -15936,8 +15941,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, D.rejectAndJoin)(' ', [
               (0, D.rejectAndJoin)(' ', a),
               (0, D.rejectAndConcat)([o, u]),
-              s
-            ])
+              s,
+            ]),
           ])
         }),
         (t.prototype.enumConstantModifier = function (n) {
@@ -15949,7 +15954,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               i = (0, D.getClassBodyDeclarationsSeparator)(n.classBodyDeclaration)
             return (0, D.rejectAndJoin)((0, B.concat)([Re, Re]), [
               n.Semicolon[0],
-              (0, D.rejectAndJoinSeps)(i, r)
+              (0, D.rejectAndJoinSeps)(i, r),
             ])
           }
           return (0, Ct.printTokenWithComments)(Pn(Pn({}, n.Semicolon[0]), { image: '' }))
@@ -15966,7 +15971,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, B.group)(
               (0, D.rejectAndConcat)([(0, D.rejectAndJoin)(' ', [n.Record[0], r]), i, a, o])
             ),
-            u
+            u,
           ])
         }),
         (t.prototype.recordHeader = function (n) {
@@ -16000,7 +16005,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             i = n.Identifier[0]
           return (0, D.rejectAndJoin)(' ', [
             (0, D.rejectAndConcat)([(0, D.rejectAndJoin)(' ', r), n.DotDotDot[0]]),
-            i
+            i,
           ])
         }),
         (t.prototype.recordComponentModifier = function (n) {
@@ -16030,10 +16035,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, B.group)(
               (0, D.rejectAndJoin)(Re, [
                 (0, D.rejectAndJoin)(Re, i),
-                (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), o])
+                (0, D.rejectAndJoin)(' ', [(0, B.join)(' ', a), o]),
               ])
             ),
-            s
+            s,
           ])
         }),
         (t.prototype.isClassDeclaration = function () {
@@ -16157,7 +16162,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 n.Arrow[0],
                 (r == null ? void 0 : r.lambdaParametersGroupId) !== void 0
                   ? FT(a, { groupId: r.lambdaParametersGroupId })
-                  : a
+                  : a,
               ])
             : (0, se.group)(
                 (0, se.indent)(
@@ -16234,8 +16239,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   (0, O.rejectAndJoin)(At, [
                     i,
                     (0, O.rejectAndJoin)(' ', [n.QuestionMark[0], a]),
-                    (0, O.rejectAndJoin)(' ', [n.Colon[0], o])
-                  ])
+                    (0, O.rejectAndJoin)(' ', [n.Colon[0], o]),
+                  ]),
                 ])
               )
             )
@@ -16267,7 +16272,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                     ? (f.push(
                         (0, O.rejectAndJoin)(' ', [
                           (0, O.rejectAndConcat)([A, m[C + 1]]),
-                          o.shift()
+                          o.shift(),
                         ])
                       ),
                       C++)
@@ -16275,7 +16280,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                     ? (f.push(
                         (0, O.rejectAndJoin)(' ', [
                           (0, O.rejectAndConcat)([A, m[C + 1], m[C + 2]]),
-                          o.shift()
+                          o.shift(),
                         ])
                       ),
                       (C += 2))
@@ -16298,11 +16303,11 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                               }),
                               p
                             )
-                          )
+                          ),
                         ])
                       ),
                       lt,
-                      $u(')')
+                      $u(')'),
                     ])
                   )
                 : (0, se.group)(
@@ -16354,7 +16359,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                     n.primarySuffix[0].children.methodInvocationSuffix[0].children.argumentList[0]
                       .children.expression &&
                     n.primarySuffix[0].children.methodInvocationSuffix[0].children.argumentList[0]
-                      .children.expression[0].children.lambdaExpression === void 0
+                      .children.expression[0].children.lambdaExpression === void 0,
                 })
               )
             for (var s = 1; s < n.primarySuffix.length; s++)
@@ -16367,7 +16372,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 (0, O.rejectAndConcat)([
                   i,
                   o ? a[0] : (0, se.indent)(a[0]),
-                  (0, se.indent)((0, O.rejectAndConcat)(a.slice(1)))
+                  (0, se.indent)((0, O.rejectAndConcat)(a.slice(1))),
                 ])
               )
           }
@@ -16405,9 +16410,9 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   (0, O.rejectAndJoin)((0, se.concat)([lt, s[0]]), [
                     i,
                     (0, O.rejectAndJoinSeps)(s.slice(1), a),
-                    o
+                    o,
                   ])
-                )
+                ),
               ])
             if (n.Dot)
               return (0, se.indent)(
@@ -16418,7 +16423,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   ),
                   lt,
                   (0, O.rejectAndConcat)([s[s.length - 1], a[a.length - 1]]),
-                  o
+                  o,
                 ])
               )
           }
@@ -16435,7 +16440,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             a = this.visit(n.typeArguments)
           return (0, O.rejectAndJoin)(' ', [
             (0, O.rejectAndJoin)(' ', r),
-            (0, O.rejectAndConcat)([a, i])
+            (0, O.rejectAndConcat)([a, i]),
           ])
         }),
         (t.prototype.fqnOrRefTypePartCommon = function (n) {
@@ -16456,7 +16461,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             i = this.visit(n.unaryExpression)
           return (0, O.rejectAndJoin)(' ', [
             (0, O.rejectAndConcat)([n.LBrace[0], r, n.RBrace[0]]),
-            i
+            i,
           ])
         }),
         (t.prototype.referenceTypeCastExpression = function (n) {
@@ -16473,7 +16478,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               n.LBrace[0],
               n.RBrace[0]
             ),
-            o
+            o,
           ])
         }),
         (t.prototype.newExpression = function (n) {
@@ -16557,7 +16562,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             i = this.visit(n.expression)
           return (0, O.rejectAndJoin)(' ', [
             (0, O.rejectAndJoin)(' ', r),
-            (0, O.rejectAndConcat)([n.LSquare[0], i, n.RSquare[0]])
+            (0, O.rejectAndConcat)([n.LSquare[0], i, n.RSquare[0]]),
           ])
         }),
         (t.prototype.classLiteralSuffix = function (n) {
@@ -16666,7 +16671,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               : this.visit(n.annotationTypeDeclaration)
           return (0, z.rejectAndJoin)(Xt, [
             (0, z.rejectAndJoin)(Xt, i),
-            (0, z.rejectAndJoin)(' ', [(0, z.rejectAndJoin)(' ', a), o])
+            (0, z.rejectAndJoin)(' ', [(0, z.rejectAndJoin)(' ', a), o]),
           ])
         }),
         (t.prototype.normalInterfaceDeclaration = function (n) {
@@ -16684,7 +16689,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               (0, et.group)(
                 (0, z.rejectAndJoin)(' ', [n.Interface[0], (0, et.concat)([r, i]), u, c])
               ),
-              s
+              s,
             ])
           )
         }),
@@ -16725,8 +16730,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, z.rejectAndJoin)(' ', [
               (0, z.rejectAndJoin)(' ', a),
               o,
-              (0, z.rejectAndConcat)([s, n.Semicolon[0]])
-            ])
+              (0, z.rejectAndConcat)([s, n.Semicolon[0]]),
+            ]),
           ])
         }),
         (t.prototype.constantModifier = function (n) {
@@ -16745,8 +16750,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, z.rejectAndJoin)(Xt, i),
             (0, z.rejectAndJoin)(' ', [
               (0, z.rejectAndJoin)(' ', a),
-              (0, z.rejectAndJoin)(u, [o, s])
-            ])
+              (0, z.rejectAndJoin)(u, [o, s]),
+            ]),
           ])
         }),
         (t.prototype.interfaceMethodModifier = function (n) {
@@ -16765,10 +16770,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, et.indent)(
               (0, z.rejectAndJoin)(En, [
                 n.LCurly[0],
-                (0, z.rejectAndJoin)((0, et.concat)([En, En]), r)
+                (0, z.rejectAndJoin)((0, et.concat)([En, En]), r),
               ])
             ),
-            n.RCurly[0]
+            n.RCurly[0],
           ])
         }),
         (t.prototype.annotationTypeMemberDeclaration = function (n) {
@@ -16794,9 +16799,9 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 (0, et.concat)([n.LBrace[0], n.RBrace[0]]),
                 u,
                 c,
-                n.Semicolon[0]
-              ])
-            ])
+                n.Semicolon[0],
+              ]),
+            ]),
           ])
         }),
         (t.prototype.annotationTypeElementModifier = function (n) {
@@ -16854,7 +16859,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             extraComma: n.Comma,
             LCurly: n.LCurly[0],
             RCurly: n.RCurly[0],
-            trailingComma: this.prettierOptions.trailingComma
+            trailingComma: this.prettierOptions.trailingComma,
           })
         }),
         (t.prototype.elementValueList = function (n) {
@@ -17130,7 +17135,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                 : (a.push(
                     (0, tt.rejectAndConcat)([
                       (0, tt.rejectAndJoin)(' ', o),
-                      (0, It.concat)([n.LSquare[0], n.RSquare[0]])
+                      (0, It.concat)([n.LSquare[0], n.RSquare[0]]),
                     ])
                   ),
                   (o = []))
@@ -17251,8 +17256,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               r,
               (0, $.rejectAndJoin)(ft, o),
               (0, $.rejectAndJoin)(ft, a),
-              (0, $.rejectAndJoin)((0, nt.concat)([ft, ft]), s)
-            ])
+              (0, $.rejectAndJoin)((0, nt.concat)([ft, ft]), s),
+            ]),
           ])
         }),
         (t.prototype.modularCompilationUnit = function (n) {
@@ -17264,8 +17269,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             (0, $.rejectAndJoin)((0, nt.concat)([ft, ft]), [
               (0, $.rejectAndJoin)(ft, a),
               (0, $.rejectAndJoin)(ft, i),
-              o
-            ])
+              o,
+            ]),
           ])
         }),
         (t.prototype.packageDeclaration = function (n) {
@@ -17273,7 +17278,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             i = (0, $.buildFqn)(n.Identifier, n.Dot)
           return (0, $.rejectAndJoin)(ft, [
             (0, $.rejectAndJoin)(ft, r),
-            (0, nt.concat)([n.Package[0], ' ', i, n.Semicolon[0]])
+            (0, nt.concat)([n.Package[0], ' ', i, n.Semicolon[0]]),
           ])
         }),
         (t.prototype.packageModifier = function (n) {
@@ -17287,7 +17292,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, $.rejectAndJoin)(' ', [
             n.Import[0],
             r,
-            (0, $.rejectAndConcat)([i, a, n.Semicolon[0]])
+            (0, $.rejectAndConcat)([i, a, n.Semicolon[0]]),
           ])
         }),
         (t.prototype.typeDeclaration = function (n) {
@@ -17304,7 +17309,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
             i,
             n.Module[0],
             a,
-            (0, $.putIntoBraces)(s, ft, n.LCurly[0], n.RCurly[0])
+            (0, $.putIntoBraces)(s, ft, n.LCurly[0], n.RCurly[0]),
           ])
         }),
         (t.prototype.moduleDirective = function (n) {
@@ -17316,7 +17321,7 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           return (0, $.rejectAndJoin)(' ', [
             n.Requires[0],
             (0, nt.join)(' ', r),
-            (0, nt.concat)([i, n.Semicolon[0]])
+            (0, nt.concat)([i, n.Semicolon[0]]),
           ])
         }),
         (t.prototype.exportsModuleDirective = function (n) {
@@ -17333,10 +17338,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   wn(
                     (0, $.rejectAndJoin)(wt, [
                       (0, $.rejectAndJoin)(' ', [n.Exports[0], r]),
-                      jn(wn((0, $.rejectAndJoin)(wt, [n.To[0], (0, $.rejectAndJoinSeps)(a, i)])))
+                      jn(wn((0, $.rejectAndJoin)(wt, [n.To[0], (0, $.rejectAndJoinSeps)(a, i)]))),
                     ])
                   ),
-                  n.Semicolon[0]
+                  n.Semicolon[0],
                 ])
               )
             : (0, $.rejectAndConcat)([(0, nt.concat)([n.Exports[0], ' ']), r, n.Semicolon[0]])
@@ -17356,10 +17361,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
                   wn(
                     (0, $.rejectAndJoin)(wt, [
                       (0, $.rejectAndJoin)(' ', [n.Opens[0], r]),
-                      jn(wn((0, $.rejectAndJoin)(wt, [n.To[0], (0, $.rejectAndJoinSeps)(a, i)])))
+                      jn(wn((0, $.rejectAndJoin)(wt, [n.To[0], (0, $.rejectAndJoinSeps)(a, i)]))),
                     ])
                   ),
-                  n.Semicolon[0]
+                  n.Semicolon[0],
                 ])
               )
             : (0, $.rejectAndConcat)([(0, nt.concat)([n.Opens[0], ' ']), r, n.Semicolon[0]])
@@ -17381,10 +17386,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
               wn(
                 (0, $.rejectAndJoin)(wt, [
                   (0, $.rejectAndJoin)(' ', [n.Provides[0], r]),
-                  jn(wn((0, $.rejectAndJoin)(wt, [n.With[0], (0, $.rejectAndJoinSeps)(a, i)])))
+                  jn(wn((0, $.rejectAndJoin)(wt, [n.With[0], (0, $.rejectAndJoinSeps)(a, i)]))),
                 ])
               ),
-              n.Semicolon[0]
+              n.Semicolon[0],
             ])
           )
         }),
@@ -17694,10 +17699,10 @@ There might be a problem with prettier-ignore, please report an issue on https:/
           { value: 'typeArgumentList' },
           { value: 'typeArgument' },
           { value: 'wildcard' },
-          { value: 'wildcardBounds' }
+          { value: 'wildcardBounds' },
         ],
-        description: 'Prettify from the entrypoint, allowing to use prettier on snippet.'
-      }
+        description: 'Prettify from the entrypoint, allowing to use prettier on snippet.',
+      },
     },
     hg = nA,
     mg = pg,
@@ -17713,8 +17718,8 @@ There might be a problem with prettier-ignore, please report an issue on https:/
         codemirrorMimeType: 'text/x-java',
         extensions: ['.java'],
         linguistLanguageId: 181,
-        vscodeLanguageIds: ['java']
-      }
+        vscodeLanguageIds: ['java'],
+      },
     ]
   function Eg() {
     return -1

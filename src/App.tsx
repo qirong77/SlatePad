@@ -13,7 +13,7 @@ export const App = () => {
       <main className="w-[90vw] h-[80vh]">
         <SlatePad
           editor={editor}
-          onChange={value => {
+          onChange={(value) => {
             // console.log(value)
           }}
           initialValue={initialValue}

@@ -15,7 +15,8 @@ export function _renderElement(props: RenderElementProps) {
       return (
         <blockquote
           {...attributes}
-          className="slatepad-blockquote border-l-[3px] pl-[15px] my-[8px]  border-slate-400 text-slate-400">
+          className="slatepad-blockquote border-l-[3px] pl-[15px] my-[8px]  border-slate-400 text-slate-400"
+        >
           {children}
         </blockquote>
       )
@@ -66,9 +67,10 @@ export function _renderElement(props: RenderElementProps) {
         <div
           {...attributes}
           style={{
-            fontFamily: 'Menlo, Monaco, "Courier New", monospace'
+            fontFamily: 'Menlo, Monaco, "Courier New", monospace',
           }}
-          className="code-line relative text-[16px] leading-[20px] mx-[10px] my-[4px]">
+          className="code-line relative text-[16px] leading-[20px] mx-[10px] my-[4px]"
+        >
           {children}
         </div>
       )

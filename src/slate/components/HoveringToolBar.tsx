@@ -26,26 +26,28 @@ export const HoveringToolBar = () => {
   return (
     <div
       className="slatepad-hovering-toolbar  fixed py-[2px]   z-10 top-[-9999px] left-[-9999px] opacity-0 transition-opacity duration-900"
-      ref={ref}>
+      ref={ref}
+    >
       <div
         style={{
-          boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 8%)'
+          boxShadow: '2px 0px 12px 0px rgb(4 4 4 / 8%)',
         }}
-        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded">
+        className="flex .c-shadow   [&>button]:w-[20px] border-[2px] border-gray-400 bg-white rounded"
+      >
         <Bold
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault()
             toggle('bold')
           }}
         />
         <UnderLine
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault()
             toggle('underline')
           }}
         />
         <Italic
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault()
             toggle('italic')
           }}
@@ -63,8 +65,8 @@ export const HoveringToolBar = () => {
     )
     function isLeafActive(format: string) {
       const [match] = Editor.nodes(editor, {
-        match: n => n[format],
-        universal: true
+        match: (n) => n[format],
+        universal: true,
       })
       return !!match
     }

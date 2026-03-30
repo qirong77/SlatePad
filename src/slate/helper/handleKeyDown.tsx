@@ -3,7 +3,7 @@ import {
   getNextBlock,
   isCodeBlock,
   isHeadBlock,
-  isListParagraph
+  isListParagraph,
 } from '../utils/BlockUtils'
 import { Editor, Range, Transforms, Path, Node, NodeEntry, Point, Element } from 'slate'
 import { SlatePadEditor, SlateElement } from '../../types/slate'
@@ -67,7 +67,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
       e.preventDefault()
       Transforms.insertNodes(editor, {
         type: 'paragraph',
-        children: [{ text: '' }]
+        children: [{ text: '' }],
       })
       Transforms.select(editor, Path.next(path))
       return
@@ -90,7 +90,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
           editor,
           {
             type: 'list-item',
-            children: []
+            children: [],
           },
           { at: Path.next(listPath) }
         )
@@ -104,7 +104,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
             match(node) {
               return Element.isElement(node) && node.type === 'list-item'
             },
-            at: listPath
+            at: listPath,
           })
           // slatejs会合并多个Trasnformer,在上一个Transform结束后,为了获取最新的状态,使用宏任务
           setTimeout(() => {
@@ -114,10 +114,10 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
                   editor,
                   {
                     type: 'list-item',
-                    children: []
+                    children: [],
                   },
                   {
-                    at: childPath
+                    at: childPath,
                   }
                 )
             }
@@ -140,7 +140,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
         editor,
         {
           type: 'list-item',
-          children: []
+          children: [],
         },
         { at: Path.next(parentPath) }
       )
@@ -175,10 +175,10 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
             editor,
             {
               type: 'paragraph',
-              children: [{ text: '' }]
+              children: [{ text: '' }],
             },
             {
-              at: Path.next(ulPath)
+              at: Path.next(ulPath),
             }
           )
           Transforms.select(editor, Editor.end(editor, Path.next(ulPath)))
@@ -214,7 +214,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
         codeLines.push([child, childPath])
         if (!e.shiftKey) {
           Transforms.insertText(editor, '  ', {
-            at: Editor.start(editor, childPath)
+            at: Editor.start(editor, childPath),
           })
         }
       }
@@ -230,7 +230,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
           editor,
           {
             type: 'code-line',
-            children: [{ text: text.join('') }]
+            children: [{ text: text.join('') }],
           },
           { at: childPath }
         )
@@ -238,7 +238,7 @@ export const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, editor: Sl
     }
     const newRange: Range = {
       anchor: Editor.start(editor, codeLines[0][1]),
-      focus: Editor.end(editor, codeLines[codeLines.length - 1][1])
+      focus: Editor.end(editor, codeLines[codeLines.length - 1][1]),
     }
     Transforms.select(editor, newRange)
   }

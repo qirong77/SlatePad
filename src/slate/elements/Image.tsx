@@ -12,7 +12,7 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
     Transforms.setNodes(
       editor,
       {
-        url
+        url,
       },
       { at: ReactEditor.findPath(editor, element) }
     )
@@ -32,19 +32,21 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
       {...attributes}
       className={`slatepad-image min-h-[50px] relative border-[3px] rounded ${
         selected ? 'border-blue-500' : 'border-transparent'
-      }`}>
+      }`}
+    >
       {children}
       <div
         contentEditable={false}
         className="absolute  top-0 left-0 border-[2px] border-blue-400 rounded z-20"
         style={{
-          opacity: selected ? '100%' : '0%'
-        }}>
+          opacity: selected ? '100%' : '0%',
+        }}
+      >
         <input
           type="text"
           value={url}
-          onChange={e => setUrl(e.target.value)}
-          onBlur={e => updateUrl(e.target.value)}
+          onChange={(e) => setUrl(e.target.value)}
+          onBlur={(e) => updateUrl(e.target.value)}
           className="rounded pl-[2px]"
         />
       </div>
@@ -54,7 +56,7 @@ export const Image = ({ props }: { props: RenderElementProps }) => {
         /* 
         兼容处理:当图片在一个表格的单元格中,且这个单元格里面只有一个image元素时有时无法选中的问题
         */
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation()
           Transforms.select(editor, ReactEditor.findPath(editor, element))
         }}

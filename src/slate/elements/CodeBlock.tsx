@@ -36,7 +36,7 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
     !isSelectLang && setIsSelect(true)
     setLangIndex(0)
     setLanguage(e.target.value)
-    setMatchLangs(LANGUAGES.filter(L => new RegExp(iptRef.current?.value || '', 'i').test(L)))
+    setMatchLangs(LANGUAGES.filter((L) => new RegExp(iptRef.current?.value || '', 'i').test(L)))
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'ArrowUp') {
@@ -74,16 +74,16 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
   }
 
   const formatter = () => {
-    const codeString = element.children.map(codeLine => Node.string(codeLine)).join('\n')
+    const codeString = element.children.map((codeLine) => Node.string(codeLine)).join('\n')
     const path = ReactEditor.findPath(editor, element)
     try {
       const codeLines = formatCodeString(element.language.toLowerCase(), codeString)
         .split('\n')
         .map(
-          line =>
+          (line) =>
             ({
               type: 'code-line',
-              children: [{ text: line }]
+              children: [{ text: line }],
             } as CodeLineElement)
         )
       // prettier-bug:格式化后,最后一行可能会是空的,如果是空的就去除
@@ -108,12 +108,14 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
       {...attributes}
       className="slatepad-code-block rounded group bg-[#fafafa] py-[4px] my-[8px] relative"
       suppressContentEditableWarning
-      contentEditable={collapse ? false : true}>
+      contentEditable={collapse ? false : true}
+    >
       <pre
         className={`language-${''} overflow-hidden`}
         style={{
-          height: collapse ? '30px' : 'auto'
-        }}>
+          height: collapse ? '30px' : 'auto',
+        }}
+      >
         <code className="whitespace-pre-wrap">{children}</code>
       </pre>
       {collapse && (
@@ -136,7 +138,8 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
         contentEditable={false}
         className={`slatepad-lang-selector absolute right-[0]  bottom-0 p-[6px] w-[100px] opacity-${
           isIptFocus ? '100' : 0
-        } group-hover:opacity-100`}>
+        } group-hover:opacity-100`}
+      >
         <input
           type="text"
           ref={iptRef}
@@ -151,7 +154,8 @@ export function CodeBlock({ props }: { props: RenderElementProps }) {
           className={
             `${isSelectLang ? '' : 'hidden'}` +
             ' absolute right-0 mt-[10px] rounded bg-slate-100 px-[20px]'
-          }>
+          }
+        >
           {matchLangs.map((l, index) => {
             return (
               <li className={index === langIndex ? 'slatepad-lang text-red-400' : ''} key={l}>
@@ -174,27 +178,27 @@ function formatCodeString(lang: string, codeStr = '') {
   // Java插件 参考: https://github.com/jhipster/prettier-java/issues/547
   options.set('java', {
     parser: 'java',
-    plugins: [PrettierPluginJava]
+    plugins: [PrettierPluginJava],
   })
   // 这些语言都可以使用这个解析器
-  ;['javascript', 'typescript', 'jsx', 'tsx'].forEach(lang => {
+  ;['javascript', 'typescript', 'jsx', 'tsx'].forEach((lang) => {
     options.set(lang, {
       parser: 'babel-ts',
       plugins: [BabelPlugin],
       // 结尾不使用分号;
-      semi: false
+      semi: false,
     })
   })
-  ;['html', 'vue'].forEach(lang => {
+  ;['html', 'vue'].forEach((lang) => {
     options.set(lang, {
       parser: 'vue',
-      plugins: [HtmlPlugin]
+      plugins: [HtmlPlugin],
     })
   })
-  ;['css', 'sass', 'scss'].forEach(lang => {
+  ;['css', 'sass', 'scss'].forEach((lang) => {
     options.set(lang, {
       parser: 'css',
-      plugins: [CssPlugin]
+      plugins: [CssPlugin],
     })
   })
   return format(codeStr, options.get(lang))

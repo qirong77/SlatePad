@@ -4,11 +4,11 @@ import { SlatePadEditor, SlateElement } from '../../types/slate'
 export const withTables = (editor: SlatePadEditor) => {
   const { deleteBackward } = editor
   // 按下delete的时候,不会删除当前的表格单元
-  editor.deleteBackward = unit => {
+  editor.deleteBackward = (unit) => {
     const { selection } = editor
     if (selection && Range.isCollapsed(selection)) {
       const [cell] = Editor.nodes(editor, {
-        match: n => Element.isElement(n) && n.type === 'table-cell'
+        match: (n) => Element.isElement(n) && n.type === 'table-cell',
       })
       if (cell) {
         const [cellNode, cellPath] = cell as NodeEntry<SlateElement>

@@ -15,7 +15,7 @@ import {
   MenuBack,
   MarkDown,
   Collapse,
-  TableIcon
+  TableIcon,
 } from '../../assets/svg/icon'
 import { RichUtils } from '../SlatePad'
 

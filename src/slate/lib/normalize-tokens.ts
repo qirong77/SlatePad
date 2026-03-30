@@ -43,24 +43,20 @@ const appendTypes = (types: string[], add: string[] | string): string[] => {
 // are always of type "plain".
 // This is not recursive to avoid exceeding the call-stack limit, since it's unclear
 // how nested Prism's tokens can become
-export const normalizeTokens = (
-  tokens: Array<PrismToken | string>
-): Token[][] => {
+export const normalizeTokens = (tokens: Array<PrismToken | string>): Token[][] => {
   const typeArrStack: string[][] = [[]]
   const tokenArrStack = [tokens]
   const tokenArrIndexStack = [0]
   const tokenArrSizeStack = [tokens.length]
 
   let i = 0
-  let stackIndex:any = 0
-  let currentLine:any = []
+  let stackIndex: any = 0
+  let currentLine: any = []
 
   const acc = [currentLine]
 
   while (stackIndex > -1) {
-    while (
-      (i = tokenArrIndexStack[stackIndex]++) < tokenArrSizeStack[stackIndex]
-    ) {
+    while ((i = tokenArrIndexStack[stackIndex]++) < tokenArrSizeStack[stackIndex]) {
       let content
       let types = typeArrStack[stackIndex]
 

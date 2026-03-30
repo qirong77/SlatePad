@@ -13,7 +13,7 @@ export function Link({ props }: { props: RenderElementProps }) {
   }
   return (
     <a
-      onDoubleClick={e => {
+      onDoubleClick={(e) => {
         e.preventDefault()
         window.open(element.url, '_blank')
       }}
@@ -21,9 +21,10 @@ export function Link({ props }: { props: RenderElementProps }) {
       {...attributes}
       className={`slatepad-link rounded text-blue-500  px-[2px] relative border-blue-500 cursor-pointer`}
       style={{
-        borderWidth: selected ? '1.6px' : '0px'
+        borderWidth: selected ? '1.6px' : '0px',
       }}
-      href={element.url}>
+      href={element.url}
+    >
       {children}
       <span
         contentEditable={false}
@@ -32,8 +33,9 @@ export function Link({ props }: { props: RenderElementProps }) {
         }`}
         style={{
           boxShadow: 'rgb(4 4 4 / 10%) 0px 0px 5px 1px',
-          zIndex: selected ? 1 : -1
-        }}>
+          zIndex: selected ? 1 : -1,
+        }}
+      >
         <input onChange={resetUrl} className="rounded  outline-none " value={element.url} />
       </span>
     </a>

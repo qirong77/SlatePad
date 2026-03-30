@@ -25,12 +25,12 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
     let preRows = JSON.parse(JSON.stringify(element.children)) as TableRowElement[]
     const td: TableCellElement = {
       type: 'table-cell',
-      children: [{ type: 'paragraph', children: [{ text: '' }] }]
+      children: [{ type: 'paragraph', children: [{ text: '' }] }],
     }
     // 让行数一样
     const tr: TableRowElement = {
       type: 'table-row',
-      children: []
+      children: [],
     }
     const newRows = new Array(Math.abs(preRows.length - newRow)).fill(tr)
     preRows = [...preRows, ...newRows].slice(0, newRow)
@@ -40,24 +40,24 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
       row.children = [...row.children, ...newColmns].slice(0, newColmn)
     })
     Transforms.removeNodes(editor, {
-      at: path
+      at: path,
     })
     Transforms.insertNodes(
       editor,
       [
         {
           type: 'table',
-          children: JSON.parse(JSON.stringify(preRows))
-        }
+          children: JSON.parse(JSON.stringify(preRows)),
+        },
       ],
       {
-        at: path
+        at: path,
       }
     )
   }
   const removeTable = () => {
     Transforms.removeNodes(editor, {
-      at: path
+      at: path,
     })
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -74,20 +74,23 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
   return (
     <div
       className="slatepad-table relative my-[25px]"
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation()
         setShow(false)
-      }}>
+      }}
+    >
       <div
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation()
-        }}>
+        }}
+      >
         <div
           contentEditable={false}
           className="slatepad-table-icon absolute top-[-20px]  [&>svg]:cursor-pointer"
           style={{
-            display: selected ? 'flex' : 'none'
-          }}>
+            display: selected ? 'flex' : 'none',
+          }}
+        >
           <GridIcon onClick={() => setShow(true)} className="active:opacity-0" />
           <DeleteIcon onClick={() => removeTable()} className="ml-[5px] active:opacity-0" />
         </div>
@@ -96,15 +99,16 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
             contentEditable={false}
             className="slatepad-table-size absolute bg-white rounded w-[120px] p-[10px]"
             style={{
-              boxShadow: 'rgba(4, 4, 4, 0.1) 0px 2px 4px 3px'
-            }}>
+              boxShadow: 'rgba(4, 4, 4, 0.1) 0px 2px 4px 3px',
+            }}
+          >
             <div className="flex justify-between items-center">
               <input
                 onKeyDown={handleKeyDown}
                 autoFocus
                 value={row}
                 ref={ipt1}
-                onChange={e => setRow(e.target.value)}
+                onChange={(e) => setRow(e.target.value)}
                 className="w-[35px] h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
                 type="text"
               />
@@ -115,7 +119,7 @@ export const Table = ({ props }: { props: RenderElementProps }) => {
                 value={colmn}
                 className="w-[35px]  h-[20px] p-[2px] text-sm border-black border-[1px] rounded outline-none"
                 type="text"
-                onChange={e => setColum(e.target.value)}
+                onChange={(e) => setColum(e.target.value)}
               />
             </div>
           </div>

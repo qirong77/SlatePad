@@ -13,10 +13,10 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
         <input
           type="checkbox"
           checked={checked}
-          onChange={event => {
+          onChange={(event) => {
             const path = ReactEditor.findPath(editor, element)
             const newProperties: Partial<SlateElement> = {
-              checked: event.target.checked
+              checked: event.target.checked,
             }
             Transforms.setNodes(editor, newProperties, { at: path })
             setChecked(event.target.checked)
@@ -26,8 +26,9 @@ export const CheckList = ({ props }: { props: RenderElementProps }) => {
       <span
         style={{
           opacity: checked ? '0.6' : '1',
-          textDecoration: checked ? 'line-through' : 'none'
-        }}>
+          textDecoration: checked ? 'line-through' : 'none',
+        }}
+      >
         {children}
       </span>
     </div>

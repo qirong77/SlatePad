@@ -11,7 +11,7 @@ function clearAll(editor: SlatePadEditor) {
 function clearHistory(editor: SlatePadEditor) {
   editor.history = {
     redos: [],
-    undos: []
+    undos: [],
   }
 }
 function replaceAll(editor: SlatePadEditor, fragment: Node[]) {
@@ -22,7 +22,7 @@ function insertMarkdown(editor: SlatePadEditor, markdownString: string) {
   const body = document.createElement('body')
   body.innerHTML = marked.parse(markdownString)
   marked.options({
-    breaks: true
+    breaks: true,
   })
   const fragment = deserialize(body)
   return fragment
@@ -32,5 +32,5 @@ export const EditorUtils = {
   clearHistory,
   replaceAll,
   slateToMarkdown,
-  insertMarkdown
+  insertMarkdown,
 }

@@ -6,11 +6,11 @@ export const withImages = (editor: SlatePadEditor) => {
   const { insertData, isVoid } = editor
 
   // void元素就是不可编辑的元素，slate默认都是返回false，这里重写这个方法
-  editor.isVoid = element => {
+  editor.isVoid = (element) => {
     return element.type === 'image' || element.type === 'divider' ? true : isVoid(element)
   }
   // 在粘贴和拖住上增加image的功能
-  editor.insertData = data => {
+  editor.insertData = (data) => {
     const text = data.getData('text/plain')
     const { files } = data
     if (files && files.length > 0) {
@@ -161,5 +161,5 @@ var imageExtensions = [
   'sid',
   'ras',
   'sun',
-  'tga'
+  'tga',
 ]

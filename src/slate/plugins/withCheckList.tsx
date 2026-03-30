@@ -9,7 +9,8 @@ export const withChecklists = (editor: SlatePadEditor) => {
 
     if (selection && Range.isCollapsed(selection)) {
       const [match] = Editor.nodes(editor, {
-        match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item'
+        match: (n) =>
+          !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item',
       })
 
       if (match) {
@@ -18,11 +19,11 @@ export const withChecklists = (editor: SlatePadEditor) => {
 
         if (Point.equals(selection.anchor, start)) {
           const newProperties: Partial<SlateElement> = {
-            type: 'paragraph'
+            type: 'paragraph',
           }
           Transforms.setNodes(editor, newProperties, {
-            match: n =>
-              !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item'
+            match: (n) =>
+              !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'check-list-item',
           })
           return
         }

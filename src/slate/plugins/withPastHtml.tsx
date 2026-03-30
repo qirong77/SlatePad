@@ -4,21 +4,21 @@ import {
   CodeBlockElement,
   CodeLineElement,
   SlatePadEditor,
-  CustomElementType
+  CustomElementType,
 } from '../../types/slate'
 import { jsx } from 'slate-hyperscript'
 import { getCurrentBlock, isCodeBlock } from '../utils/BlockUtils'
 const ELEMENT_TAGS: {
   [key: string]: (el?: HTMLElement) => { type: CustomElementType; url?: string }
 } = {
-  A: el => ({ type: 'link', url: el.getAttribute('href') }),
+  A: (el) => ({ type: 'link', url: el.getAttribute('href') }),
   BLOCKQUOTE: () => ({ type: 'block-quote' }),
   H1: () => ({ type: 'heading1' }),
   H2: () => ({ type: 'heading2' }),
   H3: () => ({ type: 'heading3' }),
   H4: () => ({ type: 'heading4' }),
   H5: () => ({ type: 'heading5' }),
-  IMG: el => ({ type: 'image', url: el.getAttribute('src') }),
+  IMG: (el) => ({ type: 'image', url: el.getAttribute('src') }),
   LI: () => ({ type: 'list-item' }),
   OL: () => ({ type: 'number-list' }),
   P: () => ({ type: 'paragraph' }),
@@ -27,7 +27,7 @@ const ELEMENT_TAGS: {
   HR: () => ({ type: 'divider' }),
   TABLE: () => ({ type: 'table' }),
   TR: () => ({ type: 'table-row' }),
-  TD: () => ({ type: 'table-cell' })
+  TD: () => ({ type: 'table-cell' }),
 }
 
 // COMPAT: `B` is omitted here because Google Docs uses `<b>` in weird ways.
@@ -38,22 +38,22 @@ const TEXT_TAGS = {
   I: () => ({ italic: true }),
   S: () => ({ strikethrough: true }),
   STRONG: () => ({ bold: true }),
-  U: () => ({ underline: true })
+  U: () => ({ underline: true }),
 }
 export const withPastHtml = (editor: SlatePadEditor) => {
   const { insertData } = editor
 
-  editor.insertData = data => {
+  editor.insertData = (data) => {
     const html = data.getData('text/html')
 
     const block = getCurrentBlock(editor)
     if (block && isCodeBlock(block[0].type)) {
       const text = data.getData('text/plain')
       const codelines = text.split('\n').map(
-        line =>
+        (line) =>
           ({
             type: 'code-line',
-            children: [{ text: line }]
+            children: [{ text: line }],
           } as CodeLineElement)
       )
       Transforms.insertFragment(editor, codelines)
@@ -72,7 +72,7 @@ export const withPastHtml = (editor: SlatePadEditor) => {
 }
 const x: HTMLElement = document.createElement('div')
 
-export const deserialize = el => {
+export const deserialize = (el) => {
   if (el.nodeType === 3) {
     return el.textContent
   } else if (el.nodeType !== 1) {
@@ -89,30 +89,30 @@ export const deserialize = el => {
   if (nodeName === 'DIV' && el.classList.contains('slatepad-code-block')) {
     const code = el.querySelector('code') as HTMLElement
     const codeLines = [...code.children]
-      .filter(el => {
+      .filter((el) => {
         return el instanceof HTMLElement
       })
-      .map(codeLine => {
+      .map((codeLine) => {
         return {
           type: 'code-line',
           children: [
             {
-              text: codeLine.textContent
-            }
-          ]
+              text: codeLine.textContent,
+            },
+          ],
         } as CodeLineElement
       })
     return {
       type: 'code-block',
       children: codeLines,
-      language: 'typescript'
+      language: 'typescript',
     } as CodeBlockElement
   }
   if (nodeName === 'DIV' && el.classList.contains('slatepad-checklist')) {
     return {
       type: 'check-list-item',
       children: [{ text: el.textContent }],
-      checked: el.querySelector('input')?.value
+      checked: el.querySelector('input')?.value,
     } as CheckListItemElement
   }
   let children: any = Array.from(parent.childNodes).map(deserialize).flat()
@@ -129,23 +129,23 @@ export const deserialize = el => {
     const attrs = ELEMENT_TAGS[nodeName](el)
     const fragment = jsx('element', attrs, children)
     if (fragment.type === 'code-block' && fragment.children?.[0].text) {
-      fragment.children = fragment.children[0]?.text.split('\n').map(line => {
+      fragment.children = fragment.children[0]?.text.split('\n').map((line) => {
         return {
           type: 'code-line',
-          children: [{ text: line }]
+          children: [{ text: line }],
         } as CodeLineElement
       })
       fragment.language = 'typescript'
     }
     if (fragment.type === 'table') {
-      fragment.children = fragment.children.filter(child => child?.type === 'table-row')
+      fragment.children = fragment.children.filter((child) => child?.type === 'table-row')
     }
     return fragment
   }
 
   if (TEXT_TAGS[nodeName]) {
     const attrs = TEXT_TAGS[nodeName](el)
-    return children.map(child => jsx('text', attrs, child))
+    return children.map((child) => jsx('text', attrs, child))
   }
   return children
 }

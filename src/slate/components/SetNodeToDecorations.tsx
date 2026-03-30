@@ -26,7 +26,7 @@ export const LANGUAGES = [
   'Markdown',
   'Java',
   'Scss',
-  'Html'
+  'Html',
 ]
 // 用于更新decoration
 export const SetNodeToDecorations = () => {
@@ -35,7 +35,7 @@ export const SetNodeToDecorations = () => {
     Editor.nodes(editor, {
       at: [],
       mode: 'highest',
-      match: n => Element.isElement(n) && n.type === 'code-block'
+      match: (n) => Element.isElement(n) && n.type === 'code-block',
     })
   ) as NodeEntry<CodeBlockElement>[]
   const nodeToDecorations = mergeMaps(...blockEntries.map(getChildNodeToDecorations))
@@ -45,7 +45,7 @@ export const SetNodeToDecorations = () => {
   function getChildNodeToDecorations([block, blockPath]: NodeEntry<CodeBlockElement>) {
     const nodeToDecorations = new Map<string, Range[]>()
 
-    const text = block.children.map(line => Node.string(line)).join('\n')
+    const text = block.children.map((line) => Node.string(line)).join('\n')
     let tokens
     try {
       tokens = Prism.tokenize(text, Prism.languages[block.language.toLowerCase() || ''])
@@ -76,7 +76,7 @@ export const SetNodeToDecorations = () => {
           anchor: { path, offset: start },
           focus: { path, offset: end },
           token: true,
-          ...Object.fromEntries(token.types.map(type => [type, true]))
+          ...Object.fromEntries(token.types.map((type) => [type, true])),
         }
 
         nodeToDecorations.get(key)!.push(range as any)

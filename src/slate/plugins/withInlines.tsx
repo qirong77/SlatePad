@@ -6,10 +6,10 @@ export const withInlines = (editor: SlatePadEditor) => {
   const { insertData, isInline, insertText } = editor
   //   重写isInline方法，默认情况下这个方法都是返回false
   // 前面那部分表示如果匹配到了行内快，后面表示使用原来的方法，也就一直是返回false
-  editor.isInline = element => {
+  editor.isInline = (element) => {
     return element.type === 'link' || isInline(element)
   }
-  editor.insertText = text => {
+  editor.insertText = (text) => {
     if (text && isUrl(text)) {
       wrapLink(editor, text)
     } else {
@@ -17,7 +17,7 @@ export const withInlines = (editor: SlatePadEditor) => {
     }
   }
 
-  editor.insertData = data => {
+  editor.insertData = (data) => {
     const text = data.getData('text/plain')
 
     if (text && isUrl(text)) {
@@ -31,12 +31,12 @@ export const withInlines = (editor: SlatePadEditor) => {
 
 export function wrapLink(editor: SlatePadEditor, url = 'www.baidu.com') {
   const [link] = Editor.nodes(editor, {
-    match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
+    match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link',
   })
   // 当前的选区含有link,解除link样式
   if (link) {
     Transforms.unwrapNodes(editor, {
-      match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link'
+      match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link',
     })
     return
   }
@@ -45,7 +45,7 @@ export function wrapLink(editor: SlatePadEditor, url = 'www.baidu.com') {
   const linkElement: LinkElement = {
     type: 'link',
     url,
-    children: isCollapsed ? [{ text: url }] : []
+    children: isCollapsed ? [{ text: url }] : [],
   }
   if (isCollapsed) {
     Transforms.insertNodes(editor, linkElement)

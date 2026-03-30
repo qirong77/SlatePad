@@ -30,8 +30,8 @@ const SlatePad: React.FC<{
   initialValue,
   SlatePadConfig = {
     toolbar: true,
-    sideBar: true
-  }
+    sideBar: true,
+  },
 }) => {
   const [search, setSearch] = useState('')
   const [showHeaders, setShowHeaders] = useState(true)
@@ -41,7 +41,8 @@ const SlatePad: React.FC<{
   return (
     <div
       className="slatepad relative bg-white rounded w-full h-full flex flex-col"
-      spellCheck={false}>
+      spellCheck={false}
+    >
       <Slate editor={editor} value={initialValue || blankInitial} onChange={onChange}>
         {SlatePadConfig.toolbar && (
           <ToolBar setShowHeaders={setShowHeaders} showHeaders={showHeaders}>
@@ -58,7 +59,7 @@ const SlatePad: React.FC<{
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               decorate={decorate}
-              onKeyDown={e => handleKeyDown(e, editor)}
+              onKeyDown={(e) => handleKeyDown(e, editor)}
             />
           </div>
         </div>

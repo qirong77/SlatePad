@@ -4,7 +4,7 @@ import {
   CustomElementType,
   HeadingElement,
   ImageElement,
-  TableElement
+  TableElement,
 } from '../../types/slate'
 import { wrapLink } from '../plugins/withInlines'
 import { getCurrentBlock, isHeadBlock } from './BlockUtils'
@@ -23,17 +23,17 @@ const toggleBlock = (editor: SlatePadEditor, format: CustomElementType) => {
         }
       }
       Transforms.unwrapNodes(editor, {
-        match: n =>
+        match: (n) =>
           SlateElement.isElement(n) && (n.type === 'bulleted-list' || n.type === 'number-list'),
         split: true,
-        at: ulPath
+        at: ulPath,
       })
       return
     }
     // 解构代码块
     Transforms.unwrapNodes(editor, {
-      match: node => Element.isElement(node) && node.type === 'code-block',
-      split: true
+      match: (node) => Element.isElement(node) && node.type === 'code-block',
+      split: true,
     })
 
     const newType: CustomElementType = isActive
@@ -45,23 +45,23 @@ const toggleBlock = (editor: SlatePadEditor, format: CustomElementType) => {
       : format
     Transforms.setNodes(editor, {
       type: newType,
-      children: []
+      children: [],
     })
     if (!isActive && isLists) {
       Transforms.wrapNodes(
         editor,
         {
           type: format,
-          children: []
+          children: [],
         },
-        { match: node => Element.isElement(node) && node.type === 'list-item' }
+        { match: (node) => Element.isElement(node) && node.type === 'list-item' }
       )
     }
     if (!isActive && format === 'code-block') {
       const block: SlateElement = {
         type: 'code-block',
         children: [],
-        language: ''
+        language: '',
       }
       Transforms.wrapNodes(editor, block)
     }
@@ -77,7 +77,7 @@ function isBlockActive(editor: SlatePadEditor, format: CustomElementType) {
   const [match] = Array.from(
     Editor.nodes(editor, {
       at: Editor.unhangRange(editor, selection),
-      match: n => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format
+      match: (n) => !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
     })
   )
   return !!match
@@ -96,11 +96,11 @@ const insertTable = (editor: SlatePadEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: ''
-                  }
-                ]
-              }
-            ]
+                    text: '',
+                  },
+                ],
+              },
+            ],
           },
           {
             type: 'table-cell',
@@ -109,13 +109,13 @@ const insertTable = (editor: SlatePadEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: ''
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    text: '',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         type: 'table-row',
@@ -127,11 +127,11 @@ const insertTable = (editor: SlatePadEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: ''
-                  }
-                ]
-              }
-            ]
+                    text: '',
+                  },
+                ],
+              },
+            ],
           },
           {
             type: 'table-cell',
@@ -140,15 +140,15 @@ const insertTable = (editor: SlatePadEditor) => {
                 type: 'paragraph',
                 children: [
                   {
-                    text: ''
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                    text: '',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
   }
   Transforms.insertNodes(editor, table)
 }
@@ -159,7 +159,7 @@ const collapseHeads = (editor: SlatePadEditor) => {
     Editor.nodes(editor, {
       at: [],
       mode: 'highest',
-      match: node => Element.isElement(node) && isHeadBlock(node.type)
+      match: (node) => Element.isElement(node) && isHeadBlock(node.type),
     })
   ) as NodeEntry<HeadingElement>[]
   headEntries.forEach(([, path]) => {
@@ -171,7 +171,7 @@ const collapseHeads = (editor: SlatePadEditor) => {
         // isCollapseAll: {}
       },
       {
-        at: path
+        at: path,
       }
     )
   })
@@ -180,6 +180,6 @@ export const RichUtils = {
   toggleBlock,
   insertImage,
   insertLink: wrapLink,
-  insertTable
+  insertTable,
   // collapseHeads
 }

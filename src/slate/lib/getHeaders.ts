@@ -17,10 +17,10 @@ export const getHeaderTree = (headers: HTMLElement[]) => {
     tree = {
       tagName,
       children: [],
-      header
+      header,
     }
     childrenMap = {
-      [tagName]: tree
+      [tagName]: tree,
     }
     p = tree
   }
@@ -42,7 +42,7 @@ export const getHeaderTree = (headers: HTMLElement[]) => {
     const node = {
       tagName: header.tagName,
       children: [],
-      header
+      header,
     }
     if (header.tagName > p.tagName) {
       p.children.push(node)

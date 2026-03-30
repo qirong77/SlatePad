@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "publish": "node ./publish.js",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "postpublish": "cd ./package && npm publish"
   },
   "dependencies": {

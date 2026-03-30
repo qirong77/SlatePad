@@ -6,10 +6,10 @@ import { getNextPath } from './PathUtils'
 export const getCurrentBlock = (editor: SlatePadEditor, ...types: CustomElementType[]) => {
   // above:从当前的最里层节点向外递归
   const block = Editor.above(editor, {
-    match: n =>
+    match: (n) =>
       Element.isElement(n) &&
       Editor.isBlock(editor, n) &&
-      (types.length ? types.includes(n.type) : true)
+      (types.length ? types.includes(n.type) : true),
   })
   // 如果没有指定要获取具体的块,肯定会返回某个块
   if (block || !types.length) {

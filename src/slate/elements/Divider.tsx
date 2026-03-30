@@ -8,7 +8,8 @@ export const Divider = ({ props }: { props: RenderElementProps }) => {
       {...attributes}
       className={`flex items-center h-[16px] px-2 rounded border-2 ${
         selected ? 'border-blue-500' : 'border-none'
-      }`}>
+      }`}
+    >
       {children}
       <hr contentEditable={false} className="w-full" />
     </div>

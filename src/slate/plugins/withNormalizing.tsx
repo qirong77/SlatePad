@@ -15,7 +15,7 @@ import { getCurrentBlock } from '../utils/BlockUtils'
 export const withNormalizing = (editor: SlatePadEditor) => {
   // normalize只有在节点变化的时候会执行
   const { normalizeNode } = editor
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     const [node, path] = entry as [SlateElement, Path]
     if (Element.isElement(node) && node.type === 'list-item') {
       const [parentBlock, parentPath] = Editor.parent(editor, path) as NodeEntry<SlateElement>
@@ -25,12 +25,12 @@ export const withNormalizing = (editor: SlatePadEditor) => {
           editor,
           {
             type: 'bulleted-list',
-            children: []
+            children: [],
           },
           {
-            match: n => Element.isElement(n) && n.type === 'list-item',
+            match: (n) => Element.isElement(n) && n.type === 'list-item',
             at: parentPath,
-            split: true
+            split: true,
           }
         )
         return
@@ -54,7 +54,7 @@ export const withNormalizing = (editor: SlatePadEditor) => {
             editor,
             { type: 'table-cell', children: [] },
             {
-              at: childPath
+              at: childPath,
             }
           )
           return
@@ -72,15 +72,15 @@ export const withNormalizing = (editor: SlatePadEditor) => {
           const codeLines = Node.string(node)
             .split('\n')
             .map(
-              text =>
+              (text) =>
                 ({
                   type: 'code-line',
-                  children: [{ text }]
+                  children: [{ text }],
                 } as CodeLineElement)
             )
           Transforms.setNodes(editor, {
             type: 'code-block',
-            children: codeLines
+            children: codeLines,
           })
           return
         }
@@ -102,9 +102,9 @@ function wrapTextNode(editor: SlatePadEditor, path: Path) {
         { type: 'paragraph', children: [] },
         {
           at: path,
-          match: node =>
+          match: (node) =>
             Text.isText(node) || (Element.isElement(node) && Editor.isInline(editor, node)),
-          split: true
+          split: true,
         }
       )
       return true

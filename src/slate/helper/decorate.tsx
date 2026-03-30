@@ -50,7 +50,7 @@ export const useDecorate = (editor: SlatePadEditor, search: string) => {
         ranges.push({
           [token.type]: true,
           anchor: { path, offset: start },
-          focus: { path, offset: end }
+          focus: { path, offset: end },
         })
       }
       start = end
@@ -70,7 +70,7 @@ export const useDecorate = (editor: SlatePadEditor, search: string) => {
         ranges.push({
           anchor: { path, offset: offset - search.length },
           focus: { path, offset },
-          highlight: true
+          highlight: true,
         })
       }
       offset = offset + part.length + search.length

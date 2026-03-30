@@ -8,7 +8,7 @@ export const withForceLayout = (editor: SlatePadEditor) => {
   //   forceLayout(editor)
   // }, 100)
   // 后面对编辑器输入的时候,会执行
-  editor.normalizeNode = entry => {
+  editor.normalizeNode = (entry) => {
     if (!entry[1].length) {
       forceLayout(editor)
     }
@@ -24,9 +24,9 @@ function forceLayout(editor: SlatePadEditor) {
   const endPath = Editor.end(editor, [])
   const lastBlockType = editor.children.at(-1)?.type || ''
   const block = Editor.above(editor, {
-    match: node =>
+    match: (node) =>
       Element.isElement(node) && Editor.isBlock(editor, node) && node.type === lastBlockType,
-    at: endPath
+    at: endPath,
   }) as NodeEntry<SlateElement>
   if (block) {
     const [lastBlock, lastPath] = block
@@ -37,10 +37,10 @@ function forceLayout(editor: SlatePadEditor) {
       editor,
       {
         type: 'paragraph',
-        children: [{ text: '' }]
+        children: [{ text: '' }],
       },
       {
-        at: Path.next(lastPath)
+        at: Path.next(lastPath),
       }
     )
   }
@@ -49,16 +49,16 @@ function forceLayout(editor: SlatePadEditor) {
   const firstBlockType = editor.children.at(-1)?.type || ''
   const [startBlock] =
     (Editor.above(editor, {
-      match: node =>
+      match: (node) =>
         Element.isElement(node) && Editor.isBlock(editor, node) && node.type === firstBlockType,
-      at: startPath
+      at: startPath,
     }) as NodeEntry<SlateElement>) || []
   if (startBlock?.type !== 'fix-select') {
     Transforms.insertNodes(
       editor,
       {
         type: 'fix-select',
-        children: [{ text: '' }]
+        children: [{ text: '' }],
       },
       { at: [0] }
     )

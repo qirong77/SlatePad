@@ -7,13 +7,13 @@ export const Side = ({ showHeaders }: any) => {
   const [lazyUpdate, setLazyUpdate] = useState({})
   function handleMouseDown(e1: React.MouseEvent) {
     const startPosition = e1.clientX
-    document.onmousemove = e => {
+    document.onmousemove = (e) => {
       const moveDistance = e.clientX - startPosition
       setSideWidth(width + moveDistance)
       return false
     }
     // 释放鼠标的时候解除事件绑定
-    document.onmouseup = _e => {
+    document.onmouseup = (_e) => {
       document.onmousemove = null
       document.onmouseup = null
       return false
@@ -25,8 +25,9 @@ export const Side = ({ showHeaders }: any) => {
         className="slatepad-side relative overflow-scroll transition-all border-gray-200 "
         style={{
           width: showHeaders ? `${width}px` : '0px',
-          borderRightWidth: showHeaders ? '2px' : '0px'
-        }}>
+          borderRightWidth: showHeaders ? '2px' : '0px',
+        }}
+      >
         <SideHeaders setLazyUpdate={() => setLazyUpdate({})} />
         {Headers()}
       </div>
@@ -35,8 +36,9 @@ export const Side = ({ showHeaders }: any) => {
         className="drag absolute left-0 w-[4px] h-[-webkit-fill-available] cursor-col-resize "
         onMouseDown={handleMouseDown}
         style={{
-          left: (showHeaders ? width - 4 : 0) + 'px'
-        }}></div>
+          left: (showHeaders ? width - 4 : 0) + 'px',
+        }}
+      ></div>
     </>
   )
 }
@@ -66,7 +68,7 @@ function Headers() {
         <ul
           key={h.header.textContent + index.toString()}
           className="overflow-hidden"
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             if (!h.children.length) h.header.scrollIntoView()
             else {
@@ -75,12 +77,14 @@ function Headers() {
                 e.currentTarget.classList.toggle('side-hidden')
               } else h.header.scrollIntoView()
             }
-          }}>
+          }}
+        >
           <li
             className="text-sm flex items-center p-[5px] overflow-hidden whitespace-nowrap text-slate-500 hover:text-black hover:cursor-pointer"
             style={{
-              paddingLeft: level * 10 + '' + 'px'
-            }}>
+              paddingLeft: level * 10 + '' + 'px',
+            }}
+          >
             <span className="mr-[4px] hover:bg-slate-100 rounded">
               {h.children.length ? <ArrowIcon className="" /> : <></>}
             </span>
