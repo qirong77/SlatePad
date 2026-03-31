@@ -14,6 +14,7 @@ import { RichUtils } from './utils/RichUtils'
 import { EditorUtils } from './utils/EditorUtils'
 import { Search } from './components/Search'
 import { SetNodeToDecorations } from './components/SetNodeToDecorations'
+import { SlashCommandMenu } from './components/SlashCommandMenu'
 import { blankInitial } from '../common/const'
 
 const SlatePad: React.FC<{
@@ -50,6 +51,7 @@ const SlatePad: React.FC<{
           </ToolBar>
         )}
         <HoveringToolBar />
+        <SlashCommandMenu />
         <div className="flex-1 flex overflow-scroll">
           {SlatePadConfig.sideBar && <Side showHeaders={showHeaders} />}
           <div className="flex-1 overflow-scroll">

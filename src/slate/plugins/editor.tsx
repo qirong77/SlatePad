@@ -9,13 +9,18 @@ import { withShortcuts } from './withShortcuts'
 import { withForceLayout } from './withForceLayout'
 import { withNormalizing } from './withNormalizing'
 import { withTables } from './withTables'
+import { withSlashCommands } from './withSlashCommands'
 
 export const createSlatepad = () => {
   const editor = withTables(
     withInlines(
       withPastHtml(
         withImages(
-          withForceLayout(withNormalizing(withShortcuts(withHistory(withReact(createEditor())))))
+          withForceLayout(
+            withNormalizing(
+              withSlashCommands(withShortcuts(withHistory(withReact(createEditor()))))
+            )
+          )
         )
       )
     )
