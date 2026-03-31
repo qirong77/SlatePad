@@ -1,5 +1,4 @@
-import { Editor, Transforms } from 'slate'
-import { useSlate, useSlateStatic } from 'slate-react'
+import { useSlateStatic } from 'slate-react'
 import {
   CodeBlock,
   Link,
@@ -13,9 +12,11 @@ import {
   BlockQuote,
   Menu,
   MenuBack,
-  MarkDown,
-  Collapse,
   TableIcon,
+  Bold,
+  Italic,
+  UnderLine,
+  StrickThrough,
 } from '../../assets/svg/icon'
 import { RichUtils } from '../SlatePad'
 
@@ -31,6 +32,30 @@ export const ToolBar = ({ showHeaders, setShowHeaders, children }: any) => {
       <H1 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading1')} />
       <H2 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading2')} />
       <H3 onMouseDown={() => RichUtils.toggleBlock(editor, 'heading3')} />
+      <Bold
+        onMouseDown={(e) => {
+          e.preventDefault()
+          RichUtils.toggleLeaf(editor, 'bold')
+        }}
+      />
+      <UnderLine
+        onMouseDown={(e) => {
+          e.preventDefault()
+          RichUtils.toggleLeaf(editor, 'underline')
+        }}
+      />
+      <Italic
+        onMouseDown={(e) => {
+          e.preventDefault()
+          RichUtils.toggleLeaf(editor, 'italic')
+        }}
+      />
+      <StrickThrough
+        onMouseDown={(e) => {
+          e.preventDefault()
+          RichUtils.toggleLeaf(editor, 'strikethrough')
+        }}
+      />
       <NumberList onMouseDown={() => RichUtils.toggleBlock(editor, 'number-list')} />
       <BulletedList onMouseDown={() => RichUtils.toggleBlock(editor, 'bulleted-list')} />
       <CheckList onMouseDown={() => RichUtils.toggleBlock(editor, 'check-list-item')} />

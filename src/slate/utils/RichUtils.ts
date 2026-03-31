@@ -1,4 +1,4 @@
-import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms } from 'slate'
+import { Editor, Element, Node, NodeEntry, Element as SlateElement, Transforms, Text } from 'slate'
 import {
   SlatePadEditor,
   CustomElementType,
@@ -67,6 +67,24 @@ const toggleBlock = (editor: SlatePadEditor, format: CustomElementType) => {
     }
   })
 }
+
+const toggleLeaf = (editor: SlatePadEditor, format: string) => {
+  const isActive = isLeafActive(editor, format)
+  Transforms.setNodes(
+    editor,
+    { [format]: isActive ? null : true },
+    { match: Text.isText, split: true }
+  )
+}
+
+const isLeafActive = (editor: SlatePadEditor, format: string) => {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => (n as any)[format],
+    universal: true,
+  })
+  return !!match
+}
+
 export const insertImage = (editor: SlatePadEditor, url: string) => {
   const image: ImageElement = { type: 'image', url, children: [{ text: '' }] }
   Transforms.insertNodes(editor, image)
@@ -178,6 +196,8 @@ const collapseHeads = (editor: SlatePadEditor) => {
 }
 export const RichUtils = {
   toggleBlock,
+  toggleLeaf,
+  isLeafActive,
   insertImage,
   insertLink: wrapLink,
   insertTable,

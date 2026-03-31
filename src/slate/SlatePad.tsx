@@ -4,7 +4,6 @@ import { handleKeyDown } from './helper/handleKeyDown'
 import { _renderElement } from './helper/renderElement'
 import { _renderLeaf } from './helper/renderLeaf'
 import { ToolBar } from './components/ToolBar'
-import { HoveringToolBar } from './components/HoveringToolBar'
 import { useDecorate } from './helper/decorate'
 import { Side } from './components/Side'
 import { createSlatepad } from './plugins/editor'
@@ -50,7 +49,6 @@ const SlatePad: React.FC<{
             <Search search={search} setSearch={setSearch} />
           </ToolBar>
         )}
-        <HoveringToolBar />
         <SlashCommandMenu />
         <div className="flex-1 flex overflow-scroll">
           {SlatePadConfig.sideBar && <Side showHeaders={showHeaders} />}
